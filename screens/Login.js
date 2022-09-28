@@ -13,12 +13,18 @@ import Signup from "./Signup";
 
 function Login({ navigation }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   function signupHandler() {
     setModalIsOpen(true);
   }
   function onCancelClick() {
     setModalIsOpen(false);
   }
+  function onLogin() {
+    navigation.navigate("Home");
+  }
+
   return (
     <View style={styles.pageContainer}>
       <View style={styles.inputContainer}>
@@ -29,6 +35,7 @@ function Login({ navigation }) {
             style={styles.text}
             placeholder="Username"
             placeholderTextColor={"white"}
+            onChangeText={(text) => setUsername(text)}
           />
         </View>
         <View style={styles.passInput}>
@@ -37,15 +44,11 @@ function Login({ navigation }) {
             placeholder="Password"
             placeholderTextColor={"white"}
             secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
           />
         </View>
-        <Pressable>
-          <Text style={styles.forgotPass}>Forgot Password?</Text>
-        </Pressable>
-        <TouchableOpacity
-          style={styles.loginbttn}
-          onPress={() => navigation.navigate("Home")}
-        >
+
+        <TouchableOpacity style={styles.loginbttn} onPress={onLogin}>
           <Text style={styles.text}>LOGIN</Text>
         </TouchableOpacity>
 
