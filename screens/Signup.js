@@ -15,12 +15,20 @@ function Signup(props) {
       <View style={styles.pageContainer}>
         <View style={styles.signupContainer}>
           <Text style={styles.logo}>SIGNUP</Text>
-
           <View style={styles.input}>
             <TextInput
               style={styles.text}
               placeholder="name"
               placeholderTextColor={"white"}
+              secureTextEntry={true}
+            />
+          </View>
+          <View style={styles.input}>
+            <TextInput
+              style={styles.text}
+              placeholder="email"
+              placeholderTextColor={"white"}
+              secureTextEntry={true}
             />
           </View>
           <View style={styles.input}>
@@ -35,14 +43,6 @@ function Signup(props) {
             <TextInput
               style={styles.text}
               placeholder="create a password"
-              placeholderTextColor={"white"}
-              secureTextEntry={true}
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.text}
-              placeholder="confirm password"
               placeholderTextColor={"white"}
               secureTextEntry={true}
             />
