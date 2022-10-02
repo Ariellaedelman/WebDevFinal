@@ -12,17 +12,14 @@ import {
 import Signup from "./Signup";
 
 function Login({ navigation }) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  function signupHandler() {
-    setModalIsOpen(true);
-  }
-  function onCancelClick() {
-    setModalIsOpen(false);
-  }
+
   function onLogin() {
-    navigation.navigate("Home");
+    navigation.navigate("BottomTab", { screen: "Home" });
+  }
+  function onSignUp() {
+    navigation.navigate("Signup");
   }
 
   return (
@@ -52,12 +49,11 @@ function Login({ navigation }) {
           <Text style={styles.text}>LOGIN</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.loginbttn} onPress={signupHandler}>
+        <TouchableOpacity style={styles.loginbttn} onPress={onSignUp}>
           <Text style={styles.text}>SIGNUP</Text>
         </TouchableOpacity>
       </View>
       <StatusBar style="light" />
-      {modalIsOpen && <Signup onCancelClick={onCancelClick} />}
     </View>
   );
 }

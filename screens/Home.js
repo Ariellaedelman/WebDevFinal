@@ -1,10 +1,13 @@
 import { View, Text, Button } from "react-native";
 
 function Home({ navigation }) {
+  function onLogOut() {
+    navigation.navigate("Login");
+  }
   return (
-    <View>
+    <View style={{ padding: 50 }}>
       <Text>Welcome to the home page</Text>
-      <Button title="LOGOUT" onPress={() => navigation.navigate("Login")} />
+      <Button title="LOGOUT" onPress={onLogOut} />
     </View>
   );
 }

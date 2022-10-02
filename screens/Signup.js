@@ -9,7 +9,13 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-function Signup(props) {
+function Signup({ navigation }) {
+  function onSignUp() {
+    navigation.navigate("BottomTab", { screen: "Home" });
+  }
+  function onCancel() {
+    navigation.navigate("Login");
+  }
   return (
     <Modal>
       <View style={styles.pageContainer}>
@@ -47,16 +53,10 @@ function Signup(props) {
               secureTextEntry={true}
             />
           </View>
-          <TouchableOpacity
-            style={styles.loginbttn}
-            onPress={props.onCancelClick}
-          >
+          <TouchableOpacity style={styles.loginbttn} onPress={onSignUp}>
             <Text style={styles.text}>REGISTER</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.loginbttn}
-            onPress={props.onCancelClick}
-          >
+          <TouchableOpacity style={styles.loginbttn} onPress={onCancel}>
             <Text style={styles.text}>CANCEL</Text>
           </TouchableOpacity>
         </View>
