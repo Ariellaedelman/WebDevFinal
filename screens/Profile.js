@@ -36,7 +36,7 @@ export default function UploadImage() {
     }
   };
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 1, alignItems: "center" }}>
       <View style={imageUploaderStyles.container}>
         {image && (
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
