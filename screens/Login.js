@@ -8,8 +8,16 @@ import {
   TouchableOpacity,
   Pressable,
   ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
-import Signup from "./Signup";
+import { Formik } from "formik";
+import * as yup from "yup";
+
+const LoginSchema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required().min(7),
+});
 
 function Login({ navigation }) {
   const [username, setUsername] = useState("");
@@ -24,35 +32,60 @@ function Login({ navigation }) {
 
   return (
     <View style={styles.pageContainer}>
-      <View style={styles.inputContainer}>
-        <Text style={styles.logo}>CAL-UTRITION</Text>
+      <Formik
+        initialValues={{ email: "", password: "" }}
+        validationSchema={LoginSchema}
+        onSubmit={(values, actions) => {
+          console.log(values);
+          actions.resetForm();
+          onLogin();
+        }}
+      >
+        {(props) => (
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.logo}>CAL-UTRITION</Text>
+              <View style={styles.userInput}>
+                <TextInput
+                  style={styles.text}
+                  placeholder="Enter Email"
+                  placeholderTextColor={"white"}
+                  onChangeText={props.handleChange("email")}
+                  value={props.values.email}
+                  onBlur={props.handleBlur("email")}
+                />
+              </View>
+              <Text style={styles.text}>
+                {props.touched.email && props.errors.email}
+              </Text>
+              <View style={styles.passInput}>
+                <TextInput
+                  style={styles.text}
+                  placeholder="Password"
+                  placeholderTextColor={"white"}
+                  secureTextEntry={true}
+                  onChangeText={props.handleChange("password")}
+                  value={props.values.password}
+                  onBlur={props.handleBlur("password")}
+                />
+              </View>
+              <Text style={styles.text}>
+                {props.touched.password && props.errors.password}
+              </Text>
+              <TouchableOpacity
+                style={styles.loginbttn}
+                onPress={props.handleSubmit}
+              >
+                <Text style={styles.text}>LOGIN</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.loginbttn} onPress={onSignUp}>
+                <Text style={styles.text}>SIGNUP</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+      </Formik>
 
-        <View style={styles.userInput}>
-          <TextInput
-            style={styles.text}
-            placeholder="Username"
-            placeholderTextColor={"white"}
-            onChangeText={(text) => setUsername(text)}
-          />
-        </View>
-        <View style={styles.passInput}>
-          <TextInput
-            style={styles.text}
-            placeholder="Password"
-            placeholderTextColor={"white"}
-            secureTextEntry={true}
-            onChangeText={(text) => setPassword(text)}
-          />
-        </View>
-
-        <TouchableOpacity style={styles.loginbttn} onPress={onLogin}>
-          <Text style={styles.text}>LOGIN</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.loginbttn} onPress={onSignUp}>
-          <Text style={styles.text}>SIGNUP</Text>
-        </TouchableOpacity>
-      </View>
       <StatusBar style="light" />
     </View>
   );
@@ -92,7 +125,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     backgroundColor: "#465881",
-    marginBottom: 10,
+    marginBottom: 30,
     padding: 20,
     width: "90%",
     color: "white",

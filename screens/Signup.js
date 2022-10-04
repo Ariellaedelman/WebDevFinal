@@ -17,52 +17,50 @@ function Signup({ navigation }) {
     navigation.navigate("Login");
   }
   return (
-    <Modal>
-      <View style={styles.pageContainer}>
-        <View style={styles.signupContainer}>
-          <Text style={styles.logo}>SIGNUP</Text>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.text}
-              placeholder="name"
-              placeholderTextColor={"white"}
-              secureTextEntry={true}
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.text}
-              placeholder="email"
-              placeholderTextColor={"white"}
-              secureTextEntry={true}
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.text}
-              placeholder="username"
-              placeholderTextColor={"white"}
-              secureTextEntry={true}
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.text}
-              placeholder="create a password"
-              placeholderTextColor={"white"}
-              secureTextEntry={true}
-            />
-          </View>
-          <TouchableOpacity style={styles.loginbttn} onPress={onSignUp}>
-            <Text style={styles.text}>REGISTER</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.loginbttn} onPress={onCancel}>
-            <Text style={styles.text}>CANCEL</Text>
-          </TouchableOpacity>
+    <View style={styles.pageContainer}>
+      <View style={styles.signupContainer}>
+        <Text style={styles.logo}>SIGNUP</Text>
+        <View style={styles.input}>
+          <TextInput
+            style={styles.text}
+            placeholder="name"
+            placeholderTextColor={"white"}
+            secureTextEntry={true}
+          />
         </View>
-        <StatusBar style="light" />
+        <View style={styles.input}>
+          <TextInput
+            style={styles.text}
+            placeholder="email"
+            placeholderTextColor={"white"}
+            secureTextEntry={true}
+          />
+        </View>
+        <View style={styles.input}>
+          <TextInput
+            style={styles.text}
+            placeholder="username"
+            placeholderTextColor={"white"}
+            secureTextEntry={true}
+          />
+        </View>
+        <View style={styles.input}>
+          <TextInput
+            style={styles.text}
+            placeholder="create a password"
+            placeholderTextColor={"white"}
+            secureTextEntry={true}
+          />
+        </View>
+        <TouchableOpacity style={styles.loginbttn} onPress={onSignUp}>
+          <Text style={styles.text}>REGISTER</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.loginbttn} onPress={onCancel}>
+          <Text style={styles.text}>CANCEL</Text>
+        </TouchableOpacity>
       </View>
-    </Modal>
+      <StatusBar style="light" />
+    </View>
   );
 }
 
