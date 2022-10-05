@@ -9,6 +9,16 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
+import { Formik } from "formik";
+import * as yup from "yup";
+
+const LoginSchema = yup.object({
+  name: yup.string().required(),
+  email: yup.string().email().required(),
+  username: yup.string().required(),
+  password: yup.string().required().min(7),
+});
+
 function Signup({ navigation }) {
   function onSignUp() {
     navigation.navigate("BottomTab", { screen: "Home" });
@@ -18,47 +28,82 @@ function Signup({ navigation }) {
   }
   return (
     <View style={styles.pageContainer}>
-      <View style={styles.signupContainer}>
-        <Text style={styles.logo}>SIGNUP</Text>
-        <View style={styles.input}>
-          <TextInput
-            style={styles.text}
-            placeholder="name"
-            placeholderTextColor={"white"}
-            secureTextEntry={true}
-          />
-        </View>
-        <View style={styles.input}>
-          <TextInput
-            style={styles.text}
-            placeholder="email"
-            placeholderTextColor={"white"}
-            secureTextEntry={true}
-          />
-        </View>
-        <View style={styles.input}>
-          <TextInput
-            style={styles.text}
-            placeholder="username"
-            placeholderTextColor={"white"}
-            secureTextEntry={true}
-          />
-        </View>
-        <View style={styles.input}>
-          <TextInput
-            style={styles.text}
-            placeholder="create a password"
-            placeholderTextColor={"white"}
-            secureTextEntry={true}
-          />
-        </View>
-        <TouchableOpacity style={styles.loginbttn} onPress={onSignUp}>
-          <Text style={styles.text}>REGISTER</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.loginbttn} onPress={onCancel}>
-          <Text style={styles.text}>CANCEL</Text>
-        </TouchableOpacity>
-      </View>
+      <Formik
+        initialValues={{ name: "", email: "", username: "", password: "" }}
+        validationSchema={LoginSchema}
+        onSubmit={(values, actions) => {
+          console.log(values);
+          actions.resetForm();
+          onSignUp();
+        }}
+      >
+        {(props) => (
+          <View style={styles.signupContainer}>
+            <Text style={styles.logo}>SIGNUP</Text>
+            <View style={styles.input}>
+              <TextInput
+                style={styles.text}
+                placeholder="name"
+                placeholderTextColor={"white"}
+                onChangeText={props.handleChange("name")}
+                value={props.values.name}
+                onBlur={props.handleBlur("name")}
+              />
+            </View>
+            <Text style={styles.text}>
+              {props.touched.name && props.errors.name}
+            </Text>
+            <View style={styles.input}>
+              <TextInput
+                style={styles.text}
+                placeholder="email"
+                placeholderTextColor={"white"}
+                onChangeText={props.handleChange("email")}
+                value={props.values.email}
+                onBlur={props.handleBlur("email")}
+              />
+            </View>
+            <Text style={styles.text}>
+              {props.touched.email && props.errors.email}
+            </Text>
+            <View style={styles.input}>
+              <TextInput
+                style={styles.text}
+                placeholder="username"
+                placeholderTextColor={"white"}
+                onChangeText={props.handleChange("username")}
+                value={props.values.username}
+                onBlur={props.handleBlur("username")}
+              />
+            </View>
+            <Text style={styles.text}>
+              {props.touched.username && props.errors.username}
+            </Text>
+            <View style={styles.input}>
+              <TextInput
+                style={styles.text}
+                placeholder="create a password"
+                placeholderTextColor={"white"}
+                onChangeText={props.handleChange("password")}
+                value={props.values.password}
+                onBlur={props.handleBlur("password")}
+              />
+            </View>
+            <Text style={styles.text}>
+              {props.touched.password && props.errors.password}
+            </Text>
+            <TouchableOpacity
+              style={styles.loginbttn}
+              onPress={props.handleSubmit}
+            >
+              <Text style={styles.text}>REGISTER</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.loginbttn} onPress={onCancel}>
+              <Text style={styles.text}>CANCEL</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </Formik>
       <StatusBar style="light" />
     </View>
   );
