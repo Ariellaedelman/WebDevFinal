@@ -16,13 +16,14 @@ const options = {
   },
 };
 
-function CalorieNinjas() {
+function CalorieNinjas(props) {
   const [inputName, setInputName] = useState("");
   const [foodName, setFoodName] = useState("");
   const [calories, setCalories] = useState(0);
   const [carbohydrates, setCarbohydrates] = useState("");
   const [protein, setProtein] = useState("");
   const [fat, setFat] = useState("");
+  const [servingSize, setServingSize] = useState("");
 
   function getFoodDetails() {
     fetch(
@@ -38,6 +39,7 @@ function CalorieNinjas() {
           setCarbohydrates(json.items[0].carbohydrates_total_g);
           setProtein(json.items[0].protein_g);
           setFat(json.items[0].fat_total_g);
+          setServingSize(json.items[0].serving_size_g);
         }
       })
       .catch((error) => {
@@ -62,11 +64,15 @@ function CalorieNinjas() {
       </View>
       <View style={styles.informationContainer}>
         <Text style={styles.text}>Food Name: {foodName}</Text>
+        <Text style={styles.text}>Serving Size: {servingSize}g</Text>
         <Text style={styles.text}>Calories: {calories}</Text>
-        <Text style={styles.text}>Carobhydrate: {carbohydrates}</Text>
-        <Text style={styles.text}>Protein: {protein}</Text>
-        <Text style={styles.text}>Fat: {fat}</Text>
+        <Text style={styles.text}>Carobhydrate: {carbohydrates}g</Text>
+        <Text style={styles.text}>Protein: {protein}g</Text>
+        <Text style={styles.text}>Fat: {fat}g</Text>
       </View>
+      <TouchableOpacity style={styles.searchBttn} onPress={props.onCancel}>
+        <Text>Cancel</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -108,8 +114,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   searchBar: {
-    borderBottomWidth: 2,
-    borderBottomColor: "white",
+    borderWidth: 2,
+    borderColor: "white",
     marginRight: 10,
     width: "60%",
     alignItems: "center",
