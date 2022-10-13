@@ -12,6 +12,8 @@ import { StatusBar } from "expo-status-bar";
 import { Formik } from "formik";
 import * as yup from "yup";
 
+import axios from "axios";
+
 const LoginSchema = yup.object({
   name: yup.string().required(),
   email: yup.string().email().required(),
@@ -23,15 +25,24 @@ function Signup({ navigation }) {
   function onSignUp() {
     navigation.navigate("BottomTab", { screen: "Home" });
   }
+
+  function SignUpData(inputs) {
+    inputs 
+
+  }
   function onCancel() {
     navigation.navigate("Login");
   }
+
   return (
     <View style={styles.pageContainer}>
       <Formik
         initialValues={{ name: "", email: "", username: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={(values, actions) => {
+          const resp = axios.post("http://146.95.39.202:8080/api/auth/signup", { values });
+          console.log(resp.data);
+          alert("Sign Up Successful");
           console.log(values);
           actions.resetForm();
           onSignUp();
