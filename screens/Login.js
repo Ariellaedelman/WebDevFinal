@@ -30,13 +30,18 @@ function Login({ navigation }) {
     navigation.navigate("Signup");
   }
 
+  function test(inputs) {
+    console.log(inputs.email);
+    console.log(inputs.password);
+  }
+
   return (
     <View style={styles.pageContainer}>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={(values, actions) => {
-          console.log(values);
+          test(values);
           actions.resetForm();
           onLogin();
         }}
