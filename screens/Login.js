@@ -21,7 +21,13 @@ const LoginSchema = yup.object({
 
 function Login({ navigation }) {
   function onLogin() {
-    navigation.navigate("BottomTab");
+    navigation.navigate("BottomTab", {
+      screen: "Home",
+      params: {
+        name: "Cal-U-Trition",
+        calories: 2000,
+      },
+    });
   }
   function onSignUp() {
     navigation.navigate("Signup");
