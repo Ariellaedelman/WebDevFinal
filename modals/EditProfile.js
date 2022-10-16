@@ -4,31 +4,19 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
-  ScrollView,
 } from "react-native";
 
-import SignupForm from "../forms/SignupForm";
+import EditProfileForm from "../forms/EditProfileForm";
 
-function Signup({ navigation }) {
-  function onSignup(personObject) {
-    navigation.navigate("BottomTab", {
-      screen: "Home",
-      params: personObject,
-    });
-  }
-  function onClose() {
-    navigation.navigate("Login");
-  }
+function EditProfile(props) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles.signUpContainer}>
-          <ScrollView>
-            <SignupForm onSignup={onSignup} onClose={onClose} />
-          </ScrollView>
+        <SafeAreaView style={styles.editProfileContainer}>
+          <EditProfileForm onSubmit={props.close} />
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -36,7 +24,7 @@ function Signup({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  signUpContainer: {
+  editProfileContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
@@ -49,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Signup;
+export default EditProfile;

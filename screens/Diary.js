@@ -16,7 +16,7 @@ function Diary() {
       <TouchableOpacity style={styles.addFoodBttn} onPress={openCalNinja}>
         <Text>Add Food</Text>
       </TouchableOpacity>
-      <Modal visible={calNinjaVisible} animationType={"fade"}>
+      <Modal visible={calNinjaVisible} animationType={"slide"}>
         <CalorieNinjas onCancel={closeCalNinja} />
       </Modal>
     </View>
