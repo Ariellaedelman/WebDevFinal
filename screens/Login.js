@@ -20,28 +20,18 @@ const LoginSchema = yup.object({
 });
 
 function Login({ navigation }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
   function onLogin() {
-    navigation.navigate("BottomTab", { screen: "Home" });
+    navigation.navigate("BottomTab");
   }
   function onSignUp() {
     navigation.navigate("Signup");
   }
-
-  function test(inputs) {
-    console.log(inputs.email);
-    console.log(inputs.password);
-  }
-
   return (
     <View style={styles.pageContainer}>
       <Formik
         initialValues={{ email: "", password: "" }}
-        validationSchema={LoginSchema}
+        // validationSchema={LoginSchema}
         onSubmit={(values, actions) => {
-          test(values);
           actions.resetForm();
           onLogin();
         }}
