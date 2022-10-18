@@ -15,7 +15,7 @@ export const signup = async (req, res) => {
     console.log("Signup Hit");
     try {
         // validation
-        const { name, email, password } = req.body;
+        const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal, calories } = req.body;
         if (!name) {
             return res.json({
             error: "Name is required",
@@ -46,6 +46,14 @@ export const signup = async (req, res) => {
             name,
             email,
             password: hashedPassword,
+            age, 
+            height_ft, 
+            height_inch, 
+            weight, 
+            gender, 
+            activitylevel, 
+            goal,
+            calories,
             }).save();
 
             // create signed token
