@@ -12,6 +12,7 @@ import EditProfile from "../modals/EditProfile";
 import History from "../modals/History";
 import { useState } from "react";
 
+
 function Profile() {
   const [editProfileVisible, setEditProfileVisible] = useState(false);
   const [historyVisible, setHistoryVisible] = useState(false);
