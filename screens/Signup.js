@@ -5,10 +5,10 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   ScrollView,
+  View,
 } from "react-native";
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SignupForm from "../forms/SignupForm";
-
 
 function Signup({ navigation }) {
   function onSignup(personObject) {
@@ -22,18 +22,13 @@ function Signup({ navigation }) {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles.signUpContainer}>
-          <ScrollView>
-            <SignupForm onSignup={onSignup} onClose={onClose} />
-          </ScrollView>
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.signUpContainer}>
+        <KeyboardAwareScrollView>
+          <SignupForm onSignup={onSignup} onClose={onClose} />
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -45,9 +40,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#003f5c",
     //borderWidth: 2,
     //borderColor: "red",
-  },
-  container: {
-    flex: 1,
   },
 });
 

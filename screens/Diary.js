@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import CalorieNinjas from "../apis/CalorieNinjas";
 
-function Diary({ navigation }) {
+function Diary() {
   const [calNinjaVisible, setCalNinjaVisible] = useState(false);
   const [totalCalories, setTotalCalories] = useState(0);
   const [foodList, setFoodList] = useState([]);
@@ -18,7 +18,6 @@ function Diary({ navigation }) {
 
   useEffect(() => {
     setDate(new Date().toDateString());
-    navigation.setOptions({ title: date + " Diary" });
   }, []);
 
   useEffect(() => {
@@ -42,13 +41,13 @@ function Diary({ navigation }) {
   }
   const renderItem = ({ item }) => (
     <View style={styles.foodItem}>
-      <Text style={styles.text}>{item.name}</Text>
-      <Text style={styles.text}>{item.calories}</Text>
+      <Text style={styles.foodText}>Name: {item.name}</Text>
+      <Text style={styles.foodText}>Calories: {item.calories}</Text>
     </View>
   );
   return (
     <SafeAreaView style={styles.diaryContainer}>
-      <Text style={styles.text}>Diary For {date}</Text>
+      <Text style={styles.diaryText}>{date}</Text>
       <TouchableOpacity style={styles.addFoodBttn} onPress={openCalNinja}>
         <Text>Add Food</Text>
       </TouchableOpacity>
@@ -57,7 +56,7 @@ function Diary({ navigation }) {
         data={foodList}
         renderItem={renderItem}
       />
-      <Text style={styles.text}> Total Calories:{totalCalories}</Text>
+      <Text style={styles.diaryText}> Total Calories: {totalCalories}</Text>
       <Modal visible={calNinjaVisible} animationType={"slide"}>
         <CalorieNinjas onCancel={closeCalNinja} addFoodItem={addFoodItem} />
       </Modal>
@@ -86,14 +85,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 20,
   },
-  text: {
-    fontSize: 15,
+  diaryText: {
+    fontSize: 20,
     color: "white",
+    marginBottom: 20,
+    marginTop: 20,
   },
   foodFlatList: {
-    borderWidth: 2,
-    borderColor: "red",
     width: "90%",
+  },
+  foodText: {
+    fontSize: 20,
+    color: "white",
   },
 });
 export default Diary;

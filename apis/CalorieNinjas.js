@@ -85,7 +85,6 @@ function CalorieNinjas(props) {
         <Text style={styles.text}>Carobhydrate: {foodItem.carbohydrates}g</Text>
         <Text style={styles.text}>Protein: {foodItem.protein}g</Text>
         <Text style={styles.text}>Fat: {foodItem.fat}g</Text>
-        <Text style={styles.text}>Key: {foodItem.key}</Text>
         <TouchableOpacity style={styles.searchBttn} onPress={onAddFood}>
           <Text>Add Food</Text>
         </TouchableOpacity>
