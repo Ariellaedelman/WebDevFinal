@@ -9,6 +9,7 @@ import {
 
 import SignupForm from "../forms/SignupForm";
 
+
 function Signup({ navigation }) {
   function onSignup(personObject) {
     navigation.navigate("BottomTab", {
@@ -19,6 +20,7 @@ function Signup({ navigation }) {
   function onClose() {
     navigation.navigate("Login");
   }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
