@@ -1,81 +1,83 @@
-//import { View, Text, Button } from "react-native";
-
-// function Profile() {
-//   return (
-//     <View style={{ padding: 50 }}>
-//       <Text>Profile Page </Text>
-//     </View>
-//   );
-// }
-
-// export default Profile;
-
-import React, { useState, useEffect } from "react";
 import {
-  Image,
   View,
-  Platform,
-  TouchableOpacity,
   Text,
+  Button,
   StyleSheet,
+  Modal,
+  SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
-export default function UploadImage() {
-  const [image, setImage] = useState(null);
-  const addImage = async () => {
-    let _image = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(JSON.stringify(_image));
-    if (!_image.cancelled) {
-      setImage(_image.uri);
-    }
-  };
+import UploadImage from "../components/UploadImage";
+import EditProfile from "../modals/EditProfile";
+import History from "../modals/History";
+import { useState } from "react";
+
+function Profile() {
+  const [editProfileVisible, setEditProfileVisible] = useState(false);
+  const [historyVisible, setHistoryVisible] = useState(false);
+  const [testObject, setTestObject] = useState({});
+  function openProfile() {
+    setEditProfileVisible(true);
+  }
+  function closeProfile() {
+    setEditProfileVisible(false);
+  }
+  function openHistory() {
+    setHistoryVisible(true);
+  }
+  function closeHistory() {
+    setHistoryVisible(false);
+  }
+  function updateTestObject(inputObject) {
+    setTestObject(inputObject);
+    console.log(setTestObject);
+  }
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
-      <View style={imageUploaderStyles.container}>
-        {image && (
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        )}
-        <View style={imageUploaderStyles.uploadBtnContainer}>
-          <TouchableOpacity
-            onPress={addImage}
-            style={imageUploaderStyles.uploadBtn}
-          >
-            <Text>{image ? "Edit" : "Upload"} Image</Text>
-            <AntDesign name="camera" size={20} color="black" />
-          </TouchableOpacity>
-        </View>
+    <View style={styles.profileContainer}>
+      <UploadImage />
+      <View style={styles.bttnsContainer}>
+        <TouchableOpacity style={styles.historyBttn} onPress={openHistory}>
+          <Text>History</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.profileBttn} onPress={openProfile}>
+          <Text>Edit Profile</Text>
+        </TouchableOpacity>
       </View>
+      <Modal visible={editProfileVisible} animationType={"slide"}>
+        <EditProfile close={closeProfile} updateObject={updateTestObject} />
+      </Modal>
+      <Modal visible={historyVisible} animationType={"slide"}>
+        <History close={closeHistory} />
+      </Modal>
     </View>
   );
 }
-const imageUploaderStyles = StyleSheet.create({
-  container: {
-    elevation: 2,
-    height: 200,
-    width: 200,
-    backgroundColor: "#efefef",
-    position: "relative",
-    borderRadius: 999,
-    overflow: "hidden",
-  },
-  uploadBtnContainer: {
-    opacity: 0.7,
-    position: "absolute",
 
-    bottom: 0,
-    backgroundColor: "lightgrey",
-    width: "100%",
-    height: "25%",
-  },
-  uploadBtn: {
-    display: "flex",
+const styles = StyleSheet.create({
+  profileContainer: {
+    flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+  },
+  profileBttn: {
+    backgroundColor: "#fb5b5a",
+    width: "40%",
+    alignItems: "center",
+    borderRadius: 25,
+    padding: 10,
+  },
+  historyBttn: {
+    backgroundColor: "#fb5b5a",
+    width: "40%",
+    alignItems: "center",
+    borderRadius: 25,
+    padding: 10,
+    marginRight: 20,
+  },
+  bttnsContainer: {
+    marginTop: 30,
+    flexDirection: "row",
+    //borderWidth: 2,
   },
 });
+
+export default Profile;
