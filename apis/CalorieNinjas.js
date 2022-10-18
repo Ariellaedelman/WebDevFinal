@@ -18,12 +18,21 @@ const options = {
 
 function CalorieNinjas(props) {
   const [inputName, setInputName] = useState("");
-  const [foodName, setFoodName] = useState("");
-  const [calories, setCalories] = useState(0);
-  const [carbohydrates, setCarbohydrates] = useState("");
-  const [protein, setProtein] = useState("");
-  const [fat, setFat] = useState("");
-  const [servingSize, setServingSize] = useState("");
+  //const [foodName, setFoodName] = useState("");
+  //const [totalCalories, setTotalCalories] = useState(0);
+  //const [carbohydrates, setCarbohydrates] = useState("");
+  //const [protein, setProtein] = useState("");
+  //const [fat, setFat] = useState("");
+  //const [servingSize, setServingSize] = useState("");
+  const [foodItem, setFoodItem] = useState({
+    name: "",
+    calories: "",
+    carbohydrates: "",
+    protein: "",
+    fat: "",
+    serving_size: "",
+    key: "",
+  });
 
   function getFoodDetails() {
     fetch(
@@ -34,17 +43,24 @@ function CalorieNinjas(props) {
       .then((json) => {
         if (json.items[0] != undefined) {
           console.log("success");
-          setFoodName(json.items[0].name);
-          setCalories(json.items[0].calories);
-          setCarbohydrates(json.items[0].carbohydrates_total_g);
-          setProtein(json.items[0].protein_g);
-          setFat(json.items[0].fat_total_g);
-          setServingSize(json.items[0].serving_size_g);
+          setFoodItem({
+            name: json.items[0].name,
+            calories: json.items[0].calories,
+            carbohydrates: json.items[0].carbohydrates_total_g,
+            protein: json.items[0].protein_g,
+            fat: json.items[0].fat_total_g,
+            serving_size: json.items[0].serving_size_g,
+            key: Math.random().toString(),
+          });
         }
       })
       .catch((error) => {
         console.error(error);
       });
+  }
+  function onAddFood() {
+    props.addFoodItem(foodItem);
+    props.onCancel();
   }
   return (
     <View style={styles.container}>
@@ -63,12 +79,16 @@ function CalorieNinjas(props) {
         </TouchableOpacity>
       </View>
       <View style={styles.informationContainer}>
-        <Text style={styles.text}>Food Name: {foodName}</Text>
-        <Text style={styles.text}>Serving Size: {servingSize}g</Text>
-        <Text style={styles.text}>Calories: {calories}</Text>
-        <Text style={styles.text}>Carobhydrate: {carbohydrates}g</Text>
-        <Text style={styles.text}>Protein: {protein}g</Text>
-        <Text style={styles.text}>Fat: {fat}g</Text>
+        <Text style={styles.text}>Food Name: {foodItem.name}</Text>
+        <Text style={styles.text}>Serving Size: {foodItem.serving_size}g</Text>
+        <Text style={styles.text}>Calories: {foodItem.calories}</Text>
+        <Text style={styles.text}>Carobhydrate: {foodItem.carbohydrates}g</Text>
+        <Text style={styles.text}>Protein: {foodItem.protein}g</Text>
+        <Text style={styles.text}>Fat: {foodItem.fat}g</Text>
+        <Text style={styles.text}>Key: {foodItem.key}</Text>
+        <TouchableOpacity style={styles.searchBttn} onPress={onAddFood}>
+          <Text>Add Food</Text>
+        </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.searchBttn} onPress={props.onCancel}>
         <Text>Cancel</Text>
