@@ -20,23 +20,24 @@ const LoginSchema = yup.object({
 });
 
 function Login({ navigation }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
   function onLogin() {
-    navigation.navigate("BottomTab", { screen: "Home" });
+    navigation.navigate("BottomTab", {
+      screen: "Home",
+      params: {
+        name: "Cal-U-Trition",
+        calories: 2000,
+      },
+    });
   }
   function onSignUp() {
     navigation.navigate("Signup");
   }
-
   return (
     <View style={styles.pageContainer}>
       <Formik
         initialValues={{ email: "", password: "" }}
-        validationSchema={LoginSchema}
+        // validationSchema={LoginSchema}
         onSubmit={(values, actions) => {
-          console.log(values);
           actions.resetForm();
           onLogin();
         }}
