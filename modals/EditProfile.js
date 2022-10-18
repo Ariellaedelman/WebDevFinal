@@ -3,23 +3,19 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
 } from "react-native";
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import EditProfileForm from "../forms/EditProfileForm";
 
 function EditProfile(props) {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles.editProfileContainer}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.editProfileContainer}>
+        <KeyboardAwareScrollView style={styles.container}>
           <EditProfileForm onSubmit={props.close} />
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -33,7 +29,8 @@ const styles = StyleSheet.create({
     //borderColor: "red",
   },
   container: {
-    flex: 1,
+    //borderWidth: 2,
+    //borderColor: "red",
   },
 });
 

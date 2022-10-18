@@ -33,7 +33,7 @@ function Profile() {
     console.log(setTestObject);
   }
   return (
-    <View style={styles.profileContainer}>
+    <SafeAreaView style={styles.profileContainer}>
       <UploadImage />
       <View style={styles.bttnsContainer}>
         <TouchableOpacity style={styles.historyBttn} onPress={openHistory}>
@@ -49,7 +49,7 @@ function Profile() {
       <Modal visible={historyVisible} animationType={"slide"}>
         <History close={closeHistory} />
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
   profileContainer: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: "#003f5c",
   },
   profileBttn: {
     backgroundColor: "#fb5b5a",
