@@ -12,6 +12,8 @@ import { StatusBar } from "expo-status-bar";
 import { Formik } from "formik";
 import * as yup from "yup";
 
+import client from "../api/client";
+
 import axios from "axios";
 
 const LoginSchema = yup.object({
@@ -21,7 +23,49 @@ const LoginSchema = yup.object({
   password: yup.string().required().min(7),
 });
 
+
 function Signup({ navigation }) {
+  const userInfo = {
+    name: '',
+    email: '',
+    username: '',
+    password: '',
+
+  }
+
+  const { name, email, username, password } = userInfo
+
+  const signUp = async (values, formikActions) => {
+    console.log(values);
+    
+    const config = {
+      headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Request-Headers": "*",
+          "Access-Control-Allow-Origin": "*"
+      }
+    };
+
+    try {
+        //const res = await axios.post('http://192.168.12.119:8000/api/signup', {name, email, password});
+        const res = await client.post('/api/signup', {...values}, config);
+        console.log(res.data); 
+    } catch (error) {
+        console.log(error.message);
+    }
+    
+    /* 
+    const res = await client.post('/api/signup', {
+      ...values
+    })
+    */
+
+    //console.log(res.data);
+    formikActions.resetForm();
+    formikActions.setSubmitting(false);
+    //onSignUp();
+  }
+
   function onSignUp() {
     navigation.navigate("BottomTab", { screen: "Home" });
   }
@@ -37,16 +81,9 @@ function Signup({ navigation }) {
   return (
     <View style={styles.pageContainer}>
       <Formik
-        initialValues={{ name: "", email: "", username: "", password: "" }}
+        initialValues={userInfo}
         validationSchema={LoginSchema}
-        onSubmit={(values, actions) => {
-          const resp = axios.post("http://146.95.39.202:8080/api/auth/signup", { values });
-          console.log(resp.data);
-          alert("Sign Up Successful");
-          console.log(values);
-          actions.resetForm();
-          onSignUp();
-        }}
+        onSubmit={signUp}
       >
         {(props) => (
           <View style={styles.signupContainer}>
