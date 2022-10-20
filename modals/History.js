@@ -5,11 +5,12 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
+import Calendar from "../components/Calendar";
 
 function History(props) {
   return (
     <SafeAreaView style={styles.editProfileContainer}>
-      <Text>This is the History Page</Text>
+      <Calendar/>
       <TouchableOpacity style={styles.closeBttn} onPress={props.close}>
         <Text>Close</Text>
       </TouchableOpacity>
