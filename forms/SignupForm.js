@@ -75,7 +75,6 @@ function SignupForm(props) {
       };
   
       try {
-          //const res = await axios.post('http://192.168.12.119:8000/api/signup', {name, email, password});
           const res = await client.post('/api/signup', {...values}, config);
           console.log(res.data); 
       } catch (error) {
