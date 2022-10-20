@@ -42,6 +42,7 @@ function Diary() {
   const renderItem = ({ item }) => (
     <View style={styles.foodItem}>
       <Text style={styles.foodText}>Name: {item.name}</Text>
+      <Text style={styles.foodText}>Serving Size: {item.serving_size}g </Text>
       <Text style={styles.foodText}>Calories: {item.calories}</Text>
     </View>
   );

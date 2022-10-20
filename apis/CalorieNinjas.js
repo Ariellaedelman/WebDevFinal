@@ -85,13 +85,13 @@ function CalorieNinjas(props) {
         <Text style={styles.text}>Carobhydrate: {foodItem.carbohydrates}g</Text>
         <Text style={styles.text}>Protein: {foodItem.protein}g</Text>
         <Text style={styles.text}>Fat: {foodItem.fat}g</Text>
-        <TouchableOpacity style={styles.searchBttn} onPress={onAddFood}>
-          <Text>Add Food</Text>
+        <TouchableOpacity style={styles.addBttn} onPress={onAddFood}>
+          <Text style={styles.searchText}>Add Food</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.closeBttn} onPress={props.onCancel}>
+          <Text style={styles.searchText}>Cancel</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.searchBttn} onPress={props.onCancel}>
-        <Text>Cancel</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -115,6 +115,8 @@ const styles = StyleSheet.create({
   },
   informationContainer: {
     flex: 4,
+    width: "90%",
+    alignItems: "center",
   },
   searchBttn: {
     backgroundColor: "#fb5b5a",
@@ -133,11 +135,25 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   searchBar: {
-    borderWidth: 2,
+    borderBottomWidth: 2,
     borderColor: "white",
     marginRight: 10,
-    width: "60%",
+    width: "40%",
     alignItems: "center",
+  },
+  addBttn: {
+    width: "50%",
+    backgroundColor: "#fb5b5a",
+    alignItems: "center",
+    padding: 10,
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  closeBttn: {
+    width: "50%",
+    backgroundColor: "#fb5b5a",
+    alignItems: "center",
+    padding: 10,
   },
 });
 
