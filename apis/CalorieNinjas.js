@@ -65,14 +65,12 @@ function CalorieNinjas(props) {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <View style={styles.searchBar}>
-          <TextInput
-            style={styles.text}
-            placeholder="Enter Food"
-            placeholderTextColor={"white"}
-            onChangeText={(text) => setInputName(text)}
-          />
-        </View>
+        <TextInput
+          style={styles.searchBar}
+          placeholder="Enter Food"
+          placeholderTextColor={"white"}
+          onChangeText={(text) => setInputName(text)}
+        />
 
         <TouchableOpacity style={styles.searchBttn} onPress={getFoodDetails}>
           <Text style={styles.searchText}> SEARCH</Text>
@@ -120,7 +118,7 @@ const styles = StyleSheet.create({
   },
   searchBttn: {
     backgroundColor: "#fb5b5a",
-    width: "35%",
+    width: "30%",
     alignItems: "center",
     borderRadius: 25,
     padding: 10,
@@ -138,8 +136,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: "white",
     marginRight: 10,
-    width: "40%",
+    width: "60%",
     alignItems: "center",
+    padding: 10,
+    fontSize: 20,
+    justifyContent: "center",
   },
   addBttn: {
     width: "50%",

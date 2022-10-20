@@ -50,7 +50,7 @@ function Diary() {
     <SafeAreaView style={styles.diaryContainer}>
       <Text style={styles.diaryText}>{date}</Text>
       <TouchableOpacity style={styles.addFoodBttn} onPress={openCalNinja}>
-        <Text>Add Food</Text>
+        <Text style={{ fontSize: 15, color: "white" }}>Add Food</Text>
       </TouchableOpacity>
       <FlatList
         style={styles.foodFlatList}
