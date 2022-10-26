@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fb5b5a",
     marginBottom: 30,
+    marginTop: 50,
   },
   scrollViewContainer: {
     //borderWidth: 2,

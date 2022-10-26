@@ -42,6 +42,7 @@ function Diary() {
   const renderItem = ({ item }) => (
     <View style={styles.foodItem}>
       <Text style={styles.foodText}>Name: {item.name}</Text>
+      <Text style={styles.foodText}>Serving Size: {item.serving_size}g </Text>
       <Text style={styles.foodText}>Calories: {item.calories}</Text>
     </View>
   );
@@ -49,7 +50,7 @@ function Diary() {
     <SafeAreaView style={styles.diaryContainer}>
       <Text style={styles.diaryText}>{date}</Text>
       <TouchableOpacity style={styles.addFoodBttn} onPress={openCalNinja}>
-        <Text>Add Food</Text>
+        <Text style={{ fontSize: 15, color: "white" }}>Add Food</Text>
       </TouchableOpacity>
       <FlatList
         style={styles.foodFlatList}

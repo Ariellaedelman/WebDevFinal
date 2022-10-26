@@ -8,6 +8,9 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 
+import client from "../api/client";
+import axios from "axios";
+
 const LoginSchema = yup.object({
   name: yup.string().required(),
   email: yup.string().email().required(),
@@ -29,6 +32,61 @@ const LoginSchema = yup.object({
 });
 
 function SignupForm(props) {
+
+  const userInfo = {
+    name: '',
+    email: '',
+    password: '',
+    age: 0,
+    height_ft: 0,
+    height_inch: 0,
+    weight: 0,
+    gender: '',
+    activitylevel: '',
+    goal: '',
+    calories: 0,
+  }
+
+  const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal, calories } = userInfo
+
+  const signUp = async (values, actions) => {
+      values.age = parseInt(values.age, 10);
+      values.height_ft = parseInt(values.height_ft, 10);
+      values.height_inch = parseInt(values.height_inch, 10);
+      values.weight = parseInt(values.weight, 10);
+      values.calories = calorieBudget(
+        values.age,
+        values.height_ft,
+        values.height_inch,
+        values.weight,
+        values.gender,
+        values.activitylevel,
+        values.goal
+      );
+
+      console.log(values);
+
+      const config = {
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Request-Headers": "*",
+            "Access-Control-Allow-Origin": "*"
+        }
+      };
+  
+      try {
+          const res = await client.post('/api/signup', {...values}, config);
+          console.log(res.data); 
+      } catch (error) {
+          console.log(error.message);
+      }
+
+      props.onSignup(values);
+
+      actions.resetForm();
+    }
+  
+
   function poundsToKG(pounds) {
     let kg = pounds / 2.205;
     return kg;
@@ -79,7 +137,9 @@ function SignupForm(props) {
   }
   return (
     <Formik
-      initialValues={{
+      initialValues={userInfo
+        /*
+        {
         name: "",
         email: "",
         password: "",
@@ -91,25 +151,10 @@ function SignupForm(props) {
         gender: "",
         activitylevel: "",
         goal: "",
-      }}
-      onSubmit={(values, actions) => {
-        values.age = parseInt(values.age, 10);
-        values.height_ft = parseInt(values.height_ft, 10);
-        values.height_inch = parseInt(values.height_inch, 10);
-        values.weight = parseInt(values.weight, 10);
-        values.calories = calorieBudget(
-          values.age,
-          values.height_ft,
-          values.height_inch,
-          values.weight,
-          values.gender,
-          values.activitylevel,
-          values.goal
-        );
-        console.log(values);
-        props.onSignup(values);
-        actions.resetForm();
-      }}
+      }
+      */}
+      //validationSchema={LoginSchema}
+      onSubmit={signUp}
     >
       {(formProps) => (
         <View style={styles.editSignupFormContainer}>

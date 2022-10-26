@@ -12,7 +12,6 @@ import EditProfile from "../modals/EditProfile";
 import History from "../modals/History";
 import { useState } from "react";
 
-
 function Profile() {
   const [editProfileVisible, setEditProfileVisible] = useState(false);
   const [historyVisible, setHistoryVisible] = useState(false);
@@ -38,10 +37,10 @@ function Profile() {
       <UploadImage />
       <View style={styles.bttnsContainer}>
         <TouchableOpacity style={styles.historyBttn} onPress={openHistory}>
-          <Text>History</Text>
+          <Text style={styles.text}>History</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.profileBttn} onPress={openProfile}>
-          <Text>Edit Profile</Text>
+          <Text style={styles.text}>Edit Profile</Text>
         </TouchableOpacity>
       </View>
       <Modal visible={editProfileVisible} animationType={"slide"}>
@@ -79,6 +78,10 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flexDirection: "row",
     //borderWidth: 2,
+  },
+  text: {
+    fontSize: 15,
+    color: "white",
   },
 });
 

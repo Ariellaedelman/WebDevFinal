@@ -105,6 +105,7 @@ function EditProfileForm(props) {
         console.log(values);
         actions.resetForm();
         props.onSubmit();
+        // alert("Updated Calorie Budget" + " " + values.calories);
         alert("Updated Calorie Budget" + " " + values.calories);
       }}
     >

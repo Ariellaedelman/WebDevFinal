@@ -33,6 +33,51 @@ const userSchema = new Schema (
             max: 64,
         },
 
+        age: {
+            type: Number,
+            required: true,
+            min: 13,
+            max: 90,
+        },
+
+        height_ft: {
+            type: Number,
+            required: true, 
+        },
+        
+        height_inch: {
+            type: Number,
+            required: true,
+        },
+        
+        weight: {
+            type: Number,
+            required: true,
+
+        },
+        
+        gender: {
+            type: String,
+            required: true,
+
+        },
+        
+        activitylevel: {
+            type: String,
+            required: true,
+
+        },
+        
+        goal: {
+            type: String,
+            required: true,
+        },
+
+        calories: {
+            type: Number,
+            required: true,
+        },
+
         role: {
             type: String,
             default: "User",
