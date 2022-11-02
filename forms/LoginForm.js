@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
   StyleSheet,
@@ -15,20 +15,62 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 
+import client from "../api/client";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { AuthContext } from "../context/auth";
+
 const LoginSchema = yup.object({
   email: yup.string().email().required(),
   password: yup.string().required().min(7),
 });
 
 function LoginForm(loginProps) {
+  const userInfo = {
+    email: '',
+    password: '',
+  }
+
+  const { email, password } = userInfo
+
+  const [state, setState] = useContext(AuthContext);
+
+  const signIn = async (values, actions) => {
+    const config = {
+      headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Request-Headers": "*",
+          "Access-Control-Allow-Origin": "*"
+      }
+    };
+
+    try {
+        const res = await client.post('/api/signin', {...values}, config);
+        console.log(res.data); 
+        
+        if (res.data.error) {
+          alert(res.data.error)
+        }
+        else {
+          setState(res.data)
+          await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+          alert("Sign In Successful")
+        } 
+
+    } catch (error) {
+        console.log(error.message);
+    }
+
+    loginProps.onLogin(values);
+    actions.resetForm();
+  }
+
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={userInfo}
       // validationSchema={LoginSchema}
-      onSubmit={(values, actions) => {
-        actions.resetForm();
-        loginProps.onLogin();
-      }}
+      onSubmit={signIn}
     >
       {(props) => (
         <View style={styles.inputContainer}>
