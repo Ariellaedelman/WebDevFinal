@@ -16,13 +16,16 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import LoginForm from "../forms/LoginForm";
 
 function Login({ navigation }) {
-  function onLogin() {
+  function onLogin(personObject) {
     navigation.navigate("BottomTab", {
       screen: "Home",
-      params: {
+      params: personObject,
+      /*
+      {
         name: "Cal-U-Trition",
         calories: 2000,
       },
+      */
     });
   }
   function onSignup() {
