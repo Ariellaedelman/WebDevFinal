@@ -13,6 +13,9 @@ import CalorieNinjas from "../apis/CalorieNinjas";
 function Diary() {
   const [calNinjaVisible, setCalNinjaVisible] = useState(false);
   const [totalCalories, setTotalCalories] = useState(0);
+  const [totalProtein, setTotalProtein] = useState(0);
+  const [totalFat, setTotalFat] = useState(0);
+  const [totalCarbs, setTotalCarbs] = useState(0);
   const [foodList, setFoodList] = useState([]);
   const [date, setDate] = useState("");
 
@@ -21,11 +24,20 @@ function Diary() {
   }, []);
 
   useEffect(() => {
-    let total = 0;
+    let calories = 0;
+    let fat = 0;
+    let protein = 0;
+    let carbs = 0;
     for (let i = 0; i < foodList.length; i++) {
-      total += parseInt(foodList[i].calories, 10);
+      calories += parseInt(foodList[i].calories, 10);
+      fat += parseInt(foodList[i].fat, 10);
+      protein += parseInt(foodList[i].protein, 10);
+      carbs += parseInt(foodList[i].carbohydrates, 10);
     }
-    setTotalCalories(total);
+    setTotalCalories(calories);
+    setTotalProtein(protein);
+    setTotalFat(fat);
+    setTotalCarbs(carbs);
   }, [foodList]);
 
   function openCalNinja() {
@@ -58,6 +70,9 @@ function Diary() {
         renderItem={renderItem}
       />
       <Text style={styles.diaryText}> Total Calories: {totalCalories}</Text>
+      <Text style={styles.diaryText}> Total Protein: {totalProtein}</Text>
+      <Text style={styles.diaryText}> Total Fat: {totalFat}</Text>
+      <Text style={styles.diaryText}> Total Carbs: {totalCarbs}</Text>
       <Modal visible={calNinjaVisible} animationType={"slide"}>
         <CalorieNinjas onCancel={closeCalNinja} addFoodItem={addFoodItem} />
       </Modal>
