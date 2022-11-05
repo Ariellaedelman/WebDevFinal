@@ -5,17 +5,20 @@ import Home from "../screens/Home";
 import Login from "../screens/Login";
 import BottomTab from "./BottomTab";
 import Signup from "../screens/Signup";
+import { AuthProvider } from "../context/auth";
 
 const Stack = createNativeStackNavigator();
 
 function RootStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="BottomTab" component={BottomTab} />
-      </Stack.Navigator>
+      <AuthProvider>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Signup" component={Signup} />
+          <Stack.Screen name="BottomTab" component={BottomTab} />
+        </Stack.Navigator>
+      </AuthProvider>
     </NavigationContainer>
   );
 }

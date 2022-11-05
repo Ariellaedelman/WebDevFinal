@@ -5,11 +5,15 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import React, { useState, useContext } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 
 import client from "../api/client";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { AuthContext } from "../context/auth";
 
 const LoginSchema = yup.object({
   name: yup.string().required(),
@@ -49,6 +53,8 @@ function SignupForm(props) {
 
   const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal, calories } = userInfo
 
+  const [state, setState] = useContext(AuthContext);
+  
   const signUp = async (values, actions) => {
       values.age = parseInt(values.age, 10);
       values.height_ft = parseInt(values.height_ft, 10);
@@ -76,7 +82,17 @@ function SignupForm(props) {
   
       try {
           const res = await client.post('/api/signup', {...values}, config);
-          console.log(res.data); 
+          console.log(res.data);
+          
+          if (res.data.error) {
+            alert(res.data.error)
+          }
+          else {
+            setState(res.data);
+            await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+            alert("Sign Up Successful")
+          } 
+
       } catch (error) {
           console.log(error.message);
       }
@@ -137,22 +153,7 @@ function SignupForm(props) {
   }
   return (
     <Formik
-      initialValues={userInfo
-        /*
-        {
-        name: "",
-        email: "",
-        password: "",
-        age: 0,
-        height_ft: 0,
-        height_inch: 0,
-        calories: 0,
-        weight: 0,
-        gender: "",
-        activitylevel: "",
-        goal: "",
-      }
-      */}
+      initialValues={userInfo}
       //validationSchema={LoginSchema}
       onSubmit={signUp}
     >
