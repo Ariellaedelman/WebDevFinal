@@ -24,9 +24,10 @@ export default function Nutritionix(props) {
 
   function checkString() {
     let regex = /[0-9]{12}/;
+    Keyboard.dismiss();
     if (searchString === null) {
       return;
-    } else if (regex.searchString) {
+    } else if (regex.test(searchString)) {
       getFoodByUPC();
     } else {
       getFoodByName();
@@ -56,7 +57,6 @@ export default function Nutritionix(props) {
         if (response.data.hits.length === 0) {
           setFoodData(null);
         } else {
-          //setFoodData(response.data);
           let hitsArr = response.data.hits;
           for (let i = 0; i < hitsArr.length; i++) {
             hitsArr[i] = hitsArr[i].fields;
@@ -85,14 +85,11 @@ export default function Nutritionix(props) {
     axios
       .request(options)
       .then(function (response) {
-        console.log(response.data.hits);
-        if (response.data.hits.length === 0) {
-          setFoodData(null);
-        } else {
-          //setFoodData(response.data);
-          setFoodData(response.data.hits);
-          setChosenFood(response.data.hits[0]);
-        }
+        console.log(response.data);
+        let tempArr = [];
+        tempArr.push(response.data);
+        setFoodData(tempArr);
+        setChosenFood(tempArr[0]);
       })
       .catch(function (error) {
         console.error(error);
@@ -108,11 +105,31 @@ export default function Nutritionix(props) {
   }
 
   function downServing() {
+    if (servingSize === 1) {
+      return;
+    }
     setServingSize(servingSize - 1);
   }
 
   function addFood() {
-    props.addFoodItem(chosenFood);
+    let newObj = {
+      ...chosenFood,
+      nf_calories: parseFloat(
+        (chosenFood.nf_calories * servingSize).toFixed(2)
+      ),
+      nf_protein: parseFloat((chosenFood.nf_protein * servingSize).toFixed(2)),
+      nf_total_fat: parseFloat(
+        (chosenFood.nf_total_fat * servingSize).toFixed(2)
+      ),
+      nf_total_carbohydrate: parseFloat(
+        (chosenFood.nf_total_carbohydrate * servingSize).toFixed(2)
+      ),
+      nf_serving_size_qty: parseFloat(
+        (chosenFood.nf_serving_size_qty * servingSize).toFixed(2)
+      ),
+    };
+
+    props.addFoodItem(newObj);
     props.closeNutritionix();
   }
   const renderItem = ({ item }) => {
@@ -194,7 +211,10 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     borderRadius: 20,
     padding: 10,
-    marginBottom: 30,
+    marginTop: 10,
+    width: "50%",
+    alignItems: "center",
+    //marginBottom: 30,
     //marginTop: 100,
   },
   searchBar: {

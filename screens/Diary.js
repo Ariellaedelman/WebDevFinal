@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import { useEffect, useState } from "react";
 import Nutritionix from "../apis/Nutritionix";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Entypo } from "@expo/vector-icons";
+import DiaryEntry from "../components/DiaryEntry";
 
 function Diary() {
   const [nutritionixVisible, setNutritionixVisible] = useState(false);
@@ -52,14 +53,15 @@ function Diary() {
       return [foodItem, ...currentFoods];
     });
   }
+
+  function deleteFoodItem(item) {
+    setFoodList((prevFoods) => {
+      return prevFoods.filter((foodItem) => foodItem.item_id !== item.item_id);
+    });
+  }
+
   const renderItem = ({ item }) => (
-    <View style={styles.foodItem}>
-      <Text style={styles.foodText}>Name: {item.item_name}</Text>
-      <Text style={styles.foodText}>Calories: {item.nf_calories}</Text>
-      <Text style={styles.foodText}>Protein: {item.nf_protein}g</Text>
-      <Text style={styles.foodText}>Fat: {item.nf_total_fat}g</Text>
-      <Text style={styles.foodText}>Carbs: {item.nf_total_carbohydrate}</Text>
-    </View>
+    <DiaryEntry item={item} deleteFoodItem={deleteFoodItem} />
   );
   return (
     <SafeAreaView style={styles.diaryContainer}>
@@ -74,9 +76,9 @@ function Diary() {
         keyExtractor={(item) => item.item_id}
       />
       <Text style={styles.diaryText}> Total Calories: {totalCalories}</Text>
-      <Text style={styles.diaryText}> Total Protein: {totalProtein}</Text>
-      <Text style={styles.diaryText}> Total Fat: {totalFat}</Text>
-      <Text style={styles.diaryText}> Total Carbs: {totalCarbs}</Text>
+      <Text style={styles.diaryText}> Total Protein: {totalProtein}g</Text>
+      <Text style={styles.diaryText}> Total Fat: {totalFat}g</Text>
+      <Text style={styles.diaryText}> Total Carbs: {totalCarbs}g</Text>
       <Modal visible={nutritionixVisible} animationType={"slide"}>
         <Nutritionix
           closeNutritionix={closeNutritionix}
