@@ -20,6 +20,7 @@ function Diary() {
   const [totalCarbs, setTotalCarbs] = useState(0);
   const [foodList, setFoodList] = useState([]);
   const [date, setDate] = useState("");
+  const [chosenEntry, setChosenEntry] = useState(null);
 
   useEffect(() => {
     setDate(new Date().toDateString());
@@ -52,6 +53,7 @@ function Diary() {
     setFoodList((currentFoods) => {
       return [foodItem, ...currentFoods];
     });
+    setChosenEntry(foodItem);
   }
 
   function deleteFoodItem(item) {
@@ -60,9 +62,23 @@ function Diary() {
     });
   }
 
+  function handleChoice(food) {
+    if (food === chosenEntry) {
+      setChosenEntry(null);
+      return;
+    }
+    setChosenEntry(food);
+  }
+
   const renderItem = ({ item }) => (
-    <DiaryEntry item={item} deleteFoodItem={deleteFoodItem} />
+    <DiaryEntry
+      item={item}
+      deleteFoodItem={deleteFoodItem}
+      handleChoice={handleChoice}
+      chosen={chosenEntry === item}
+    />
   );
+
   return (
     <SafeAreaView style={styles.diaryContainer}>
       <Text style={styles.diaryText}>{date}</Text>
