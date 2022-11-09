@@ -61,7 +61,7 @@ export default function Nutritionix(props) {
           for (let i = 0; i < hitsArr.length; i++) {
             hitsArr[i] = hitsArr[i].fields;
           }
-          console.log(hitsArr);
+
           setFoodData(response.data.hits);
           setChosenFood(response.data.hits[0]);
         }

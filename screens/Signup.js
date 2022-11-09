@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SignupForm from "../forms/SignupForm";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 function Signup({ navigation }) {
   function onSignup(personObject) {
@@ -24,6 +25,19 @@ function Signup({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.signUpContainer}>
+        <View
+          style={{
+            alignSelf: "flex-start",
+            marginLeft: 10,
+          }}
+        >
+          <FontAwesome.Button
+            name="close"
+            size={25}
+            onPress={onClose}
+            backgroundColor={"#003f5c"}
+          />
+        </View>
         <KeyboardAwareScrollView>
           <SignupForm onSignup={onSignup} onClose={onClose} />
         </KeyboardAwareScrollView>
