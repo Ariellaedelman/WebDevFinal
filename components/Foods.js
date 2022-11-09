@@ -47,6 +47,7 @@ function Foods(props) {
         </Text>
         {props.chosen ? (
           <View style={styles.servingSizeContainer}>
+            <Text style={{ color: "white", fontSize: 20 }}>QTY: </Text>
             <FontAwesome.Button
               name="caret-left"
               size={20}
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     opacity: 0.5,
     borderRadius: 20,
+    padding: 10,
     //borderWidth: 2,
     //borderColor: "red",
   },
@@ -88,6 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: "crimson",
     marginBottom: 25,
     borderRadius: 20,
+    padding: 10,
     //borderWidth: 2,
     //borderColor: "red",
   },
