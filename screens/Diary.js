@@ -8,10 +8,11 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useEffect, useState } from "react";
-import CalorieNinjas from "../apis/CalorieNinjas";
+import Nutritionix from "../apis/Nutritionix";
+import { FontAwesome } from "@expo/vector-icons";
 
 function Diary() {
-  const [calNinjaVisible, setCalNinjaVisible] = useState(false);
+  const [nutritionixVisible, setNutritionixVisible] = useState(false);
   const [totalCalories, setTotalCalories] = useState(0);
   const [totalProtein, setTotalProtein] = useState(0);
   const [totalFat, setTotalFat] = useState(0);
@@ -29,22 +30,22 @@ function Diary() {
     let protein = 0;
     let carbs = 0;
     for (let i = 0; i < foodList.length; i++) {
-      calories += parseInt(foodList[i].calories, 10);
-      fat += parseInt(foodList[i].fat, 10);
-      protein += parseInt(foodList[i].protein, 10);
-      carbs += parseInt(foodList[i].carbohydrates, 10);
+      calories += foodList[i].nf_calories;
+      fat += foodList[i].nf_total_fat;
+      protein += foodList[i].nf_protein;
+      carbs += foodList[i].nf_total_carbohydrate;
     }
-    setTotalCalories(calories);
-    setTotalProtein(protein);
-    setTotalFat(fat);
-    setTotalCarbs(carbs);
+    setTotalCalories(calories.toFixed(2));
+    setTotalProtein(protein.toFixed(2));
+    setTotalFat(fat.toFixed(2));
+    setTotalCarbs(carbs.toFixed(2));
   }, [foodList]);
 
-  function openCalNinja() {
-    setCalNinjaVisible(true);
+  function openNutritionix() {
+    setNutritionixVisible(true);
   }
-  function closeCalNinja() {
-    setCalNinjaVisible(false);
+  function closeNutritionix() {
+    setNutritionixVisible(false);
   }
   function addFoodItem(foodItem) {
     setFoodList((currentFoods) => {
@@ -53,28 +54,34 @@ function Diary() {
   }
   const renderItem = ({ item }) => (
     <View style={styles.foodItem}>
-      <Text style={styles.foodText}>Name: {item.name}</Text>
-      <Text style={styles.foodText}>Serving Size: {item.serving_size}g </Text>
-      <Text style={styles.foodText}>Calories: {item.calories}</Text>
+      <Text style={styles.foodText}>Name: {item.item_name}</Text>
+      <Text style={styles.foodText}>Calories: {item.nf_calories}</Text>
+      <Text style={styles.foodText}>Protein: {item.nf_protein}g</Text>
+      <Text style={styles.foodText}>Fat: {item.nf_total_fat}g</Text>
+      <Text style={styles.foodText}>Carbs: {item.nf_total_carbohydrate}</Text>
     </View>
   );
   return (
     <SafeAreaView style={styles.diaryContainer}>
       <Text style={styles.diaryText}>{date}</Text>
-      <TouchableOpacity style={styles.addFoodBttn} onPress={openCalNinja}>
-        <Text style={{ fontSize: 15, color: "white" }}>Add Food</Text>
+      <TouchableOpacity style={styles.addFoodBttn} onPress={openNutritionix}>
+        <FontAwesome name="plus" size={20} color={"white"} />
       </TouchableOpacity>
       <FlatList
         style={styles.foodFlatList}
         data={foodList}
         renderItem={renderItem}
+        keyExtractor={(item) => item.item_id}
       />
       <Text style={styles.diaryText}> Total Calories: {totalCalories}</Text>
       <Text style={styles.diaryText}> Total Protein: {totalProtein}</Text>
       <Text style={styles.diaryText}> Total Fat: {totalFat}</Text>
       <Text style={styles.diaryText}> Total Carbs: {totalCarbs}</Text>
-      <Modal visible={calNinjaVisible} animationType={"slide"}>
-        <CalorieNinjas onCancel={closeCalNinja} addFoodItem={addFoodItem} />
+      <Modal visible={nutritionixVisible} animationType={"slide"}>
+        <Nutritionix
+          closeNutritionix={closeNutritionix}
+          addFoodItem={addFoodItem}
+        />
       </Modal>
     </SafeAreaView>
   );
@@ -87,7 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#003f5c",
   },
   addFoodBttn: {
-    backgroundColor: "#fb5b5a",
+    backgroundColor: "crimson",
     width: "80%",
     alignItems: "center",
     borderRadius: 25,
@@ -95,17 +102,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   foodItem: {
-    backgroundColor: "#fb5b5a",
+    backgroundColor: "crimson",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
     padding: 20,
+    borderRadius: 20,
   },
   diaryText: {
     fontSize: 20,
     color: "white",
-    marginBottom: 20,
-    marginTop: 20,
+    marginBottom: 10,
+    marginTop: 10,
   },
   foodFlatList: {
     width: "90%",
