@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     marginBottom: 25,
     opacity: 0.5,
+    padding: 15,
     //borderWidth: 2,
     //borderColor: "red",
   },
@@ -48,16 +49,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "red",
     marginBottom: 25,
-
+    padding: 15,
     //borderWidth: 2,
     //borderColor: "red",
   },
   macroTitle: {
     fontSize: 30,
     color: "white",
+    fontWeight: "bold",
+    paddingBottom: 5,
   },
   macroType: {
-    fontSize: 15,
+    fontSize: 20,
     color: "white",
   },
 });

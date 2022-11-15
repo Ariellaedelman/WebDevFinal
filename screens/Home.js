@@ -1,16 +1,66 @@
 import { View, Text, Button, SafeAreaView, StyleSheet } from "react-native";
 
 function Home({ navigation, route }) {
-  function onLogOut() {
-    navigation.navigate("Login");
-  }
+  console.log("home params", route.params);
   return (
     <SafeAreaView style={styles.homeContainer}>
-      <Text style={styles.homeText}>Welcome {route.params.name} </Text>
-      <Text style={styles.homeText}>
-        Your Calorie Budget is: {route.params.calories}{" "}
+      <Text
+        style={{
+          fontSize: 20,
+          color: "white",
+          fontWeight: "bold",
+          marginTop: 20,
+          marginBottom: 20,
+        }}
+      >
+        Welcome {route.params.name},
       </Text>
-      <Button title="LOGOUT" onPress={onLogOut} />
+      <Text
+        style={{
+          fontSize: 20,
+          color: "white",
+          fontWeight: "bold",
+          marginBottom: 20,
+        }}
+      >
+        Your Budget is:
+      </Text>
+      <View style={styles.infoContainer}>
+        <Text
+          style={{
+            fontSize: 20,
+            color: "white",
+            fontWeight: "bold",
+            marginBottom: 20,
+          }}
+        >
+          Calories: {Math.round(route.params.calories)}
+        </Text>
+        <View style={styles.macroContainer}>
+          <Text style={styles.homeText}>
+            Carbs: {Math.round(route.params.chosenPlan.carbs)}g
+          </Text>
+          <View
+            style={{
+              borderLeftWidth: 2,
+              borderLeftColor: "white",
+              borderRightWidth: 2,
+              borderRightColor: "white",
+              marginLeft: 10,
+              marginRight: 10,
+              paddingLeft: 10,
+              paddingRight: 10,
+            }}
+          >
+            <Text style={styles.macroText}>
+              Fat: {Math.round(route.params.chosenPlan.fat)}g
+            </Text>
+          </View>
+          <Text style={styles.macroText}>
+            Protein: {Math.round(route.params.chosenPlan.protein)}g
+          </Text>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -24,6 +74,24 @@ const styles = StyleSheet.create({
   homeText: {
     fontSize: 20,
     color: "white",
+    fontWeight: "bold",
+  },
+  macroText: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
+    //borderBottomWidth: 2,
+    //borderBottomColor: "purple",
+  },
+  infoContainer: {
+    backgroundColor: "crimson",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+    borderRadius: 20,
+  },
+  macroContainer: {
+    flexDirection: "row",
   },
 });
 export default Home;
