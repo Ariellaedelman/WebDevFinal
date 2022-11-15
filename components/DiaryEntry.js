@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   foodText: {
     fontSize: 20,
     color: "white",
+    fontWeight: "bold",
   },
 });
 

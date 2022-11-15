@@ -6,13 +6,15 @@ import {
   Modal,
   SafeAreaView,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import UploadImage from "../components/UploadImage";
 import EditProfile from "../modals/EditProfile";
 import History from "../modals/History";
 import { useState } from "react";
+//import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
-function Profile() {
+function Profile({ navigation }) {
   const [editProfileVisible, setEditProfileVisible] = useState(false);
   const [historyVisible, setHistoryVisible] = useState(false);
   const [testObject, setTestObject] = useState({});
@@ -32,6 +34,9 @@ function Profile() {
     setTestObject(inputObject);
     console.log(setTestObject);
   }
+  function onLogOut() {
+    navigation.navigate("Login");
+  }
   return (
     <SafeAreaView style={styles.profileContainer}>
       <UploadImage />
@@ -43,6 +48,11 @@ function Profile() {
           <Text style={styles.text}>Edit Profile</Text>
         </TouchableOpacity>
       </View>
+      <Pressable onPress={onLogOut} style={styles.logoutBttn}>
+        <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
+          Logout
+        </Text>
+      </Pressable>
       <Modal visible={editProfileVisible} animationType={"slide"}>
         <EditProfile close={closeProfile} updateObject={updateTestObject} />
       </Modal>
@@ -60,14 +70,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#003f5c",
   },
   profileBttn: {
-    backgroundColor: "#fb5b5a",
+    backgroundColor: "crimson",
     width: "40%",
     alignItems: "center",
     borderRadius: 25,
     padding: 10,
   },
   historyBttn: {
-    backgroundColor: "#fb5b5a",
+    backgroundColor: "crimson",
     width: "40%",
     alignItems: "center",
     borderRadius: 25,
@@ -77,11 +87,20 @@ const styles = StyleSheet.create({
   bttnsContainer: {
     marginTop: 30,
     flexDirection: "row",
+    marginBottom: 20,
     //borderWidth: 2,
   },
   text: {
-    fontSize: 15,
+    fontSize: 20,
     color: "white",
+    fontWeight: "bold",
+  },
+  logoutBttn: {
+    backgroundColor: "crimson",
+    alignItems: "center",
+    borderRadius: 25,
+    padding: 10,
+    width: "40%",
   },
 });
 

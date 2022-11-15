@@ -37,10 +37,10 @@ function Diary() {
       protein += foodList[i].nf_protein;
       carbs += foodList[i].nf_total_carbohydrate;
     }
-    setTotalCalories(calories.toFixed(2));
-    setTotalProtein(protein.toFixed(2));
-    setTotalFat(fat.toFixed(2));
-    setTotalCarbs(carbs.toFixed(2));
+    setTotalCalories(Math.round(calories));
+    setTotalProtein(Math.round(protein));
+    setTotalFat(Math.round(fat));
+    setTotalCarbs(Math.round(carbs));
   }, [foodList]);
 
   function openNutritionix() {
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
     color: "white",
     marginBottom: 10,
     marginTop: 10,
+    fontWeight: "bold",
   },
   foodFlatList: {
     width: "90%",

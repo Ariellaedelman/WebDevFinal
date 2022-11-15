@@ -27,7 +27,7 @@ function Foods(props) {
   return (
     <Pressable onPress={handlePress}>
       <View style={props.chosen ? styles.chosenContainer : styles.container}>
-        <Text style={{ color: "white", fontSize: 20 }}>
+        <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
           {props.food.item_name}
         </Text>
         <Text style={{ color: "white", fontSize: 20 }}>
