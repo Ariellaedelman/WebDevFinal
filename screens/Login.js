@@ -16,13 +16,21 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import LoginForm from "../forms/LoginForm";
 
 function Login({ navigation }) {
-  function onLogin() {
+  function onLogin(personObject) {
     navigation.navigate("BottomTab", {
       screen: "Home",
       params: {
+        ...personObject,
+        chosenPlan: { carbs: 0, protein: 0, fat: 0 },
+        calories: 0,
+        name: "John Doe",
+      },
+      /*
+      {
         name: "Cal-U-Trition",
         calories: 2000,
       },
+      */
     });
   }
   function onSignup() {
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
   logo: {
     fontSize: 50,
     fontWeight: "bold",
-    color: "#fb5b5a",
+    color: "crimson",
     marginBottom: 30,
     marginTop: 50,
   },

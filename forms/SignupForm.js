@@ -5,11 +5,15 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import React, { useState, useContext } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 
 import client from "../api/client";
-import axios from "axios";
+//import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { AuthContext } from "../context/auth";
 
 const LoginSchema = yup.object({
   name: yup.string().required(),
@@ -32,60 +36,79 @@ const LoginSchema = yup.object({
 });
 
 function SignupForm(props) {
-
   const userInfo = {
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
     age: 0,
     height_ft: 0,
     height_inch: 0,
     weight: 0,
-    gender: '',
-    activitylevel: '',
-    goal: '',
+    gender: "",
+    activitylevel: "",
+    goal: "",
     calories: 0,
-  }
+  };
 
-  const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal, calories } = userInfo
+  const {
+    name,
+    email,
+    password,
+    age,
+    height_ft,
+    height_inch,
+    weight,
+    gender,
+    activitylevel,
+    goal,
+    calories,
+  } = userInfo;
+
+  const [state, setState] = useContext(AuthContext);
 
   const signUp = async (values, actions) => {
-      values.age = parseInt(values.age, 10);
-      values.height_ft = parseInt(values.height_ft, 10);
-      values.height_inch = parseInt(values.height_inch, 10);
-      values.weight = parseInt(values.weight, 10);
-      values.calories = calorieBudget(
-        values.age,
-        values.height_ft,
-        values.height_inch,
-        values.weight,
-        values.gender,
-        values.activitylevel,
-        values.goal
-      );
+    values.age = parseInt(values.age, 10);
+    values.height_ft = parseInt(values.height_ft, 10);
+    values.height_inch = parseInt(values.height_inch, 10);
+    values.weight = parseInt(values.weight, 10);
+    values.calories = calorieBudget(
+      values.age,
+      values.height_ft,
+      values.height_inch,
+      values.weight,
+      values.gender,
+      values.activitylevel,
+      values.goal
+    );
 
-      console.log(values);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
 
-      const config = {
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Request-Headers": "*",
-            "Access-Control-Allow-Origin": "*"
-        }
-      };
-  
-      try {
-          const res = await client.post('/api/signup', {...values}, config);
-          console.log(res.data); 
-      } catch (error) {
-          console.log(error.message);
+    try {
+      const res = await client.post("/api/signup", { ...values }, config);
+      console.log(res.data);
+
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        setState(res.data);
+        await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data));
+        alert("Sign Up Successful");
       }
-
-      props.onSignup(values);
-
-      actions.resetForm();
+    } catch (error) {
+      console.log(error.message);
     }
-  
+    console.log("values passed to signup", values);
+
+    props.onSignup(values);
+
+    actions.resetForm();
+  };
 
   function poundsToKG(pounds) {
     let kg = pounds / 2.205;
@@ -137,60 +160,50 @@ function SignupForm(props) {
   }
   return (
     <Formik
-      initialValues={userInfo
-        /*
-        {
-        name: "",
-        email: "",
-        password: "",
-        age: 0,
-        height_ft: 0,
-        height_inch: 0,
-        calories: 0,
-        weight: 0,
-        gender: "",
-        activitylevel: "",
-        goal: "",
-      }
-      */}
+      initialValues={userInfo}
       //validationSchema={LoginSchema}
       onSubmit={signUp}
     >
       {(formProps) => (
         <View style={styles.editSignupFormContainer}>
+          <Text style={styles.inputTitle}>Name</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter Name"
-            placeholderTextColor={"white"}
+            placeholder="e.g. John Doe"
+            placeholderTextColor={"grey"}
             onChangeText={formProps.handleChange("name")}
             value={formProps.values.name}
           />
+          <Text style={styles.inputTitle}>Email</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter Email"
-            placeholderTextColor={"white"}
+            placeholder="e.g. rocket@gmail.com"
+            placeholderTextColor={"grey"}
             onChangeText={formProps.handleChange("email")}
             value={formProps.values.email}
           />
+          <Text style={styles.inputTitle}>Password</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter Password"
+            placeholder=""
             placeholderTextColor={"white"}
             onChangeText={formProps.handleChange("password")}
             value={formProps.values.password}
           />
+          <Text style={styles.inputTitle}>Age</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter Age"
+            placeholder=""
             placeholderTextColor={"white"}
             onChangeText={formProps.handleChange("age")}
             value={formProps.values.age}
             keyboardType="numeric"
           />
+          <Text style={styles.inputTitle}>Height</Text>
           <View style={styles.heightContainer}>
             <TextInput
               style={styles.feetInput}
-              placeholder="feet"
+              placeholder=""
               placeholderTextColor={"white"}
               onChangeText={formProps.handleChange("height_ft")}
               value={formProps.values.height_ft}
@@ -199,7 +212,7 @@ function SignupForm(props) {
             <Text style={styles.text}>feet</Text>
             <TextInput
               style={styles.inchInput}
-              placeholder="inch"
+              placeholder=""
               placeholderTextColor={"white"}
               onChangeText={formProps.handleChange("height_inch")}
               value={formProps.values.height_inch}
@@ -207,46 +220,49 @@ function SignupForm(props) {
             />
             <Text style={styles.text}>inches</Text>
           </View>
+          <Text style={styles.inputTitle}>Weight (lbs)</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter body weight in lbs"
+            placeholder=""
             placeholderTextColor={"white"}
+            place
             onChangeText={formProps.handleChange("weight")}
             value={formProps.values.weight}
             keyboardType="numeric"
           />
+          <Text style={styles.inputTitle}>Gender</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter Gender (Male/Female)"
-            placeholderTextColor={"white"}
+            placeholder="Male / Female"
+            placeholderTextColor={"grey"}
             onChangeText={formProps.handleChange("gender")}
             value={formProps.values.gender}
           />
+          <Text style={styles.inputTitle}>Activity Level</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter Activity Level (Low/Medium/High)"
-            placeholderTextColor={"white"}
+            placeholder="Low / Medium / High"
+            placeholderTextColor={"grey"}
             onChangeText={formProps.handleChange("activitylevel")}
             value={formProps.values.activitylevel}
           />
+          <Text style={styles.inputTitle}>Weight Goal</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter Goal (Lose/Gain/Maintain)"
-            placeholderTextColor={"white"}
+            placeholder="Lose / Gain / Maintain"
+            placeholderTextColor={"grey"}
             onChangeText={formProps.handleChange("goal")}
             value={formProps.values.goal}
           />
-          <View style={styles.bttnContainer}>
-            <TouchableOpacity
-              style={styles.submitBttn}
-              onPress={formProps.handleSubmit}
-            >
-              <Text>Sign Up</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.closeBttn} onPress={props.onClose}>
-              <Text>Close</Text>
-            </TouchableOpacity>
-          </View>
+
+          <TouchableOpacity
+            style={styles.submitBttn}
+            onPress={formProps.handleSubmit}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
+              Continue
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>
@@ -255,29 +271,32 @@ function SignupForm(props) {
 
 const styles = StyleSheet.create({
   editSignupFormContainer: {
-    flex: 1,
+    //flex: 1,
     alignItems: "center",
     //borderWidth: 2,
     //borderColor: "red",
-    width: "95%",
-    paddingTop: 30,
+    width: "100%",
+    paddingTop: 15,
+    alignSelf: "center",
   },
   text: {
     color: "white",
-    fontSize: 15,
+    fontSize: 18,
+    fontWeight: "bold",
   },
   submitBttn: {
-    backgroundColor: "#fb5b5a",
-    width: "40%",
+    backgroundColor: "crimson",
+    width: "80%",
     alignItems: "center",
     borderRadius: 25,
     padding: 10,
   },
   heightContainer: {
+    //padding: 10,
     flexDirection: "row",
     //borderWidth: 2,
     //borderColor: "red",
-    width: "79%",
+    width: "85%",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 30,
@@ -290,36 +309,42 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   inchInput: {
-    borderWidth: 2,
+    borderWidth: 3,
+    borderColor: "crimson",
     padding: 10,
     width: "35%",
-    fontSize: 15,
+    fontSize: 20,
     color: "white",
+    fontWeight: "bold",
   },
   feetInput: {
-    borderWidth: 2,
+    borderWidth: 3,
     padding: 10,
     width: "35%",
-    fontSize: 15,
+    fontSize: 20,
     color: "white",
+    borderColor: "crimson",
+    fontWeight: "bold",
   },
   input: {
-    borderWidth: 2,
+    borderWidth: 3,
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
-    width: "79%",
-    fontSize: 15,
+    padding: 15,
+    width: "85%",
+    fontSize: 17,
     color: "white",
     marginBottom: 30,
+    borderColor: "crimson",
+    fontWeight: "bold",
   },
-  closeBttn: {
-    backgroundColor: "#fb5b5a",
-    width: "40%",
-    alignItems: "center",
-    borderRadius: 25,
-    padding: 10,
-    justifyContent: "center",
+  inputTitle: {
+    alignSelf: "flex-start",
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 30,
+    marginBottom: 10,
   },
 });
 
