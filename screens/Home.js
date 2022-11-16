@@ -1,4 +1,5 @@
 import { View, Text, Button, SafeAreaView, StyleSheet } from "react-native";
+import BudgetBar from "../components/BudgetBar";
 
 function Home({ navigation, route }) {
   console.log("home params", route.params);
@@ -93,5 +94,25 @@ const styles = StyleSheet.create({
   macroContainer: {
     flexDirection: "row",
   },
+  ratingText:{
+    //backgroundColor: 'orange',
+    fontSize: 18, 
+    padding:15,
+    color: '#fb5b5a',
+    marginTop: 20,
+   
+    //textAlign:'right', 
+    //flex:1
+  },
+  pointsText:{
+    backgroundColor: '#fb5b5a',
+    fontSize: 25, 
+    padding:10,
+    color: '#003f5c',
+    marginBottom: 20,
+    //flex:1
+
+  },
+ 
 });
 export default Home;
