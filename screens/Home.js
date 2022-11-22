@@ -5,23 +5,26 @@ function Home({ navigation, route }) {
   console.log("home params", route.params);
   return (
     <SafeAreaView style={styles.homeContainer}>
+     
       <Text
         style={{
-          fontSize: 20,
+          fontSize: 30,
           color: "white",
           fontWeight: "bold",
-          marginTop: 20,
+          marginTop: 30,
           marginBottom: 20,
         }}
       >
         Welcome {route.params.name},
       </Text>
+      <BudgetBar/>
       <Text
         style={{
-          fontSize: 20,
+          fontSize: 25,
           color: "white",
           fontWeight: "bold",
           marginBottom: 20,
+          marginTop:30
         }}
       >
         Your Budget is:
