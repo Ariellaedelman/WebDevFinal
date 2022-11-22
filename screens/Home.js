@@ -5,23 +5,26 @@ function Home({ navigation, route }) {
   console.log("home params", route.params);
   return (
     <SafeAreaView style={styles.homeContainer}>
+     
       <Text
         style={{
-          fontSize: 20,
+          fontSize: 30,
           color: "white",
           fontWeight: "bold",
-          marginTop: 20,
+          marginTop: 30,
           marginBottom: 20,
         }}
       >
         Welcome {route.params.name},
       </Text>
+      <BudgetBar/>
       <Text
         style={{
-          fontSize: 20,
+          fontSize: 25,
           color: "white",
           fontWeight: "bold",
           marginBottom: 20,
+          marginTop:30
         }}
       >
         Your Budget is:
@@ -94,25 +97,23 @@ const styles = StyleSheet.create({
   macroContainer: {
     flexDirection: "row",
   },
-  ratingText:{
+  ratingText: {
     //backgroundColor: 'orange',
-    fontSize: 18, 
-    padding:15,
-    color: '#fb5b5a',
+    fontSize: 18,
+    padding: 15,
+    color: "#fb5b5a",
     marginTop: 20,
-   
-    //textAlign:'right', 
+
+    //textAlign:'right',
     //flex:1
   },
-  pointsText:{
-    backgroundColor: '#fb5b5a',
-    fontSize: 25, 
-    padding:10,
-    color: '#003f5c',
+  pointsText: {
+    backgroundColor: "#fb5b5a",
+    fontSize: 25,
+    padding: 10,
+    color: "#003f5c",
     marginBottom: 20,
     //flex:1
-
   },
- 
 });
 export default Home;
