@@ -24,10 +24,10 @@ function Signup({ navigation }) {
   function converActivityLevel(activitylevel) {
     if (activitylevel.toLowerCase() === "low") {
       return "2";
-    } else if (activitylevel.toLowerCase() === "medium") {
-      return "4";
     } else if (activitylevel.toLowerCase() === "high") {
       return "6";
+    } else {
+      return "4";
     }
   }
 
@@ -85,27 +85,25 @@ function Signup({ navigation }) {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.signUpContainer}>
-        <View
-          style={{
-            alignSelf: "flex-start",
-            marginLeft: 10,
-          }}
-        >
-          <FontAwesome.Button
-            name="close"
-            size={20}
-            onPress={onClose}
-            backgroundColor={"#003f5c"}
-            color={"white"}
-          />
-        </View>
-        <KeyboardAwareScrollView>
-          <SignupForm onSignup={onSignup} onClose={onClose} />
-        </KeyboardAwareScrollView>
-      </SafeAreaView>
-    </TouchableWithoutFeedback>
+    <SafeAreaView style={styles.signUpContainer}>
+      <View
+        style={{
+          alignSelf: "flex-start",
+          marginLeft: 10,
+        }}
+      >
+        <FontAwesome.Button
+          name="close"
+          size={20}
+          onPress={onClose}
+          backgroundColor={"#003f5c"}
+          color={"white"}
+        />
+      </View>
+      <KeyboardAwareScrollView>
+        <SignupForm onSignup={onSignup} onClose={onClose} />
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 }
 

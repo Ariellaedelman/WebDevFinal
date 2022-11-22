@@ -14,7 +14,7 @@ import ExerciseModal from "../modals/ExerciseModal";
 //import RootStack from "./navigators/RootStack";
 
 export default function Shop() {
-  const [totalStars, setTotalStars] = useState(1500);
+  const [totalStars, setTotalStars] = useState(500);
   const [shopData, setShopData] = useState([
     {
       name: "Cardio",
@@ -212,6 +212,7 @@ export default function Shop() {
   const [unlockModalVisible, setUnlockModalVisible] = useState(false);
   const [exerciseModalVisible, setExerciseModalVisible] = useState(false);
   const [chosenExercise, setChosenExercise] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   function handlePress(exercise) {
     if (exercise.locked && totalStars >= exercise.points) {
@@ -220,7 +221,8 @@ export default function Shop() {
     } else if (!exercise.locked) {
       setExerciseModalVisible(true);
     } else {
-      console.log("not enough points or already unlocked");
+      setErrorMessage(true);
+      setTimeout(() => setErrorMessage(false), 1000);
     }
   }
   function unlockExercise() {
@@ -237,6 +239,11 @@ export default function Shop() {
   }
   return (
     <SafeAreaView style={styles.container}>
+      {errorMessage && (
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
+          NOT ENOUGH POINTS!
+        </Text>
+      )}
       <View style={styles.pointsContainer}>
         <Entypo name="star" size={24} color="white" />
         <Text style={styles.pointsText}> : {totalStars} </Text>
@@ -279,6 +286,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignSelf: "flex-end",
     marginRight: 40,
+    //borderWidth: 2,
+    //borderColor: "red",
+    padding: 10,
   },
   pointsText: {
     color: "white",

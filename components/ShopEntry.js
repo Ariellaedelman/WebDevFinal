@@ -7,6 +7,7 @@ import {
   Pressable,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 function ShopEntry(props) {
   function handlePress() {
@@ -15,7 +16,10 @@ function ShopEntry(props) {
   return (
     <Pressable onPress={handlePress} style={styles.container}>
       <Text style={styles.exerciseText}>{props.exercise.name}</Text>
-      <Text style={styles.exerciseText}>{props.exercise.points}</Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Entypo name="star" size={24} color="white" />
+        <Text style={styles.exerciseText}>{props.exercise.points}</Text>
+      </View>
       {props.exercise.locked ? (
         <FontAwesome5 name="lock" size={20} color="black" />
       ) : (
@@ -33,7 +37,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "crimson",
     width: "90%",
-    marginBottom: 20,
+    marginBottom: 25,
     borderRadius: 20,
     //padding: 20,
     //borderWidth: 2,
