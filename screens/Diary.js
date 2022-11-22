@@ -11,9 +11,12 @@ import { useEffect, useState } from "react";
 import Nutritionix from "../apis/Nutritionix";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 import DiaryEntry from "../components/DiaryEntry";
+import Rating from "../modals/Rating";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 
 function Diary() {
   const [nutritionixVisible, setNutritionixVisible] = useState(false);
+  const [ratingVisible, setRatingVisible] = useState(false);
   const [totalCalories, setTotalCalories] = useState(0);
   const [totalProtein, setTotalProtein] = useState(0);
   const [totalFat, setTotalFat] = useState(0);
@@ -48,6 +51,12 @@ function Diary() {
   }
   function closeNutritionix() {
     setNutritionixVisible(false);
+  }
+  function openRating() {
+    setRatingVisible(true);
+  }
+  function closeRating() {
+    setRatingVisible(false);
   }
   function addFoodItem(foodItem) {
     setFoodList((currentFoods) => {
@@ -91,14 +100,30 @@ function Diary() {
         renderItem={renderItem}
         keyExtractor={(item) => item.item_id}
       />
-      <Text style={styles.diaryText}> Total Calories: {totalCalories}</Text>
-      <Text style={styles.diaryText}> Total Protein: {totalProtein}g</Text>
-      <Text style={styles.diaryText}> Total Fat: {totalFat}g</Text>
-      <Text style={styles.diaryText}> Total Carbs: {totalCarbs}g</Text>
+      <View style={{ flexDirection: "row" }}>
+        <Text style={styles.diaryText}>Total Calories: {totalCalories} |</Text>
+        <Text style={styles.diaryText}> Total Protein: {totalProtein}g</Text>
+      </View>
+      <View style={{ flexDirection: "row" }}>
+        <Text style={styles.diaryText}> Total Fat: {totalFat}g |</Text>
+        <Text style={styles.diaryText}> Total Carbs: {totalCarbs}g</Text>
+      </View>
+      <Pressable onPress={openRating} style={styles.ratingBttn}>
+        <Text style={styles.diaryText}>Get Rating</Text>
+      </Pressable>
       <Modal visible={nutritionixVisible} animationType={"slide"}>
         <Nutritionix
           closeNutritionix={closeNutritionix}
           addFoodItem={addFoodItem}
+        />
+      </Modal>
+      <Modal visible={ratingVisible} animationType={"slide"}>
+        <Rating
+          closeRating={closeRating}
+          totalCalories={totalCalories}
+          totalProtein={totalProtein}
+          totalFat={totalFat}
+          totalCarbs={totalCarbs}
         />
       </Modal>
     </SafeAreaView>
@@ -140,6 +165,14 @@ const styles = StyleSheet.create({
   foodText: {
     fontSize: 20,
     color: "white",
+  },
+  ratingBttn: {
+    backgroundColor: "crimson",
+    width: "80%",
+    alignItems: "center",
+    borderRadius: 25,
+    padding: 10,
+    marginBottom: 20,
   },
 });
 export default Diary;
