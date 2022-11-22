@@ -7,10 +7,10 @@ import {
   Modal,
 } from "react-native";
 import { useEffect, useState } from "react";
-import ShopEntry from "./components/ShopEntry";
-import UnlockModal from "./modals/UnlockModal";
+import ShopEntry from "../components/ShopEntry";
+import UnlockModal from "../modals/UnlockModal";
 import { Entypo } from "@expo/vector-icons";
-import ExerciseModal from "./modals/ExerciseModal";
+import ExerciseModal from "../modals/ExerciseModal";
 //import RootStack from "./navigators/RootStack";
 
 export default function Shop() {
