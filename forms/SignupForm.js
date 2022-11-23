@@ -209,7 +209,7 @@ function SignupForm(props) {
               value={formProps.values.height_ft}
               keyboardType="numeric"
             />
-            <Text style={styles.text}>feet</Text>
+            <Text style={styles.text}> feet </Text>
             <TextInput
               style={styles.inchInput}
               placeholder=""
@@ -218,7 +218,7 @@ function SignupForm(props) {
               value={formProps.values.height_inch}
               keyboardType="numeric"
             />
-            <Text style={styles.text}>inches</Text>
+            <Text style={styles.text}> inches </Text>
           </View>
           <Text style={styles.inputTitle}>Weight (lbs)</Text>
           <TextInput
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   inchInput: {
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: "crimson",
     padding: 10,
     width: "35%",
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   feetInput: {
-    borderWidth: 3,
+    borderWidth: 2,
     padding: 10,
     width: "35%",
     fontSize: 20,
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   input: {
-    borderWidth: 3,
+    borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
     padding: 15,

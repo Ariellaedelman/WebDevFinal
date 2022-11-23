@@ -9,20 +9,15 @@ import {
   Pressable,
 } from "react-native";
 import UploadImage from "../components/UploadImage";
-import EditProfile from "../modals/EditProfile";
 import History from "../modals/History";
 import { useState } from "react";
 //import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
-function Profile({ navigation }) {
-  const [editProfileVisible, setEditProfileVisible] = useState(false);
+function HomeProfile({ navigation }) {
   const [historyVisible, setHistoryVisible] = useState(false);
   const [testObject, setTestObject] = useState({});
   function openProfile() {
-    setEditProfileVisible(true);
-  }
-  function closeProfile() {
-    setEditProfileVisible(false);
+    navigation.navigate("EditProfile");
   }
   function openHistory() {
     setHistoryVisible(true);
@@ -53,9 +48,7 @@ function Profile({ navigation }) {
           Logout
         </Text>
       </Pressable>
-      <Modal visible={editProfileVisible} animationType={"slide"}>
-        <EditProfile close={closeProfile} updateObject={updateTestObject} />
-      </Modal>
+
       <Modal visible={historyVisible} animationType={"slide"}>
         <History close={closeHistory} />
       </Modal>
@@ -104,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default HomeProfile;

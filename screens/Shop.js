@@ -14,11 +14,11 @@ import ExerciseModal from "../modals/ExerciseModal";
 //import RootStack from "./navigators/RootStack";
 
 export default function Shop() {
-  const [totalStars, setTotalStars] = useState(500);
+  const [totalStars, setTotalStars] = useState(50);
   const [shopData, setShopData] = useState([
     {
       name: "Cardio",
-      points: 500,
+      points: 50,
       locked: true,
       data: [
         {
@@ -50,7 +50,7 @@ export default function Shop() {
     },
     {
       name: "Back",
-      points: 500,
+      points: 50,
       locked: true,
       data: [
         {
@@ -82,7 +82,7 @@ export default function Shop() {
     },
     {
       name: "Chest",
-      points: 500,
+      points: 50,
       locked: true,
       data: [
         {
@@ -114,7 +114,7 @@ export default function Shop() {
     },
     {
       name: "Shoulders",
-      points: 500,
+      points: 50,
       locked: true,
       data: [
         {
@@ -146,7 +146,7 @@ export default function Shop() {
     },
     {
       name: "Legs",
-      points: 500,
+      points: 50,
       locked: true,
       data: [
         {
@@ -178,7 +178,7 @@ export default function Shop() {
     },
     {
       name: "Arms",
-      points: 500,
+      points: 50,
       locked: true,
       data: [
         {
