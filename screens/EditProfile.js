@@ -3,16 +3,16 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
-  ScrollView,
+  Text,
   View,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+//import { View } from "react-native-web";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import SignupForm from "../forms/SignupForm";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import EditProfileForm from "../forms/EditProfileForm";
 import axios from "axios";
 
-function Signup({ navigation }) {
+function EditProfile({ navigation }) {
   function poundsToKG(pounds) {
     let kg = Math.round(pounds / 2.205);
     return kg.toString();
@@ -40,7 +40,7 @@ function Signup({ navigation }) {
       return "maintain";
     }
   }
-  function onSignup(personObject) {
+  function onSubmit(personObject) {
     const apiObject = {
       age: personObject.age.toString(),
       gender: personObject.gender.toLowerCase(),
@@ -63,59 +63,56 @@ function Signup({ navigation }) {
       .request(options)
       .then(function (response) {
         console.log("response data", response.data);
-        navigation.navigate("Macros", { ...response.data, ...personObject });
-        //apiObject = response.data;
-        // let tempArr = [];
-        // tempArr.push(
-        //   response.data.balanced,
-        //   response.data.lowfat,
-        //   response.data.lowcarbs,
-        //   response.data.highprotein
-        // );
-        // setMacroPlans(tempArr);
+        navigation.navigate("EditMacros", {
+          ...response.data,
+          ...personObject,
+        });
       })
       .catch(function (error) {
         console.error(error);
       });
-    //console.log("personobject", personObject);
-    //navigation.navigate("Macros", apiObject);
   }
-  function onClose() {
-    navigation.navigate("Login");
+  function goToHomeProfile() {
+    navigation.navigate("HomeProfile");
   }
-
   return (
-    <SafeAreaView style={styles.signUpContainer}>
-      <View
-        style={{
-          alignSelf: "flex-start",
-          marginLeft: 10,
-        }}
-      >
-        <FontAwesome.Button
-          name="close"
-          size={20}
-          onPress={onClose}
+    <SafeAreaView style={styles.editProfileContainer}>
+      <View style={{ alignSelf: "flex-start", marginLeft: 10 }}>
+        <Ionicons.Button
+          name="arrow-back"
+          size={24}
           backgroundColor={"#003f5c"}
-          color={"white"}
+          //color="black"
+          onPress={goToHomeProfile}
         />
       </View>
-      <KeyboardAwareScrollView>
-        <SignupForm onSignup={onSignup} onClose={onClose} />
-      </KeyboardAwareScrollView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView style={styles.editProfileContainer}>
+          <KeyboardAwareScrollView style={styles.container}>
+            <EditProfileForm
+              goToHomeProfile={goToHomeProfile}
+              onSubmit={onSubmit}
+            />
+          </KeyboardAwareScrollView>
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  signUpContainer: {
+  editProfileContainer: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+
     backgroundColor: "#003f5c",
+    //borderWidth: 2,
+    //borderColor: "red",
+  },
+  container: {
     //borderWidth: 2,
     //borderColor: "red",
   },
 });
 
-export default Signup;
+export default EditProfile;

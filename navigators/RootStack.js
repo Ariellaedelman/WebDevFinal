@@ -6,8 +6,8 @@ import Home from "../screens/Home";
 import Login from "../screens/Login";
 import BottomTab from "./BottomTab";
 import Signup from "../screens/Signup";
-import { AuthContext, AuthProvider } from "../context/auth";
-import RootStackScreen from "./RootStackScreen";
+import Macros from "../screens/Macros";
+import { AuthProvider } from "../context/auth";
 
 // const Stack = createNativeStackNavigator();
 
@@ -27,7 +27,12 @@ function RootStack() {
   return (
     <NavigationContainer>
       <AuthProvider>
-        <RootStackScreen />  
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Signup" component={Signup} />
+          <Stack.Screen name="Macros" component={Macros} />
+          <Stack.Screen name="BottomTab" component={BottomTab} />
+        </Stack.Navigator>
       </AuthProvider>
     </NavigationContainer>
   );

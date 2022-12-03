@@ -12,14 +12,25 @@ import {
 
 const MyComponent = () => (
 
-  <View>
-     <ProgressBar style={{ marginTop:200}} progress={.5} color="#00BCD4" />
-      <Text>Current Calories: 670</Text>
+  <View style={styles.container}>
+    
+     <Text style={styles.CalText}>
+      Calories Consumed: 1,000
+      </Text>
+    
+     <ProgressBar style={{ marginTop:5}} progress={.5} color="crimson" width={400}/>
+     
+    
   </View>
- 
-
 
 );
-
+const styles = StyleSheet.create({
+  CalText:{
+    marginTop: 20,
+    padding: 10,
+    color: "white",
+    fontWeight: "bold"
+  }
+});
 
 export default MyComponent;

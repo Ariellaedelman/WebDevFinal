@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { FontAwesome } from "@expo/vector-icons";
 
 import client from "../api/client";
 import axios from "axios";
@@ -28,44 +29,42 @@ const LoginSchema = yup.object({
 
 function LoginForm(loginProps) {
   const userInfo = {
-    email: '',
-    password: '',
-  }
+    email: "",
+    password: "",
+  };
 
-  const { email, password } = userInfo
+  const { email, password } = userInfo;
 
   const [state, setState] = useContext(AuthContext);
+  const [hidePassword, setHidePassword] = useState(true);
 
   const signIn = async (values, actions) => {
     const config = {
       headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Request-Headers": "*",
-          "Access-Control-Allow-Origin": "*"
-      }
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
     };
 
     try {
-        const res = await client.post('/api/signin', {...values}, config);
-        console.log(res.data); 
-        
-        if (res.data.error) {
-          alert(res.data.error)
-        }
-        else {
-          setState(res.data)
-          await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
-          alert("Sign In Successful")
-          console.log('This is the state rn: ', state)
-        } 
+      const res = await client.post("/api/signin", { ...values }, config);
+      console.log(res.data);
 
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        setState(res.data);
+        await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data));
+        alert("Sign In Successful");
+      }
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
 
     loginProps.onLogin(values);
     actions.resetForm();
-  }
+  };
 
   return (
     <Formik
@@ -76,8 +75,9 @@ function LoginForm(loginProps) {
       {(props) => (
         <View style={styles.inputContainer}>
           <View style={styles.userInput}>
+            <FontAwesome name="envelope" size={24} color="white" />
             <TextInput
-              style={styles.text}
+              style={styles.inputText}
               placeholder="Enter Email"
               placeholderTextColor={"white"}
               onChangeText={props.handleChange("email")}
@@ -89,15 +89,34 @@ function LoginForm(loginProps) {
             {props.touched.email && props.errors.email}
           </Text>
           <View style={styles.passInput}>
+            <FontAwesome name="key" size={24} color="white" />
             <TextInput
-              style={styles.text}
-              placeholder="Password"
+              style={styles.inputText}
+              placeholder="Enter Password"
               placeholderTextColor={"white"}
-              secureTextEntry={true}
+              secureTextEntry={hidePassword}
               onChangeText={props.handleChange("password")}
               value={props.values.password}
               onBlur={props.handleBlur("password")}
             />
+            {props.values.password.length > 0 && hidePassword && (
+              <FontAwesome.Button
+                name="eye"
+                size={24}
+                color="white"
+                backgroundColor={"#465881"}
+                onPress={() => setHidePassword(!hidePassword)}
+              />
+            )}
+            {props.values.password.length > 0 && !hidePassword && (
+              <FontAwesome.Button
+                name="eye-slash"
+                size={24}
+                color="white"
+                backgroundColor={"#465881"}
+                onPress={() => setHidePassword(!hidePassword)}
+              />
+            )}
           </View>
           <Text style={styles.text}>
             {props.touched.password && props.errors.password}
@@ -147,6 +166,7 @@ const styles = StyleSheet.create({
     padding: 20,
     width: "90%",
     color: "white",
+    flexDirection: "row",
   },
 
   passInput: {
@@ -157,10 +177,13 @@ const styles = StyleSheet.create({
     padding: 20,
     width: "90%",
     color: "white",
+    flexDirection: "row",
+    //justifyContent: "center",
+    alignItems: "center",
   },
 
   loginbttn: {
-    backgroundColor: "#fb5b5a",
+    backgroundColor: "crimson",
     width: "80%",
     alignItems: "center",
     borderRadius: 25,
@@ -172,6 +195,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
     fontWeight: "bold",
+  },
+  inputText: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
+    marginLeft: 10,
+    width: "77%",
   },
 });
 export default LoginForm;

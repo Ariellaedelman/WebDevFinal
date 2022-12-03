@@ -34,127 +34,27 @@ const LoginSchema = yup.object({
 });
 
 function EditProfileForm(props) {
-
-  const updatedInfo = {
-    email: "",
-    age: 0,
-    height_ft: 0,
-    height_inch: 0,
-    weight: 0,
-    gender: '',
-    activitylevel: '',
-    goal: '',
-    calories: 0,
-  }
-
-  const [state, setState] = useContext(AuthContext)
-
-  const { email, age, height_ft, height_inch, weight, gender, activitylevel, goal, calories } = updatedInfo
-
-  const updateUserInfo = async (values, actions) => {
-        values.email = state.user.email;
+  return (
+    <Formik
+      initialValues={{
+        age: 0,
+        height_ft: 0,
+        height_inch: 0,
+        weight: 0,
+        gender: "",
+        activitylevel: "",
+        goal: "",
+      }}
+      onSubmit={(values, actions) => {
         values.age = parseInt(values.age, 10);
         values.height_ft = parseInt(values.height_ft, 10);
         values.height_inch = parseInt(values.height_inch, 10);
         values.weight = parseInt(values.weight, 10);
-        // console.log(values);
-        values.calories = calorieBudget(
-          values.age,
-          values.height_ft,
-          values.height_inch,
-          values.weight,
-          values.gender,
-          values.activitylevel,
-          values.goal
-        );
 
-        console.log(values);
-        
-        const config = {
-          headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Request-Headers": "*",
-              "Access-Control-Allow-Origin": "*"
-          }
-        };
-    
-        try {
-            const res = await client.post('/api/update', {...values}, config);
-            console.log(res.data);
-            
-            if (res.data.error) {
-              alert(res.data.error)
-            }
-            else {
-              //setState(res.data);
-              //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
-              alert("Update Successful")
-            } 
-  
-        } catch (error) {
-            console.log(error.message);
-        }
-
-        props.onSubmit();
+        console.log("values passed to on submit function", values);
+        props.onSubmit(values);
         actions.resetForm();
-
-        // alert("Updated Calorie Budget" + " " + values.calories);
-        alert("Updated Calorie Budget" + " " + values.calories);
-
-
-  }
-  function poundsToKG(pounds) {
-    let kg = pounds / 2.205;
-    return kg;
-  }
-  function feetToCM(feet) {
-    let cm = feet * 30.48;
-    return cm;
-  }
-  function inchToCM(inch) {
-    let cm = inch * 2.54;
-    return cm;
-  }
-  function calorieBudget(
-    age,
-    height_ft,
-    height_inch,
-    weight,
-    gender,
-    activitylevel,
-    goal
-  ) {
-    weight = poundsToKG(weight);
-    height_ft = feetToCM(height_ft);
-    height_inch = inchToCM(height_inch);
-    let total_height_cm = height_ft + height_inch;
-    let BMR = 0;
-    if (gender.toLowerCase() === "male") {
-      BMR = 10 * weight + 6.25 * total_height_cm - 5 * age + 5;
-    } else {
-      BMR = 10 * weight + 6.25 * total_height_cm - 5 * age - 161;
-    }
-
-    if (activitylevel.toLowerCase() === "high") {
-      BMR = BMR * 1.75;
-    } else if (activitylevel.toLowerCase() == "medium") {
-      BMR = BMR * 1.5;
-    } else {
-      BMR = BMR * 1.25;
-    }
-
-    if (goal.toLowerCase() === "lose") {
-      BMR = BMR - 500;
-    } else if (goal.toLowerCase() === "gain") {
-      BMR = BMR + 500;
-    }
-
-    return Math.round(BMR);
-  }
-  return (
-    <Formik
-      initialValues={updatedInfo}
-      onSubmit={updateUserInfo}
+      }}
     >
       {(formProps) => (
         <View style={styles.editProfileFormContainer}>
@@ -215,17 +115,13 @@ function EditProfileForm(props) {
             onChangeText={formProps.handleChange("goal")}
             value={formProps.values.goal}
           />
-          <View style={styles.bttnContainer}>
-            <TouchableOpacity
-              style={styles.submitBttn}
-              onPress={formProps.handleSubmit}
-            >
-              <Text>Submit</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.closeBttn} onPress={props.onSubmit}>
-              <Text>Close</Text>
-            </TouchableOpacity>
-          </View>
+
+          <TouchableOpacity
+            style={styles.submitBttn}
+            onPress={formProps.handleSubmit}
+          >
+            <Text>Submit</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>
