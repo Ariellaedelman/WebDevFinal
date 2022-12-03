@@ -8,6 +8,13 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
+import client from "../api/client";
+import React, { useContext, useEffect, useState } from "react";
+//import AsyncStorage from "@react-native-async-storage/async-storage";
+//import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../context/auth';
+
+
 
 const LoginSchema = yup.object({
   age: yup.number().required().integer().min(1),
@@ -27,6 +34,75 @@ const LoginSchema = yup.object({
 });
 
 function EditProfileForm(props) {
+
+  const updatedInfo = {
+    email: "",
+    age: 0,
+    height_ft: 0,
+    height_inch: 0,
+    weight: 0,
+    gender: '',
+    activitylevel: '',
+    goal: '',
+    calories: 0,
+  }
+
+  const [state, setState] = useContext(AuthContext)
+
+  const { email, age, height_ft, height_inch, weight, gender, activitylevel, goal, calories } = updatedInfo
+
+  const updateUserInfo = async (values, actions) => {
+        values.email = state.user.email;
+        values.age = parseInt(values.age, 10);
+        values.height_ft = parseInt(values.height_ft, 10);
+        values.height_inch = parseInt(values.height_inch, 10);
+        values.weight = parseInt(values.weight, 10);
+        // console.log(values);
+        values.calories = calorieBudget(
+          values.age,
+          values.height_ft,
+          values.height_inch,
+          values.weight,
+          values.gender,
+          values.activitylevel,
+          values.goal
+        );
+
+        console.log(values);
+        
+        const config = {
+          headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Request-Headers": "*",
+              "Access-Control-Allow-Origin": "*"
+          }
+        };
+    
+        try {
+            const res = await client.post('/api/update', {...values}, config);
+            console.log(res.data);
+            
+            if (res.data.error) {
+              alert(res.data.error)
+            }
+            else {
+              //setState(res.data);
+              //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+              alert("Update Successful")
+            } 
+  
+        } catch (error) {
+            console.log(error.message);
+        }
+
+        props.onSubmit();
+        actions.resetForm();
+
+        // alert("Updated Calorie Budget" + " " + values.calories);
+        alert("Updated Calorie Budget" + " " + values.calories);
+
+
+  }
   function poundsToKG(pounds) {
     let kg = pounds / 2.205;
     return kg;
@@ -77,37 +153,8 @@ function EditProfileForm(props) {
   }
   return (
     <Formik
-      initialValues={{
-        age: 0,
-        height_ft: 0,
-        height_inch: 0,
-        calories: 0,
-        weight: 0,
-        gender: "",
-        activitylevel: "",
-        goal: "",
-      }}
-      onSubmit={(values, actions) => {
-        values.age = parseInt(values.age, 10);
-        values.height_ft = parseInt(values.height_ft, 10);
-        values.height_inch = parseInt(values.height_inch, 10);
-        values.weight = parseInt(values.weight, 10);
-        console.log(values);
-        values.calories = calorieBudget(
-          values.age,
-          values.height_ft,
-          values.height_inch,
-          values.weight,
-          values.gender,
-          values.activitylevel,
-          values.goal
-        );
-        console.log(values);
-        actions.resetForm();
-        props.onSubmit();
-        // alert("Updated Calorie Budget" + " " + values.calories);
-        alert("Updated Calorie Budget" + " " + values.calories);
-      }}
+      initialValues={updatedInfo}
+      onSubmit={updateUserInfo}
     >
       {(formProps) => (
         <View style={styles.editProfileFormContainer}>

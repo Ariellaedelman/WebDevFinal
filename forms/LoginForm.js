@@ -56,6 +56,7 @@ function LoginForm(loginProps) {
           setState(res.data)
           await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
           alert("Sign In Successful")
+          console.log('This is the state rn: ', state)
         } 
 
     } catch (error) {
