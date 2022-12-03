@@ -8,6 +8,13 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
+import client from "../api/client";
+import React, { useContext, useEffect, useState } from "react";
+//import AsyncStorage from "@react-native-async-storage/async-storage";
+//import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../context/auth';
+
+
 
 const LoginSchema = yup.object({
   age: yup.number().required().integer().min(1),
