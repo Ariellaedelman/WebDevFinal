@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
     console.log("Signup Hit");
     try {
         // validation
-        const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal, calories } = req.body;
+        const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal, macro_plan, carbs, fat, protein, calories } = req.body;
         if (!name) {
             return res.json({
             error: "Name is required",
@@ -62,6 +62,10 @@ export const signup = async (req, res) => {
             gender, 
             activitylevel, 
             goal,
+            macro_plan,
+            carbs,
+            fat,
+            protein,
             calories,
             }).save();
 

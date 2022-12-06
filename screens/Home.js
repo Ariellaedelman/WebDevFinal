@@ -15,7 +15,7 @@ function Home({ navigation, route }) {
           marginBottom: 20,
         }}
       >
-        Welcome {route.params.name},
+        Welcome, {route.params.name}!
       </Text>
       <BudgetBar/>
       <Text

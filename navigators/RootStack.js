@@ -9,7 +9,7 @@ import Signup from "../screens/Signup";
 import Macros from "../screens/Macros";
 import { AuthProvider } from "../context/auth";
 
-// const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 function RootStack() {
 
