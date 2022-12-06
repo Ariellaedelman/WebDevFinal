@@ -12,11 +12,17 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import Foods from "../components/Foods";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import React, { useContext, useEffect, useState } from "react";
+import client from "../../api/client";
+//import AsyncStorage from "@react-native-async-storage/async-storage";
+//import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../context/auth';
 
 export default function Nutritionix(props) {
+  const [state, setState] = useContext(AuthContext);
   const [searchString, setSearchString] = useState(null);
   const [foodData, setFoodData] = useState(null);
   const [chosenFood, setChosenFood] = useState(null);
@@ -129,6 +135,7 @@ export default function Nutritionix(props) {
       ),
     };
 
+    
     props.addFoodItem(newObj);
     props.closeNutritionix();
   }

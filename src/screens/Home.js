@@ -15,7 +15,7 @@ function Home({ navigation, route }) {
           marginBottom: 20,
         }}
       >
-        Welcome, {route.params.name}!
+        Welcome, {route.params.userName}!
       </Text>
       <BudgetBar/>
       <Text
@@ -38,7 +38,7 @@ function Home({ navigation, route }) {
             marginBottom: 20,
           }}
         >
-          Calories: {Math.round(route.params.calories)}
+          Calories: {Math.round(route.params.userCalories)}
         </Text>
         <View style={styles.macroContainer}>
           <Text style={styles.homeText}>

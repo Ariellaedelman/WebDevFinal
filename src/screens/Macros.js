@@ -11,13 +11,14 @@ import {
   Keyboard,
   SafeAreaView,
 } from "react-native";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ListPicks from "../components/ListPicks";
-import client from "../api/client";
+
+import client from "../../api/client";
 //import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { AuthContext } from "../context/auth";
+import { AuthContext } from "../../context/auth";
 
 function Macros({ navigation, route }) {
   const [macroPlans, setMacroPlans] = useState([]);
@@ -50,33 +51,12 @@ function Macros({ navigation, route }) {
   //put it here?
 
   /*
-  const [state, setState] = useContext(AuthContext);
-
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Request-Headers": "*",
-      "Access-Control-Allow-Origin": "*",
-    },
-  };
-
-  try {
-    const res = await client.post("/api/signup", { ...values }, config);
-    console.log(res.data);
-
-    if (res.data.error) {
-      alert(res.data.error);
-    } else {
-      setState(res.data);
-      await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data));
-      alert("Sign Up Successful");
-    }
-  } catch (error) {
-    console.log(error.message);
-  }
+  
   */
 
-  function finishSignup() {
+  const [state, setState] = useContext(AuthContext);
+
+  const finishSignup = async (values, actions) => {
     const userInfo = {
       name: route.params.name,
       email: route.params.email,
@@ -88,11 +68,11 @@ function Macros({ navigation, route }) {
       gender: route.params.gender,
       activitylevel: route.params.activitylevel,
       goal: route.params.goal,
-      macro_plan: route.params.data.plan,
-      carbs: route.params.data.plan.carbs,
-      fat: route.params.data.fat,
-      protein: route.params.data.protein,
-      calories: route.params.data.calorie,
+      macro_plan: chosenPlan.name,
+      carbs: Math.round(chosenPlan.carbs),
+      fat: Math.round(chosenPlan.fat),
+      protein: Math.round(chosenPlan.protein),
+      calories: Math.round(route.params.data.calorie),
       // calories: 0,
     };
   
@@ -116,6 +96,31 @@ function Macros({ navigation, route }) {
     } = userInfo;
 
     console.log("this is the user now w/ all info: ", userInfo)
+    // console.log("these are the values rn: ", ...values)
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+
+    try {
+      const res = await client.post("/api/signup", userInfo, config);
+      console.log(res.data);
+  
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        setState(res.data);
+        await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data));
+        alert("Sign Up Successful");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+
 
     let userCalories = route.params.data.calorie;
     let userName = route.params.name;

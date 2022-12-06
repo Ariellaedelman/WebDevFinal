@@ -32,27 +32,70 @@ const LoginSchema = yup.object({
 });
 
 function EditProfileForm(props) {
-  return (
-    <Formik
-      initialValues={{
-        age: 0,
-        height_ft: 0,
-        height_inch: 0,
-        weight: 0,
-        gender: "",
-        activitylevel: "",
-        goal: "",
-      }}
-      onSubmit={(values, actions) => {
+  const updatedInfo = {
+    email: "",
+    age: 0,
+    height_ft: 0,
+    height_inch: 0,
+    weight: 0,
+    gender: '',
+    activitylevel: '',
+    goal: '',
+  } 
+
+  const [state, setState] = useContext(AuthContext)
+
+  const { email, age, height_ft, height_inch, weight, gender, activitylevel, goal } = updatedInfo
+
+  const updateUserInfo = async (values, actions) => {
+        values.email = state.user.email;
         values.age = parseInt(values.age, 10);
         values.height_ft = parseInt(values.height_ft, 10);
         values.height_inch = parseInt(values.height_inch, 10);
         values.weight = parseInt(values.weight, 10);
+        // console.log(values);
 
-        console.log("values passed to on submit function", values);
-        props.onSubmit(values);
+	console.log("values passed to edit profile ", values);
+        
+  /*
+        const config = {
+          headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Request-Headers": "*",
+              "Access-Control-Allow-Origin": "*"
+          }
+        };
+    
+        try {
+            const res = await client.post('/api/update', {...values}, config);
+            console.log(res.data);
+            
+            if (res.data.error) {
+              alert(res.data.error)
+            }
+            else {
+              //setState(res.data);
+              //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+              alert("Update Successful")
+            } 
+  
+        } catch (error) {
+            console.log(error.message);
+        }
+
+  */
+
+        props.onSubmit(values); //or props.onSubmit(values);
         actions.resetForm();
-      }}
+
+        // alert("Updated Calorie Budget" + " " + values.calories);
+        //alert("Updated Calorie Budget" + " " + values.calories);
+
+}
+  return (
+    <Formik
+      initialValues={updatedInfo}
+      onSubmit={updateUserInfo}
     >
       {(formProps) => (
         <View style={styles.editProfileFormContainer}>

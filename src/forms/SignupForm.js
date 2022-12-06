@@ -85,6 +85,7 @@ function SignupForm(props) {
     );
     */
 
+    /*
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -107,6 +108,7 @@ function SignupForm(props) {
     } catch (error) {
       console.log(error.message);
     }
+    */
     console.log("values passed to signup", values);
 
     props.onSignup(values);

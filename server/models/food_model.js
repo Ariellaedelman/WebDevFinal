@@ -15,6 +15,11 @@ const foodSchema = new Schema (
             trim: true,
             required: true,
         },
+
+        brand: {
+            type: String,
+            //required: true,
+        },
         
         calories: {
             type: Number,
