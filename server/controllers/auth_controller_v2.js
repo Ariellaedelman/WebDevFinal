@@ -1,7 +1,14 @@
 import User from "../models/user_model_v2";
+import Food from "../models/food_model";
 import { hashPassword, comparePassword } from "../helpers/auth_helper_v2";
 import jwt from "jsonwebtoken";
 import nanoid from "nanoid";
+import db from "../models/model_index";
+// import { user } from "../models/model_index";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+//import React, { useContext, useEffect, useState } from 'react';
+//import { AuthContext } from '.../context/auth';
 
 // sendgrid
 /*
@@ -9,6 +16,8 @@ require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_KEY);
 */
+
+//keeps current user intact 
 
 // signup function
 export const signup = async (req, res) => {
@@ -121,7 +130,7 @@ export const signin = async (req, res) => {
 
 
 
-export const forgotPassword = async (req, res) => {
+/* export const forgotPassword = async (req, res) => {
 const { email } = req.body;
 // find user by email
 const user = await User.findOne({ email });
@@ -151,7 +160,9 @@ console.log(err);
 res.json({ ok: false });
 }
 };
-export const resetPassword = async (req, res) => {
+*/
+
+/* export const resetPassword = async (req, res) => {
 try {
 const { email, password, resetCode } = req.body;
 // find user based on email and resetCode
@@ -175,5 +186,126 @@ return res.json({ ok: true });
 } catch (err) {
 console.log(err);
 }
+}; */
+
+// adding foods to database
+export const addFood = async (req, res) => {
+    console.log("Adding Food Hit");
+    try {
+        // const theUser = user.default.db.collection("users")
+        //const db = require("../models/model_index")
+        //console.log(theUser);
+        const { user_id, name, calories, carbohydrates, protein, fat, serving_size } = req.body;
+        console.log(req.body)
+
+        const newFood = await new Food({
+            user_id,
+            name,
+            calories,
+            carbohydrates,
+            protein,
+            fat,
+            serving_size,
+            }).save();
+
+
+            res.json({ ok: true });
+
+    } 
+    catch (err) {
+        console.log(err);
+        res.json({ ok: false })
+    }
 };
 
+// updating user
+export const update = async (req, res) => {
+    console.log("Updating User Hit");
+
+   // const dbUsing = db.mongoose.("calutritionDB")
+
+    try {
+        const { email, age, height_ft, height_inch, weight, gender, activitylevel, goal, calories } = req.body;
+        // console.log(req.body) *TESTING PURPOSES*
+        //console.log(res.body)
+        
+        /* 
+        const updatedUser = await User.findOne({ email });
+
+        if (!updatedUser) {
+            return res.json({
+            error: "No user found",
+            });
+        }
+
+        */
+
+        //console.log(updatedUser)
+
+        const newUpdatedUser = await User.findOneAndUpdate({email}, {age, height_ft, height_inch, weight, gender, activitylevel, goal, calories},
+            /*
+            function (err, docs) {
+                if (err){
+                    console.log(err)
+                    res.json({ ok: false })
+                }
+                else{
+                    console.log("Original Doc : ", docs);
+                    res.json({ ok: true });
+                }
+            }
+            */
+           )
+        
+            /*
+            const updateUser = await new User({
+                name: user.name,
+                email,
+                password: user.password,
+                age, 
+                height_ft, 
+                height_inch, 
+                weight, 
+                gender, 
+                activitylevel, 
+                goal,
+                calories,
+                }).save();
+            */
+
+            res.json({ ok: true });
+        
+
+    } 
+    
+    catch (err) {
+        console.log(err);
+        res.json({ ok: false })
+    }
+    
+    
+};
+
+// getting foods to database
+export const getFood = async (req, res) => {
+    console.log("Getting Foods Hit");
+    try {
+        // const theUser = user.default.db.collection("users")
+        //const db = require("../models/model_index")
+        //console.log(theUser);
+        //const { user_id, name, calories, carbohydrates, protein, fat, serving_size } = req.body;
+        console.log(req.body)
+
+        const retrivedFoods = await Food.find({user_id: /* '6363d2f3baf1e8ee7b704749' */ '6350b718cdc55e87ad431503'})
+        console.log(retrivedFoods)
+
+
+
+        res.json({ ok: true, data: retrivedFoods});
+
+    } 
+    catch (err) {
+        console.log(err);
+        res.json({ ok: false })
+    }
+};

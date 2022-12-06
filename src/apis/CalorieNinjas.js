@@ -6,7 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import client from "../api/client";
+//import AsyncStorage from "@react-native-async-storage/async-storage";
+//import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../context/auth';
 
 const options = {
   method: "GET",
@@ -17,6 +21,7 @@ const options = {
 };
 
 function CalorieNinjas(props) {
+  const [state, setState] = useContext(AuthContext);
   const [inputName, setInputName] = useState("");
   //const [foodName, setFoodName] = useState("");
   //const [totalCalories, setTotalCalories] = useState(0);
@@ -25,6 +30,7 @@ function CalorieNinjas(props) {
   //const [fat, setFat] = useState("");
   //const [servingSize, setServingSize] = useState("");
   const [foodItem, setFoodItem] = useState({
+    user_id: "",
     name: "",
     calories: "",
     carbohydrates: "",
@@ -44,6 +50,7 @@ function CalorieNinjas(props) {
         if (json.items[0] != undefined) {
           console.log("success");
           setFoodItem({
+            user_id: state.user._id,
             name: json.items[0].name,
             calories: json.items[0].calories,
             carbohydrates: json.items[0].carbohydrates_total_g,
@@ -58,10 +65,39 @@ function CalorieNinjas(props) {
         console.error(error);
       });
   }
-  function onAddFood() {
+  
+  const onAddFood = async (values, actions) => {
+
+    //console.log(values);
+
+    const config = {
+      headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Request-Headers": "*",
+          "Access-Control-Allow-Origin": "*"
+      }
+    };
+
+    try {
+        const res = await client.post('/api/add-food', foodItem , config);
+        console.log(res.data);
+        
+        if (res.data.error) {
+          alert(res.data.error)
+        }
+        else {
+          //setState(res.data);
+          //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+          alert("Adding Food Successful")
+        } 
+
+    } catch (error) {
+        console.log(error.message);
+    }
     props.addFoodItem(foodItem);
     props.onCancel();
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
