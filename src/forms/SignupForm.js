@@ -9,11 +9,12 @@ import React, { useState, useContext } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import client from "../api/client";
+import client from "../../api/client";
+
 //import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { AuthContext } from "../context/auth";
+import { AuthContext } from "../../context/auth";
 
 const LoginSchema = yup.object({
   name: yup.string().required(),

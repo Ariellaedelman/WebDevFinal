@@ -1,18 +1,16 @@
-import React from "react"
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Home from "../screens/Home";
 import Login from "../screens/Login";
 import BottomTab from "./BottomTab";
 import Signup from "../screens/Signup";
 import Macros from "../screens/Macros";
-import { AuthProvider } from "../context/auth";
+import { AuthProvider } from "../../context/auth";
 
 const Stack = createNativeStackNavigator();
 
 function RootStack() {
-
   //const [state, setState] = useContext(AuthContext)
   //const authenticated = state & state.token !== "" && state.user !== null
 
