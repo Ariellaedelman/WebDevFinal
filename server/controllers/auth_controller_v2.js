@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
     console.log("Signup Hit");
     try {
         // validation
-        const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal, calories } = req.body;
+        const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal, macro_plan, carbs, fat, protein, calories } = req.body;
         if (!name) {
             return res.json({
             error: "Name is required",
@@ -62,6 +62,10 @@ export const signup = async (req, res) => {
             gender, 
             activitylevel, 
             goal,
+            macro_plan,
+            carbs,
+            fat,
+            protein,
             calories,
             }).save();
 
@@ -195,17 +199,19 @@ export const addFood = async (req, res) => {
         // const theUser = user.default.db.collection("users")
         //const db = require("../models/model_index")
         //console.log(theUser);
-        const { user_id, name, calories, carbohydrates, protein, fat, serving_size } = req.body;
+        const { user_id, name, brand, calories, carbohydrates, protein, fat, serving_size, food_specific_id } = req.body;
         console.log(req.body)
 
         const newFood = await new Food({
             user_id,
             name,
+            brand,
             calories,
             carbohydrates,
             protein,
             fat,
             serving_size,
+            food_specific_id,
             }).save();
 
 
@@ -225,7 +231,7 @@ export const update = async (req, res) => {
    // const dbUsing = db.mongoose.("calutritionDB")
 
     try {
-        const { email, age, height_ft, height_inch, weight, gender, activitylevel, goal, calories } = req.body;
+        const { email, age, height_ft, height_inch, weight, gender, activitylevel, goal, macro_plan, carbs, fat, protein, calories } = req.body;
         // console.log(req.body) *TESTING PURPOSES*
         //console.log(res.body)
         
@@ -242,7 +248,7 @@ export const update = async (req, res) => {
 
         //console.log(updatedUser)
 
-        const newUpdatedUser = await User.findOneAndUpdate({email}, {age, height_ft, height_inch, weight, gender, activitylevel, goal, calories},
+        const newUpdatedUser = await User.findOneAndUpdate({email}, {age, height_ft, height_inch, weight, gender, activitylevel, goal, macro_plan, carbs, fat, protein, calories},
             /*
             function (err, docs) {
                 if (err){

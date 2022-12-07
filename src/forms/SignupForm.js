@@ -48,7 +48,7 @@ function SignupForm(props) {
     gender: "",
     activitylevel: "",
     goal: "",
-    calories: 0,
+    // calories: 0,
   };
 
   const {
@@ -62,7 +62,7 @@ function SignupForm(props) {
     gender,
     activitylevel,
     goal,
-    calories,
+    // calories,
   } = userInfo;
 
   const [state, setState] = useContext(AuthContext);
@@ -72,6 +72,8 @@ function SignupForm(props) {
     values.height_ft = parseInt(values.height_ft, 10);
     values.height_inch = parseInt(values.height_inch, 10);
     values.weight = parseInt(values.weight, 10);
+    
+    /*
     values.calories = calorieBudget(
       values.age,
       values.height_ft,
@@ -81,7 +83,9 @@ function SignupForm(props) {
       values.activitylevel,
       values.goal
     );
+    */
 
+    /*
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -104,6 +108,7 @@ function SignupForm(props) {
     } catch (error) {
       console.log(error.message);
     }
+    */
     console.log("values passed to signup", values);
 
     props.onSignup(values);

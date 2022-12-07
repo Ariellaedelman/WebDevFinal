@@ -15,15 +15,30 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import LoginForm from "../forms/LoginForm";
 
+import React, { useEffect, useContext } from "react";
+
+import client from "../../api/client";
+//import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { AuthContext } from "../../context/auth";
+
 function Login({ navigation }) {
+  const [state, setState] = useContext(AuthContext);
+
   function onLogin(personObject) {
+    
+    //console.log(personObject)
+    console.log(state.user.calories)
+    console.log(state.user.name)
+
     navigation.navigate("BottomTab", {
       screen: "Home",
       params: {
         ...personObject,
-        chosenPlan: { carbs: 0, protein: 0, fat: 0 },
-        calories: 0,
-        name: "John Doe",
+        chosenPlan: { carbs: state.user.carbs, protein: state.user.protein, fat: state.user.fat },
+        userCalories: state.user.calories,
+        userName: state.user.name,
       },
       /*
       {

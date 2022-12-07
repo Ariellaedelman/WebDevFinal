@@ -11,8 +11,14 @@ import {
   Keyboard,
   SafeAreaView,
 } from "react-native";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ListPicks from "../components/ListPicks";
+
+import client from "../../api/client";
+//import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { AuthContext } from "../../context/auth";
 
 function EditMacros({ navigation, route }) {
   const [macroPlans, setMacroPlans] = useState([]);
@@ -42,7 +48,73 @@ function EditMacros({ navigation, route }) {
     setChosenPlan(plan);
   }
 
-  function finishSignup() {
+  const [state, setState] = useContext(AuthContext);
+
+  const finishSignup = async (values, actions) => {
+    const userInfo = {
+      //name: route.params.name,
+      email: route.params.email,
+      //password: route.params.password,
+      age: route.params.age,
+      height_ft: route.params.height_ft,
+      height_inch: route.params.height_inch,
+      weight: route.params.weight,
+      gender: route.params.gender,
+      activitylevel: route.params.activitylevel,
+      goal: route.params.goal,
+      macro_plan: chosenPlan.name,
+      carbs: Math.round(chosenPlan.carbs),
+      fat: Math.round(chosenPlan.fat),
+      protein: Math.round(chosenPlan.protein),
+      calories: Math.round(route.params.data.calorie),
+      // calories: 0,
+    };
+
+    const {
+      name,
+      email,
+      password,
+      age,
+      height_ft,
+      height_inch,
+      weight,
+      gender,
+      activitylevel,
+      goal,
+      macro_plan,
+      carbs,
+      fat,
+      protein,
+      calories,
+      // calories,
+    } = userInfo;
+
+    const config = {
+      headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Request-Headers": "*",
+          "Access-Control-Allow-Origin": "*"
+      }
+    };
+
+    try {
+        const res = await client.post('/api/update', userInfo, config);
+        console.log(res.data);
+        
+        if (res.data.error) {
+          alert(res.data.error)
+        }
+        else {
+          setState(res.data);
+          //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+          alert("Update Successful")
+        } 
+
+    } catch (error) {
+        console.log(error.message);
+    }
+    
+    
     navigation.navigate("HomeProfile");
     alert(
       "Updated budget is Calories: " +
@@ -93,7 +165,7 @@ function EditMacros({ navigation, route }) {
       {chosenPlan && (
         <Pressable style={styles.button} onPress={finishSignup}>
           <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
-            Sign Up
+            Update!
           </Text>
         </Pressable>
       )}

@@ -15,6 +15,11 @@ const foodSchema = new Schema (
             trim: true,
             required: true,
         },
+
+        brand: {
+            type: String,
+            required: true,
+        },
         
         calories: {
             type: Number,
@@ -38,6 +43,11 @@ const foodSchema = new Schema (
 
         serving_size: {
             type: Number,
+            required: true,
+        },
+
+        food_specific_id: {
+            type: String,
             required: true,
         },
 
