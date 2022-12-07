@@ -19,7 +19,15 @@ import React, { useContext, useEffect, useState } from "react";
 import client from "../../api/client";
 //import AsyncStorage from "@react-native-async-storage/async-storage";
 //import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from "../../context/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { addGlobalFood } from "../redux/foods";
+import { incrementCalories } from "../redux/calories";
+import { incrementFat } from "../redux/fat";
+import { incrementProtein } from "../redux/protein";
+import { incrementCarbs } from "../redux/carbs";
+import { setRating } from "../redux/rating";
+import { calculateRating } from "../utils/helperFunctions";
 
 export default function Nutritionix(props) {
   const [state, setState] = useContext(AuthContext);
@@ -27,7 +35,12 @@ export default function Nutritionix(props) {
   const [foodData, setFoodData] = useState(null);
   const [chosenFood, setChosenFood] = useState(null);
   const [servingSize, setServingSize] = useState(1);
-  
+
+  const dispatch = useDispatch();
+  const calories = useSelector((state) => state.calories.value);
+  const fat = useSelector((state) => state.fat.value);
+  const carbs = useSelector((state) => state.carbs.value);
+  const protein = useSelector((state) => state.protein.value);
 
   function checkString() {
     let regex = /[0-9]{12}/;
@@ -121,21 +134,31 @@ export default function Nutritionix(props) {
   const addFood = async (values, actions) => {
     let newObj = {
       ...chosenFood,
-      nf_calories: parseFloat(
-        (chosenFood.nf_calories * servingSize).toFixed(2)
+      nf_calories: Math.round(chosenFood.nf_calories * servingSize),
+
+      nf_protein: Math.round(chosenFood.nf_protein * servingSize),
+      nf_total_fat: Math.round(chosenFood.nf_total_fat * servingSize),
+      nf_total_carbohydrate: Math.round(
+        chosenFood.nf_total_carbohydrate * servingSize
       ),
-      nf_protein: parseFloat((chosenFood.nf_protein * servingSize).toFixed(2)),
-      nf_total_fat: parseFloat(
-        (chosenFood.nf_total_fat * servingSize).toFixed(2)
-      ),
-      nf_total_carbohydrate: parseFloat(
-        (chosenFood.nf_total_carbohydrate * servingSize).toFixed(2)
-      ),
-      nf_serving_size_qty: parseFloat(
-        (chosenFood.nf_serving_size_qty * servingSize).toFixed(2)
+      nf_serving_size_qty: Math.round(
+        chosenFood.nf_serving_size_qty * servingSize
       ),
     };
 
+    dispatch(addGlobalFood(newObj));
+    dispatch(incrementCalories(newObj.nf_calories));
+    dispatch(incrementCarbs(newObj.nf_total_carbohydrate));
+    dispatch(incrementProtein(newObj.nf_protein));
+    dispatch(incrementFat(newObj.nf_total_fat));
+    const budget = { calories: 2500, protein: 250, carbs: 250, fat: 55 };
+    const newRating = calculateRating(budget, {
+      calories: calories + newObj.nf_calories,
+      protein: protein + newObj.nf_protein,
+      fat: fat + newObj.nf_total_fat,
+      carbs: carbs + newObj.nf_total_carbohydrate,
+    }).toFixed(1);
+    dispatch(setRating(newRating));
     /*
     setFoodItem({
       user_id: state.user._id,
@@ -160,38 +183,36 @@ export default function Nutritionix(props) {
       serving_size: newObj.nf_serving_size_qty,
       food_specific_id: newObj.item_id,
       //key: "",
-    }
-      
-    console.log(foodItem)
+    };
+
+    console.log(foodItem);
 
     const config = {
       headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Request-Headers": "*",
-          "Access-Control-Allow-Origin": "*"
-      }
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
     };
 
     try {
-        const res = await client.post('/api/add-food', foodItem , config);
-        console.log(res.data);
-        
-        if (res.data.error) {
-          alert(res.data.error)
-        }
-        else {
-          //setState(res.data);
-          //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
-          alert("Adding Food Successful")
-        } 
+      const res = await client.post("/api/add-food", foodItem, config);
+      console.log(res.data);
 
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        //setState(res.data);
+        //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+        alert("Adding Food Successful");
+      }
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
-    
+
     props.addFoodItem(newObj);
     props.closeNutritionix();
-  }
+  };
 
   const renderItem = ({ item }) => {
     return (
