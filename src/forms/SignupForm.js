@@ -72,7 +72,7 @@ function SignupForm(props) {
     values.height_ft = parseInt(values.height_ft, 10);
     values.height_inch = parseInt(values.height_inch, 10);
     values.weight = parseInt(values.weight, 10);
-    
+
     /*
     values.calories = calorieBudget(
       values.age,
@@ -116,54 +116,6 @@ function SignupForm(props) {
     actions.resetForm();
   };
 
-  function poundsToKG(pounds) {
-    let kg = pounds / 2.205;
-    return kg;
-  }
-  function feetToCM(feet) {
-    let cm = feet * 30.48;
-    return cm;
-  }
-  function inchToCM(inch) {
-    let cm = inch * 2.54;
-    return cm;
-  }
-  function calorieBudget(
-    age,
-    height_ft,
-    height_inch,
-    weight,
-    gender,
-    activitylevel,
-    goal
-  ) {
-    weight = poundsToKG(weight);
-    height_ft = feetToCM(height_ft);
-    height_inch = inchToCM(height_inch);
-    let total_height_cm = height_ft + height_inch;
-    let BMR = 0;
-    if (gender.toLowerCase() === "male") {
-      BMR = 10 * weight + 6.25 * total_height_cm - 5 * age + 5;
-    } else {
-      BMR = 10 * weight + 6.25 * total_height_cm - 5 * age - 161;
-    }
-
-    if (activitylevel.toLowerCase() === "high") {
-      BMR = BMR * 1.75;
-    } else if (activitylevel.toLowerCase() == "medium") {
-      BMR = BMR * 1.5;
-    } else {
-      BMR = BMR * 1.25;
-    }
-
-    if (goal.toLowerCase() === "lose") {
-      BMR = BMR - 500;
-    } else if (goal.toLowerCase() === "gain") {
-      BMR = BMR + 500;
-    }
-
-    return Math.round(BMR);
-  }
   return (
     <Formik
       initialValues={userInfo}

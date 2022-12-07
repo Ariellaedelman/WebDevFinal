@@ -8,13 +8,16 @@ export const counterSlice = createSlice({
   name: "calories",
   initialState,
   reducers: {
-    incrementByAmount: (state, action) => {
+    incrementCalories: (state, action) => {
       state.value += action.payload;
+    },
+    decrementCalories: (state, action) => {
+      state.value -= action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { incrementByAmount } = counterSlice.actions;
+export const { incrementCalories, decrementCalories } = counterSlice.actions;
 
 export default counterSlice.reducer;
