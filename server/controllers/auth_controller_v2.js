@@ -199,17 +199,19 @@ export const addFood = async (req, res) => {
         // const theUser = user.default.db.collection("users")
         //const db = require("../models/model_index")
         //console.log(theUser);
-        const { user_id, name, calories, carbohydrates, protein, fat, serving_size } = req.body;
+        const { user_id, name, brand, calories, carbohydrates, protein, fat, serving_size, food_specific_id } = req.body;
         console.log(req.body)
 
         const newFood = await new Food({
             user_id,
             name,
+            brand,
             calories,
             carbohydrates,
             protein,
             fat,
             serving_size,
+            food_specific_id,
             }).save();
 
 

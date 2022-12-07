@@ -27,6 +27,7 @@ export default function Nutritionix(props) {
   const [foodData, setFoodData] = useState(null);
   const [chosenFood, setChosenFood] = useState(null);
   const [servingSize, setServingSize] = useState(1);
+  
 
   function checkString() {
     let regex = /[0-9]{12}/;
@@ -117,7 +118,7 @@ export default function Nutritionix(props) {
     setServingSize(servingSize - 1);
   }
 
-  function addFood() {
+  const addFood = async (values, actions) => {
     let newObj = {
       ...chosenFood,
       nf_calories: parseFloat(
@@ -135,10 +136,63 @@ export default function Nutritionix(props) {
       ),
     };
 
+    /*
+    setFoodItem({
+      user_id: state.user._id,
+      name: chosenFood.item_name,
+      brand: chosenFood.brand_name,
+      calories: chosenFood.nf_calories,
+      carbohydrates: chosenFood.nf_total_carbohydrate,
+      protein: chosenFood.nf_protein,
+      fat: chosenFood.nf_total_fat,
+      serving_size: chosenFood.nf_serving_size_qty,
+    });
+    */
+
+    const foodItem = {
+      user_id: state.user._id,
+      name: newObj.item_name,
+      brand: newObj.brand_name,
+      calories: newObj.nf_calories,
+      carbohydrates: newObj.nf_total_carbohydrate,
+      protein: newObj.nf_protein,
+      fat: newObj.nf_total_fat,
+      serving_size: newObj.nf_serving_size_qty,
+      food_specific_id: newObj.item_id,
+      //key: "",
+    }
+      
+    console.log(foodItem)
+
+    const config = {
+      headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Request-Headers": "*",
+          "Access-Control-Allow-Origin": "*"
+      }
+    };
+
+    try {
+        const res = await client.post('/api/add-food', foodItem , config);
+        console.log(res.data);
+        
+        if (res.data.error) {
+          alert(res.data.error)
+        }
+        else {
+          //setState(res.data);
+          //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+          alert("Adding Food Successful")
+        } 
+
+    } catch (error) {
+        console.log(error.message);
+    }
     
     props.addFoodItem(newObj);
     props.closeNutritionix();
   }
+
   const renderItem = ({ item }) => {
     return (
       <Foods
