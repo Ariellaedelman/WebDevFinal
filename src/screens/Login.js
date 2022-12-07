@@ -23,20 +23,35 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AuthContext } from "../../context/auth";
 
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/user";
+
 function Login({ navigation }) {
   const [state, setState] = useContext(AuthContext);
-
+  const dispatch = useDispatch();
   function onLogin(personObject) {
-    
     //console.log(personObject)
-    console.log(state.user.calories)
-    console.log(state.user.name)
-
+    //console.log(state.user.calories);
+    //console.log(state.user.name);
+    dispatch(
+      setUser({
+        calories: state.user.calories,
+        protein: state.user.protein,
+        carbs: state.user.carbs,
+        fat: state.user.fat,
+        name: state.user.name,
+        macro_plan: state.user.macro_plan,
+      })
+    );
     navigation.navigate("BottomTab", {
       screen: "Home",
       params: {
         ...personObject,
-        chosenPlan: { carbs: state.user.carbs, protein: state.user.protein, fat: state.user.fat },
+        chosenPlan: {
+          carbs: state.user.carbs,
+          protein: state.user.protein,
+          fat: state.user.fat,
+        },
         userCalories: state.user.calories,
         userName: state.user.name,
       },

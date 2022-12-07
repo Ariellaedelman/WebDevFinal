@@ -20,9 +20,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AuthContext } from "../../context/auth";
 
+import { setUser } from "../redux/user";
+import { useSelector, useDispatch } from "react-redux";
+
 function Macros({ navigation, route }) {
   const [macroPlans, setMacroPlans] = useState([]);
   const [chosenPlan, setChosenPlan] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     route.params.data = {
@@ -75,7 +79,7 @@ function Macros({ navigation, route }) {
       calories: Math.round(route.params.data.calorie),
       // calories: 0,
     };
-  
+    dispatch(setUser(userInfo));
     const {
       name,
       email,
@@ -95,7 +99,7 @@ function Macros({ navigation, route }) {
       // calories,
     } = userInfo;
 
-    console.log("this is the user now w/ all info: ", userInfo)
+    console.log("this is the user now w/ all info: ", userInfo);
     // console.log("these are the values rn: ", ...values)
 
     const config = {
@@ -109,7 +113,7 @@ function Macros({ navigation, route }) {
     try {
       const res = await client.post("/api/signup", userInfo, config);
       console.log(res.data);
-  
+
       if (res.data.error) {
         alert(res.data.error);
       } else {
@@ -121,7 +125,6 @@ function Macros({ navigation, route }) {
       console.log(error.message);
     }
 
-
     let userCalories = route.params.data.calorie;
     let userName = route.params.name;
     let personObject = { userCalories, chosenPlan, userName };
@@ -129,7 +132,7 @@ function Macros({ navigation, route }) {
       screen: "Home",
       params: personObject,
     });
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>

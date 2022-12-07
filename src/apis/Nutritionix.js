@@ -41,6 +41,7 @@ export default function Nutritionix(props) {
   const fat = useSelector((state) => state.fat.value);
   const carbs = useSelector((state) => state.carbs.value);
   const protein = useSelector((state) => state.protein.value);
+  const user = useSelector((state) => state.user.value);
 
   function checkString() {
     let regex = /[0-9]{12}/;
@@ -151,7 +152,12 @@ export default function Nutritionix(props) {
     dispatch(incrementCarbs(newObj.nf_total_carbohydrate));
     dispatch(incrementProtein(newObj.nf_protein));
     dispatch(incrementFat(newObj.nf_total_fat));
-    const budget = { calories: 2500, protein: 250, carbs: 250, fat: 55 };
+    const budget = {
+      calories: user.calories,
+      protein: user.protein,
+      carbs: user.carbs,
+      fat: user.fat,
+    };
     const newRating = calculateRating(budget, {
       calories: calories + newObj.nf_calories,
       protein: protein + newObj.nf_protein,

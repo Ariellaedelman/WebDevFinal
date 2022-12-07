@@ -20,10 +20,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AuthContext } from "../../context/auth";
 
+import { useDispatch } from "react-redux";
+
+import { setUser, editUser } from "../redux/user";
+
 function EditMacros({ navigation, route }) {
   const [macroPlans, setMacroPlans] = useState([]);
   const [chosenPlan, setChosenPlan] = useState(null);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     route.params.data = {
       ...route.params.data,
@@ -69,7 +73,7 @@ function EditMacros({ navigation, route }) {
       calories: Math.round(route.params.data.calorie),
       // calories: 0,
     };
-
+    dispatch(editUser(userInfo));
     const {
       name,
       email,
@@ -91,30 +95,27 @@ function EditMacros({ navigation, route }) {
 
     const config = {
       headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Request-Headers": "*",
-          "Access-Control-Allow-Origin": "*"
-      }
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
     };
 
     try {
-        const res = await client.post('/api/update', userInfo, config);
-        console.log(res.data);
-        
-        if (res.data.error) {
-          alert(res.data.error)
-        }
-        else {
-          setState(res.data);
-          //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
-          alert("Update Successful")
-        } 
+      const res = await client.post("/api/update", userInfo, config);
+      console.log(res.data);
 
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        setState(res.data);
+        //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+        alert("Update Successful");
+      }
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
-    
-    
+
     navigation.navigate("HomeProfile");
     alert(
       "Updated budget is Calories: " +
@@ -127,7 +128,7 @@ function EditMacros({ navigation, route }) {
         Math.round(chosenPlan.protein) +
         "g"
     );
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>

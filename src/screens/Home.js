@@ -1,11 +1,14 @@
 import { View, Text, Button, SafeAreaView, StyleSheet } from "react-native";
 import BudgetBar from "../components/BudgetBar";
+import { useSelector } from "react-redux";
 
 function Home({ navigation, route }) {
+  const user = useSelector((state) => state.user.value);
   console.log("home params", route.params);
+  console.log("userinfo", user);
+
   return (
     <SafeAreaView style={styles.homeContainer}>
-     
       <Text
         style={{
           fontSize: 30,
@@ -15,16 +18,16 @@ function Home({ navigation, route }) {
           marginBottom: 20,
         }}
       >
-        Welcome, {route.params.userName}!
+        Welcome, {user.name}!
       </Text>
-      <BudgetBar/>
+
       <Text
         style={{
           fontSize: 25,
           color: "white",
           fontWeight: "bold",
           marginBottom: 20,
-          marginTop:30
+          marginTop: 30,
         }}
       >
         Your Budget is:
@@ -38,12 +41,10 @@ function Home({ navigation, route }) {
             marginBottom: 20,
           }}
         >
-          Calories: {Math.round(route.params.userCalories)}
+          Calories: {Math.round(user.calories)}
         </Text>
         <View style={styles.macroContainer}>
-          <Text style={styles.homeText}>
-            Carbs: {Math.round(route.params.chosenPlan.carbs)}g
-          </Text>
+          <Text style={styles.homeText}>Carbs: {Math.round(user.carbs)}g</Text>
           <View
             style={{
               borderLeftWidth: 2,
@@ -56,15 +57,14 @@ function Home({ navigation, route }) {
               paddingRight: 10,
             }}
           >
-            <Text style={styles.macroText}>
-              Fat: {Math.round(route.params.chosenPlan.fat)}g
-            </Text>
+            <Text style={styles.macroText}>Fat: {Math.round(user.fat)}g</Text>
           </View>
           <Text style={styles.macroText}>
-            Protein: {Math.round(route.params.chosenPlan.protein)}g
+            Protein: {Math.round(user.protein)}g
           </Text>
         </View>
       </View>
+      <BudgetBar />
     </SafeAreaView>
   );
 }
@@ -97,23 +97,76 @@ const styles = StyleSheet.create({
   macroContainer: {
     flexDirection: "row",
   },
-  ratingText: {
-    //backgroundColor: 'orange',
-    fontSize: 18,
-    padding: 15,
-    color: "#fb5b5a",
-    marginTop: 20,
-
-    //textAlign:'right',
-    //flex:1
-  },
-  pointsText: {
-    backgroundColor: "#fb5b5a",
-    fontSize: 25,
-    padding: 10,
-    color: "#003f5c",
-    marginBottom: 20,
-    //flex:1
-  },
 });
 export default Home;
+
+// function Home({ navigation, route }) {
+//     const userInfo = useSelector((state) => state.user.value);
+//     console.log("home params", route.params);
+//     console.log("userinfo", userInfo);
+
+//     return (
+//       <SafeAreaView style={styles.homeContainer}>
+//         <Text
+//           style={{
+//             fontSize: 30,
+//             color: "white",
+//             fontWeight: "bold",
+//             marginTop: 30,
+//             marginBottom: 20,
+//           }}
+//         >
+//           Welcome, {route.params.userName}!
+//         </Text>
+
+//         <Text
+//           style={{
+//             fontSize: 25,
+//             color: "white",
+//             fontWeight: "bold",
+//             marginBottom: 20,
+//             marginTop: 30,
+//           }}
+//         >
+//           Your Budget is:
+//         </Text>
+//         <View style={styles.infoContainer}>
+//           <Text
+//             style={{
+//               fontSize: 20,
+//               color: "white",
+//               fontWeight: "bold",
+//               marginBottom: 20,
+//             }}
+//           >
+//             Calories: {Math.round(route.params.userCalories)}
+//           </Text>
+//           <View style={styles.macroContainer}>
+//             <Text style={styles.homeText}>
+//               Carbs: {Math.round(route.params.chosenPlan.carbs)}g
+//             </Text>
+//             <View
+//               style={{
+//                 borderLeftWidth: 2,
+//                 borderLeftColor: "white",
+//                 borderRightWidth: 2,
+//                 borderRightColor: "white",
+//                 marginLeft: 10,
+//                 marginRight: 10,
+//                 paddingLeft: 10,
+//                 paddingRight: 10,
+//               }}
+//             >
+//               <Text style={styles.macroText}>
+//                 Fat: {Math.round(route.params.chosenPlan.fat)}g
+//               </Text>
+//             </View>
+//             <Text style={styles.macroText}>
+//               Protein: {Math.round(route.params.chosenPlan.protein)}g
+//             </Text>
+//           </View>
+//         </View>
+//         <BudgetBar />
+//       </SafeAreaView>
+//     );
+//   }
