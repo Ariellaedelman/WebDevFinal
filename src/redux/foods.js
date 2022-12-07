@@ -8,16 +8,18 @@ export const counterSlice = createSlice({
   name: "foods",
   initialState,
   reducers: {
-    addFood: (state, action) => {
+    addGlobalFood: (state, action) => {
       state.value = [...state.value, action.payload];
     },
-    deleteFood: (state, action) => {
-      state.value.filter((food) => food.id !== action.payload.id);
+    deleteGlobalFood: (state, action) => {
+      state.value = state.value.filter(
+        (food) => food.item_id !== action.payload.item_id
+      );
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addFood, deleteFood } = counterSlice.actions;
+export const { addGlobalFood, deleteGlobalFood } = counterSlice.actions;
 
 export default counterSlice.reducer;

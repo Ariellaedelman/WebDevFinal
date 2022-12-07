@@ -20,7 +20,7 @@ function ShopEntry(props) {
         props.exercise.locked ? styles.container : styles.unlockedContainer
       }
     >
-      <View style={{ width: "26%" }}>
+      <View style={{ width: "35%" }}>
         {props.exercise.locked ? (
           <Text style={styles.exerciseLockedText}>{props.exercise.name}</Text>
         ) : (
@@ -52,28 +52,24 @@ function ShopEntry(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: "crimson",
-    width: "90%",
-    marginBottom: 25,
+    width: "97%",
+    marginBottom: 30,
     borderRadius: 20,
-    opacity: ".85",
-    //padding: 20,
-    //borderWidth: 2,
-    //borderColor: "red",
+    padding: 25,
   },
   unlockedContainer: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: "crimson",
-    width: "90%",
-    marginBottom: 25,
+    width: "97%",
+    marginBottom: 30,
     borderRadius: 20,
+    padding: 25,
   },
   exerciseLockedText: {
     color: "black",
@@ -84,14 +80,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: "20",
     fontWeight: "bold",
-  },
-  button: {
-    backgroundColor: "red",
-    borderRadius: 20,
-    padding: 10,
-    width: "40%",
-    alignItems: "center",
-    //marginTop: 100,
   },
 });
 export default ShopEntry;

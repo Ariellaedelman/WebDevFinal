@@ -6,17 +6,25 @@ import {
   TouchableOpacity,
   FlatList,
   SafeAreaView,
+  ScrollView,
+  Pressable,
 } from "react-native";
 import { useEffect, useState } from "react";
 import Nutritionix from "../apis/Nutritionix";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 import DiaryEntry from "../components/DiaryEntry";
 import Rating from "../modals/Rating";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteGlobalFood } from "../redux/foods";
+import { decrementCalories } from "../redux/calories";
+import { decrementFat } from "../redux/fat";
+import { decrementProtein } from "../redux/protein";
+import { decrementCarbs } from "../redux/carbs";
+import { setRating } from "../redux/rating";
+import { calculateRating } from "../utils/helperFunctions";
 
 function Diary() {
   const [nutritionixVisible, setNutritionixVisible] = useState(false);
-  const [ratingVisible, setRatingVisible] = useState(false);
   const [totalCalories, setTotalCalories] = useState(0);
   const [totalProtein, setTotalProtein] = useState(0);
   const [totalFat, setTotalFat] = useState(0);
@@ -24,6 +32,13 @@ function Diary() {
   const [foodList, setFoodList] = useState([]);
   const [date, setDate] = useState("");
   const [chosenEntry, setChosenEntry] = useState(null);
+
+  const foods = useSelector((state) => state.foods.value);
+  const calories = useSelector((state) => state.calories.value);
+  const fat = useSelector((state) => state.fat.value);
+  const carbs = useSelector((state) => state.carbs.value);
+  const protein = useSelector((state) => state.protein.value);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setDate(new Date().toDateString());
@@ -66,6 +81,19 @@ function Diary() {
   }
 
   function deleteFoodItem(item) {
+    dispatch(deleteGlobalFood(item));
+    dispatch(decrementCalories(item.nf_calories));
+    dispatch(decrementCarbs(item.nf_total_carbohydrate));
+    dispatch(decrementProtein(item.nf_protein));
+    dispatch(decrementFat(item.nf_total_fat));
+    const budget = { calories: 2500, protein: 250, carbs: 250, fat: 55 };
+    const newRating = calculateRating(budget, {
+      calories: calories - item.nf_calories,
+      protein: protein - item.nf_protein,
+      fat: fat - item.nf_total_fat,
+      carbs: carbs - item.nf_total_carbohydrate,
+    }).toFixed(1);
+    dispatch(setRating(newRating));
     setFoodList((prevFoods) => {
       return prevFoods.filter((foodItem) => foodItem.item_id !== item.item_id);
     });
@@ -92,11 +120,13 @@ function Diary() {
     <SafeAreaView style={styles.diaryContainer}>
       <Text style={styles.diaryText}>{date}</Text>
       <TouchableOpacity style={styles.addFoodBttn} onPress={openNutritionix}>
-        <FontAwesome name="plus" size={20} color={"white"} />
+        <Text style={{ color: "white", fontSize: 24, fontWeight: "bold" }}>
+          Add Food <FontAwesome name="plus" size={18} color={"white"} />
+        </Text>
       </TouchableOpacity>
       <FlatList
         style={styles.foodFlatList}
-        data={foodList}
+        data={foods}
         renderItem={renderItem}
         keyExtractor={(item) => item.item_id}
       />
@@ -108,22 +138,11 @@ function Diary() {
         <Text style={styles.diaryText}> Total Fat: {totalFat}g |</Text>
         <Text style={styles.diaryText}> Total Carbs: {totalCarbs}g</Text>
       </View>
-      <Pressable onPress={openRating} style={styles.ratingBttn}>
-        <Text style={styles.diaryText}>Get Rating</Text>
-      </Pressable>
+
       <Modal visible={nutritionixVisible} animationType={"slide"}>
         <Nutritionix
           closeNutritionix={closeNutritionix}
           addFoodItem={addFoodItem}
-        />
-      </Modal>
-      <Modal visible={ratingVisible} animationType={"slide"}>
-        <Rating
-          closeRating={closeRating}
-          totalCalories={totalCalories}
-          totalProtein={totalProtein}
-          totalFat={totalFat}
-          totalCarbs={totalCarbs}
         />
       </Modal>
     </SafeAreaView>

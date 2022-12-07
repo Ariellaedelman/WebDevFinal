@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Modal,
+  ScrollView,
 } from "react-native";
 import { useEffect, useState } from "react";
 import ShopEntry from "../components/ShopEntry";
@@ -239,35 +240,38 @@ export default function Shop() {
   }
   return (
     <SafeAreaView style={styles.container}>
-      {errorMessage && (
-        <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
-          NOT ENOUGH POINTS!
-        </Text>
-      )}
-      <View style={styles.pointsContainer}>
-        <Entypo name="star" size={24} color="white" />
-        <Text style={styles.pointsText}> : {totalStars} </Text>
-      </View>
-      {shopData.map((exercise, index) => (
-        <ShopEntry key={index} exercise={exercise} handlePress={handlePress} />
-      ))}
-      <Modal
-        visible={unlockModalVisible}
-        transparent={true}
-        animationType={"slide"}
-      >
-        <UnlockModal
-          close={() => setUnlockModalVisible(false)}
-          exercise={chosenExercise}
-          unlockExercise={unlockExercise}
-        />
-      </Modal>
-      <Modal visible={exerciseModalVisible} animationType={"slide"}>
-        <ExerciseModal
-          close={() => setExerciseModalVisible(false)}
-          exercise={chosenExercise}
-        />
-      </Modal>
+      <ScrollView style={{ padding: 25 }}>
+        {errorMessage && (
+          <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
+            NOT ENOUGH POINTS!
+          </Text>
+        )}
+
+        {shopData.map((exercise, index) => (
+          <ShopEntry
+            key={index}
+            exercise={exercise}
+            handlePress={handlePress}
+          />
+        ))}
+        <Modal
+          visible={unlockModalVisible}
+          transparent={true}
+          animationType={"slide"}
+        >
+          <UnlockModal
+            close={() => setUnlockModalVisible(false)}
+            exercise={chosenExercise}
+            unlockExercise={unlockExercise}
+          />
+        </Modal>
+        <Modal visible={exerciseModalVisible} animationType={"slide"}>
+          <ExerciseModal
+            close={() => setExerciseModalVisible(false)}
+            exercise={chosenExercise}
+          />
+        </Modal>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -277,30 +281,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#003f5c",
-    //borderWidth: 2,
-    //borderColor: "red",
-  },
-  pointsContainer: {
-    flexDirection: "row",
-    marginTop: 20,
-    marginBottom: 20,
-    alignSelf: "flex-end",
-    marginRight: 40,
-    //borderWidth: 2,
-    //borderColor: "red",
-    padding: 10,
-  },
-  pointsText: {
-    color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  button: {
-    backgroundColor: "red",
-    borderRadius: 20,
-    padding: 10,
-    width: "40%",
-    alignItems: "center",
-    //marginTop: 100,
   },
 });

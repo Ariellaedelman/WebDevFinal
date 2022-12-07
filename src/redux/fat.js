@@ -5,19 +5,19 @@ const initialState = {
 };
 
 export const counterSlice = createSlice({
-  name: "stars",
+  name: "fat",
   initialState,
   reducers: {
-    decrementStars: (state, action) => {
-      state.value -= action.payload;
-    },
-    incrementStars: (state, action) => {
+    incrementFat: (state, action) => {
       state.value += action.payload;
+    },
+    decrementFat: (state, action) => {
+      state.value -= action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { decrementStars, incrementStars } = counterSlice.actions;
+export const { incrementFat, decrementFat } = counterSlice.actions;
 
 export default counterSlice.reducer;
