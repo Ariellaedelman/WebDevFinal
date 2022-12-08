@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ProgressBar} from 'react-native-paper';
+import { ProgressBar, Colors } from 'react-native-paper';
 import {
   View,
   Text,
@@ -10,20 +10,51 @@ import {
   SafeAreaView,
 } from "react-native";
 
-const MyComponent = () => (
+import { useState, useEffect, useContext } from 'react';
 
-  <View style={styles.container}>
-    
-     <Text style={styles.CalText}>
-      Calories Consumed: 1,000
-      </Text>
-    
-     <ProgressBar style={{ marginTop:5}} progress={.5} color="crimson" width={400}/>
-     
-    
-  </View>
+import client from "../../api/client";
+//import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-);
+import { AuthContext } from "../../context/auth";
+
+import { useSelector } from "react-redux";
+import calories from '../redux/calories';
+
+
+const MyComponent = () => {
+  const [status, setStatus] = useState();
+  const [progressColor, setProgessColor] = useState("crimson");
+  // const [state, setState] = useContext(AuthContext);
+
+  const user = useSelector((state) => state.user.value);
+  const currCalories = useSelector((state) => state.calories.value);
+
+  useEffect(() => {
+    setStatus(currCalories / user.calories)
+  })
+
+  useEffect(() => {
+    if(status >= 1)
+      setProgessColor("green")
+  })
+
+  return(
+
+    <View style={styles.container}>
+      
+       <Text style={styles.CalText}>
+        Calories Consumed: {currCalories}
+        </Text>
+      
+       <ProgressBar style={{ marginTop:5}} progress={status} color={progressColor} width={400}/>
+       
+      
+    </View>
+  
+  );
+}
+
 const styles = StyleSheet.create({
   CalText:{
     marginTop: 20,
