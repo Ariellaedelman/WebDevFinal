@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   pageText: {
-    fontSize: 20,
+    //fontSize: 20,
     color: "white",
   },
 });

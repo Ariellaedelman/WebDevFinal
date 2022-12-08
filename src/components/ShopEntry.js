@@ -73,12 +73,12 @@ const styles = StyleSheet.create({
   },
   exerciseLockedText: {
     color: "black",
-    fontSize: "20",
+    //fontSize: "20",
     fontWeight: "bold",
   },
   exerciseUnlockedText: {
     color: "white",
-    fontSize: "20",
+    //fontSize: "20",
     fontWeight: "bold",
   },
 });
