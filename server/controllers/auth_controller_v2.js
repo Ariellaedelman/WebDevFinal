@@ -323,10 +323,13 @@ export const getFood = async (req, res) => {
         // const theUser = user.default.db.collection("users")
         //const db = require("../models/model_index")
         //console.log(theUser);
-        //const { user_id, name, calories, carbohydrates, protein, fat, serving_size } = req.body;
-        console.log(req.body)
+        const { user_id, dateValue } = req.body;
+        console.log("this is req body: ", req.body)
 
-        const retrivedFoods = await Food.find({user_id: /* '6363d2f3baf1e8ee7b704749' */ '6350b718cdc55e87ad431503'})
+        const oneFood = await Food.find({'user_id' : user_id})
+        console.log(oneFood)
+
+        const retrivedFoods = await Food.find({'user_id': user_id, 'createdAt': dateValue})
         console.log(retrivedFoods)
 
 

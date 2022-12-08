@@ -53,6 +53,16 @@ function Diary() {
     setDate(new Date().toDateString());
   }, []);
 
+  /* For user info to stay on page (get food route)
+  const todayDate = new Date().toISOString().split('T')[0];
+  console.log(new Date().toISOString().split('T')[0])
+
+  const userDBFoods = {
+    user_id: state.user._id,
+    createdAt: todayDate,
+  }
+  */
+
   useEffect(() => {
     let calories = 0;
     let fat = 0;
@@ -88,6 +98,39 @@ function Diary() {
     });
     setChosenEntry(foodItem);
   }
+
+  /*
+  //showing already added foods in db on diary page
+  const showingFoods = async (values, actions) => {
+
+    console.log("these are the values: ", values)
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+
+    try {
+      const res = await client.get("/api/get-foods", values, config);
+      console.log(res.data);
+
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        //setState(res.data);
+        //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+        alert("Getting Foods Successful");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  showingFoods(userDBFoods);
+  */
 
   const deletingFoodDB = async (values, actions) => {
     //remove method for database
