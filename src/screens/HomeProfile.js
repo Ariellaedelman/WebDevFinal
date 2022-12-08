@@ -10,12 +10,17 @@ import {
 } from "react-native";
 import UploadImage from "../components/UploadImage";
 import History from "../modals/History";
-import { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../../context/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 //import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 function HomeProfile({ navigation }) {
   const [historyVisible, setHistoryVisible] = useState(false);
   const [testObject, setTestObject] = useState({});
+
+  const [state, setState] = useContext(AuthContext);
+
   function openProfile() {
     navigation.navigate("EditProfile");
   }
@@ -29,9 +34,14 @@ function HomeProfile({ navigation }) {
     setTestObject(inputObject);
     console.log(setTestObject);
   }
-  function onLogOut() {
+  
+  const onLogOut = async () => {
+    setState({ token: "", user: null });
+    await AsyncStorage.removeItem("auth-rn");
+    console.log(state)
     navigation.navigate("Login");
-  }
+  };
+
   return (
     <SafeAreaView style={styles.profileContainer}>
       <UploadImage />
