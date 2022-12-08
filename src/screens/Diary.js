@@ -31,15 +31,10 @@ import { AuthContext } from "../../context/auth";
 
 function Diary() {
   const [nutritionixVisible, setNutritionixVisible] = useState(false);
-  const [totalCalories, setTotalCalories] = useState(0);
-  const [totalProtein, setTotalProtein] = useState(0);
-  const [totalFat, setTotalFat] = useState(0);
-  const [totalCarbs, setTotalCarbs] = useState(0);
-  const [foodList, setFoodList] = useState([]);
   const [date, setDate] = useState("");
   const [chosenEntry, setChosenEntry] = useState(null);
 
-  //const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.user.value);
   const [state, setState] = useContext(AuthContext);
 
   const foods = useSelector((state) => state.foods.value);
@@ -52,23 +47,6 @@ function Diary() {
   useEffect(() => {
     setDate(new Date().toDateString());
   }, []);
-
-  useEffect(() => {
-    let calories = 0;
-    let fat = 0;
-    let protein = 0;
-    let carbs = 0;
-    for (let i = 0; i < foodList.length; i++) {
-      calories += foodList[i].nf_calories;
-      fat += foodList[i].nf_total_fat;
-      protein += foodList[i].nf_protein;
-      carbs += foodList[i].nf_total_carbohydrate;
-    }
-    setTotalCalories(Math.round(calories));
-    setTotalProtein(Math.round(protein));
-    setTotalFat(Math.round(fat));
-    setTotalCarbs(Math.round(carbs));
-  }, [foodList]);
 
   function openNutritionix() {
     setNutritionixVisible(true);
@@ -92,7 +70,7 @@ function Diary() {
   const deletingFoodDB = async (values, actions) => {
     //remove method for database
 
-    console.log("these are the values: ", values)
+    console.log("these are the values: ", values);
 
     const config = {
       headers: {
@@ -124,7 +102,12 @@ function Diary() {
     dispatch(decrementCarbs(item.nf_total_carbohydrate));
     dispatch(decrementProtein(item.nf_protein));
     dispatch(decrementFat(item.nf_total_fat));
-    const budget = { calories: 2500, protein: 250, carbs: 250, fat: 55 };
+    const budget = {
+      calories: user.calories,
+      protein: user.protein,
+      carbs: user.carbs,
+      fat: user.fat,
+    };
     const newRating = calculateRating(budget, {
       calories: calories - item.nf_calories,
       protein: protein - item.nf_protein,
@@ -139,7 +122,7 @@ function Diary() {
     };
 
     //console.log(user)
-    console.log(removingThisFood)
+    console.log(removingThisFood);
 
     deletingFoodDB(removingThisFood);
 
@@ -180,12 +163,12 @@ function Diary() {
         keyExtractor={(item) => item.item_id}
       />
       <View style={{ flexDirection: "row" }}>
-        <Text style={styles.diaryText}>Total Calories: {totalCalories} |</Text>
-        <Text style={styles.diaryText}> Total Protein: {totalProtein}g</Text>
+        <Text style={styles.diaryText}>Total Calories: {calories} |</Text>
+        <Text style={styles.diaryText}> Total Protein: {protein}g</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
-        <Text style={styles.diaryText}> Total Fat: {totalFat}g |</Text>
-        <Text style={styles.diaryText}> Total Carbs: {totalCarbs}g</Text>
+        <Text style={styles.diaryText}> Total Fat: {fat}g |</Text>
+        <Text style={styles.diaryText}> Total Carbs: {carbs}g</Text>
       </View>
 
       <Modal visible={nutritionixVisible} animationType={"slide"}>

@@ -188,6 +188,8 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "40%",
     alignItems: "center",
+    marginTop: 20,
+    marginBottom: 20,
     //marginTop: 100,
   },
 });

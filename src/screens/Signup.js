@@ -11,6 +11,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import SignupForm from "../forms/SignupForm";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
+import { Text } from "react-native-paper";
 
 function Signup({ navigation }) {
   function poundsToKG(pounds) {
@@ -40,7 +42,7 @@ function Signup({ navigation }) {
       return "maintain";
     }
   }
-  function onSignup(personObject) {
+  async function onSignup(personObject) {
     const apiObject = {
       age: personObject.age.toString(),
       gender: personObject.gender.toLowerCase(),
@@ -59,59 +61,43 @@ function Signup({ navigation }) {
         "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
       },
     };
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log("response data", response.data);
-        navigation.navigate("Macros", { ...response.data, ...personObject });
-        //apiObject = response.data;
-        // let tempArr = [];
-        // tempArr.push(
-        //   response.data.balanced,
-        //   response.data.lowfat,
-        //   response.data.lowcarbs,
-        //   response.data.highprotein
-        // );
-        // setMacroPlans(tempArr);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    const { data } = await axios.request(options);
+
     //console.log("personobject", personObject);
-    //navigation.navigate("Macros", apiObject);
+    navigation.navigate("Macros", { ...personObject, ...data });
   }
   function onClose() {
     navigation.navigate("Login");
   }
 
   return (
-    <SafeAreaView style={styles.signUpContainer}>
-      <View
-        style={{
-          alignSelf: "flex-start",
-          marginLeft: 10,
-        }}
-      >
-        <FontAwesome.Button
-          name="close"
-          size={20}
-          onPress={onClose}
-          backgroundColor={"#003f5c"}
-          color={"white"}
-        />
-      </View>
-      <KeyboardAwareScrollView>
-        <SignupForm onSignup={onSignup} onClose={onClose} />
-      </KeyboardAwareScrollView>
-    </SafeAreaView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.signUpContainer}>
+        <View style={{ alignSelf: "flex-start" }}>
+          <Ionicons.Button
+            name="arrow-back"
+            size={30}
+            backgroundColor={"#003f5c"}
+            //color="black"
+            onPress={onClose}
+          />
+        </View>
+        <View style={{ alignItems: "center", marginBottom: 10 }}>
+          <Text variant="displaySmall" style={{ color: "white" }}>
+            Signup
+          </Text>
+        </View>
+        <KeyboardAwareScrollView>
+          <SignupForm onSignup={onSignup} onClose={onClose} />
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   signUpContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#003f5c",
     //borderWidth: 2,
     //borderColor: "red",

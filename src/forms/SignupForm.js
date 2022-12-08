@@ -1,42 +1,109 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState, useContext } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { TextInput, Checkbox, Divider, Text } from "react-native-paper";
 
-import client from "../../api/client";
-
-//import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import { AuthContext } from "../../context/auth";
-
-const LoginSchema = yup.object({
+const SignupSchema = yup.object({
   name: yup.string().required(),
   email: yup.string().email().required(),
-  password: yup.string().required().min(7),
+  password: yup.string().required().min(6),
   age: yup.number().required().integer().min(1),
-  height: yup.number().required(),
+  height_ft: yup.number().required(),
+  height_inch: yup.number().required(),
   weight: yup.number().required(),
-  gender: yup
-    .string()
-    .required()
-    .test("genderCheck", "not male or female", (gender) => {
-      if (gender.toLowerCase() === "male" || gender.toLowerCase === "female") {
-        return true;
-      } else {
-        return false;
-      }
-    }),
-  activitylevel: yup.string().required(),
 });
 
 function SignupForm(props) {
+  const [male, setMale] = useState(false);
+  const [female, setFemale] = useState(false);
+
+  const [low, setLow] = useState(false);
+  const [medium, setMedium] = useState(false);
+  const [high, setHigh] = useState(false);
+
+  const [lose, setLose] = useState(false);
+  const [gain, setGain] = useState(false);
+  const [maintain, setMaintain] = useState(false);
+  function checkMale() {
+    if (female) {
+      setFemale(false);
+    }
+
+    setMale(true);
+  }
+  function checkFemale() {
+    if (male) {
+      setMale(false);
+    }
+
+    setFemale(true);
+  }
+  function checkLow() {
+    if (medium || high) {
+      setMedium(false);
+      setHigh(false);
+    }
+
+    setLow(true);
+  }
+  function checkMedium() {
+    if (low || high) {
+      setLow(false);
+      setHigh(false);
+    }
+
+    setMedium(true);
+  }
+  function checkHigh() {
+    if (medium || high) {
+      setMedium(false);
+      setHigh(false);
+    }
+
+    setHigh(true);
+  }
+  function checkLose() {
+    if (gain || maintain) {
+      setGain(false);
+      setMaintain(false);
+    }
+
+    setLose(true);
+  }
+  function checkGain() {
+    if (lose || maintain) {
+      setLose(false);
+      setMaintain(false);
+    }
+
+    setGain(true);
+  }
+  function checkMaintain() {
+    if (lose || gain) {
+      setLose(false);
+      setGain(false);
+    }
+
+    setMaintain(true);
+  }
+  function setActivityLevel() {
+    if (low) return "low";
+    if (high) return "high";
+    if (medium) return "medium";
+    return "";
+  }
+  function setGoal() {
+    if (lose) return "lose";
+    if (gain) return "gain";
+    if (maintain) return "maintain";
+    return "";
+  }
+  function setGender() {
+    if (male) return "male";
+    if (female) return "female";
+    return "";
+  }
   const userInfo = {
     name: "",
     email: "",
@@ -48,67 +115,27 @@ function SignupForm(props) {
     gender: "",
     activitylevel: "",
     goal: "",
-    // calories: 0,
   };
 
-  const {
-    name,
-    email,
-    password,
-    age,
-    height_ft,
-    height_inch,
-    weight,
-    gender,
-    activitylevel,
-    goal,
-    // calories,
-  } = userInfo;
+  const signUp = (values, actions) => {
+    values.activitylevel = setActivityLevel();
+    values.goal = setGoal();
+    values.gender = setGender();
 
-  const [state, setState] = useContext(AuthContext);
+    if (
+      values.gender === "" ||
+      values.activitylevel === "" ||
+      values.goal === ""
+    ) {
+      console.log("error on sign up, some boxes are not checked");
+      return;
+    }
 
-  const signUp = async (values, actions) => {
     values.age = parseInt(values.age, 10);
     values.height_ft = parseInt(values.height_ft, 10);
     values.height_inch = parseInt(values.height_inch, 10);
     values.weight = parseInt(values.weight, 10);
 
-    /*
-    values.calories = calorieBudget(
-      values.age,
-      values.height_ft,
-      values.height_inch,
-      values.weight,
-      values.gender,
-      values.activitylevel,
-      values.goal
-    );
-    */
-
-    /*
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Request-Headers": "*",
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
-
-    try {
-      const res = await client.post("/api/signup", { ...values }, config);
-      console.log(res.data);
-
-      if (res.data.error) {
-        alert(res.data.error);
-      } else {
-        setState(res.data);
-        await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data));
-        alert("Sign Up Successful");
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-    */
     console.log("values passed to signup", values);
 
     props.onSignup(values);
@@ -119,108 +146,180 @@ function SignupForm(props) {
   return (
     <Formik
       initialValues={userInfo}
-      //validationSchema={LoginSchema}
+      validationSchema={SignupSchema}
       onSubmit={signUp}
     >
       {(formProps) => (
-        <View style={styles.editSignupFormContainer}>
-          <Text style={styles.inputTitle}>Name</Text>
+        <View style={styles.container}>
+          <Text variant="headlineSmall" style={{ color: "white" }}>
+            Authentication: (Required)
+          </Text>
           <TextInput
-            style={styles.input}
-            placeholder="e.g. John Doe"
-            placeholderTextColor={"grey"}
-            onChangeText={formProps.handleChange("name")}
-            value={formProps.values.name}
-          />
-          <Text style={styles.inputTitle}>Email</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="e.g. rocket@gmail.com"
-            placeholderTextColor={"grey"}
+            style={{ marginBottom: 10, marginTop: 10 }}
+            label="email"
             onChangeText={formProps.handleChange("email")}
             value={formProps.values.email}
+            onBlur={formProps.handleBlur("email")}
           />
-          <Text style={styles.inputTitle}>Password</Text>
+          <Text variant="titlesmall" style={{ color: "red", marginBottom: 10 }}>
+            {formProps.touched.email && formProps.errors.email}
+          </Text>
           <TextInput
-            style={styles.input}
-            placeholder=""
-            placeholderTextColor={"white"}
+            style={{ marginBottom: 10 }}
+            label="password"
             onChangeText={formProps.handleChange("password")}
             value={formProps.values.password}
+            onBlur={formProps.handleBlur("password")}
           />
-          <Text style={styles.inputTitle}>Age</Text>
+          <Text variant="titlesmall" style={{ color: "red", marginBottom: 10 }}>
+            {formProps.touched.password && formProps.errors.password}
+          </Text>
+          <Divider style={{ marginBottom: 10 }} />
+          <Text variant="headlineSmall" style={{ color: "white" }}>
+            Basic Info: (Required)
+          </Text>
           <TextInput
-            style={styles.input}
-            placeholder=""
-            placeholderTextColor={"white"}
+            style={{ marginBottom: 10, marginTop: 10 }}
+            label="name"
+            onChangeText={formProps.handleChange("name")}
+            value={formProps.values.name}
+            onBlur={formProps.handleBlur("name")}
+          />
+          <Text variant="titlesmall" style={{ color: "red", marginBottom: 10 }}>
+            {formProps.touched.name && formProps.errors.name}
+          </Text>
+          <TextInput
+            style={{ marginBottom: 10 }}
+            label="age"
             onChangeText={formProps.handleChange("age")}
             value={formProps.values.age}
-            keyboardType="numeric"
+            onBlur={formProps.handleBlur("age")}
+            keyboardType={"numeric"}
           />
-          <Text style={styles.inputTitle}>Height</Text>
-          <View style={styles.heightContainer}>
-            <TextInput
-              style={styles.feetInput}
-              placeholder=""
-              placeholderTextColor={"white"}
-              onChangeText={formProps.handleChange("height_ft")}
-              value={formProps.values.height_ft}
-              keyboardType="numeric"
-            />
-            <Text style={styles.text}> feet </Text>
-            <TextInput
-              style={styles.inchInput}
-              placeholder=""
-              placeholderTextColor={"white"}
-              onChangeText={formProps.handleChange("height_inch")}
-              value={formProps.values.height_inch}
-              keyboardType="numeric"
-            />
-            <Text style={styles.text}> inches </Text>
-          </View>
-          <Text style={styles.inputTitle}>Weight (lbs)</Text>
+          <Text variant="titlesmall" style={{ color: "red", marginBottom: 10 }}>
+            {formProps.touched.age && formProps.errors.age}
+          </Text>
           <TextInput
-            style={styles.input}
-            placeholder=""
-            placeholderTextColor={"white"}
-            place
+            style={{ marginBottom: 10 }}
+            label="weight in lbs"
             onChangeText={formProps.handleChange("weight")}
             value={formProps.values.weight}
-            keyboardType="numeric"
+            keyboardType={"numeric"}
+            onBlur={formProps.handleBlur("weight")}
           />
-          <Text style={styles.inputTitle}>Gender</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Male / Female"
-            placeholderTextColor={"grey"}
-            onChangeText={formProps.handleChange("gender")}
-            value={formProps.values.gender}
-          />
-          <Text style={styles.inputTitle}>Activity Level</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Low / Medium / High"
-            placeholderTextColor={"grey"}
-            onChangeText={formProps.handleChange("activitylevel")}
-            value={formProps.values.activitylevel}
-          />
-          <Text style={styles.inputTitle}>Weight Goal</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Lose / Gain / Maintain"
-            placeholderTextColor={"grey"}
-            onChangeText={formProps.handleChange("goal")}
-            value={formProps.values.goal}
-          />
+          <Text variant="titlesmall" style={{ color: "red", marginBottom: 10 }}>
+            {formProps.touched.weight && formProps.errors.weight}
+          </Text>
 
-          <TouchableOpacity
-            style={styles.submitBttn}
-            onPress={formProps.handleSubmit}
-          >
-            <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
-              Continue
-            </Text>
-          </TouchableOpacity>
+          <TextInput
+            style={{ marginBottom: 10 }}
+            label="height in feet"
+            onChangeText={formProps.handleChange("height_ft")}
+            value={formProps.values.height_ft}
+            keyboardType={"numeric"}
+            onBlur={formProps.handleBlur("height_ft")}
+          />
+          <Text variant="titlesmall" style={{ color: "red", marginBottom: 10 }}>
+            {formProps.touched.height_ft && formProps.errors.height_ft}
+          </Text>
+          <TextInput
+            style={{ marginBottom: 10 }}
+            label="height in inches"
+            onChangeText={formProps.handleChange("height_inch")}
+            value={formProps.values.height_inch}
+            keyboardType={"numeric"}
+            onBlur={formProps.handleBlur("heigth_inch")}
+          />
+          <Text variant="titlesmall" style={{ color: "red", marginBottom: 10 }}>
+            {formProps.touched.height_inch && formProps.errors.height_inch}
+          </Text>
+          <Divider style={{ marginBottom: 10 }} />
+
+          <Text variant="headlineSmall" style={{ color: "white" }}>
+            Gender: (Required)
+          </Text>
+
+          <Checkbox.Item
+            label="Male"
+            status={male ? "checked" : "unchecked"}
+            mode="android"
+            onPress={checkMale}
+            style={{ backgroundColor: "grey" }}
+          />
+          <Checkbox.Item
+            label="Female"
+            status={female ? "checked" : "unchecked"}
+            mode="android"
+            onPress={checkFemale}
+            style={{ backgroundColor: "grey" }}
+          />
+          <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+
+          <Text variant="headlineSmall" style={{ color: "white" }}>
+            Activity Level: (Required)
+          </Text>
+
+          <Checkbox.Item
+            label="Low"
+            status={low ? "checked" : "unchecked"}
+            mode="android"
+            onPress={checkLow}
+            style={{ backgroundColor: "grey" }}
+          />
+          <Checkbox.Item
+            label="Medium"
+            status={medium ? "checked" : "unchecked"}
+            mode="android"
+            onPress={checkMedium}
+            style={{ backgroundColor: "grey" }}
+          />
+          <Checkbox.Item
+            label="High"
+            status={high ? "checked" : "unchecked"}
+            mode="android"
+            onPress={checkHigh}
+            style={{ backgroundColor: "grey" }}
+          />
+          <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+
+          <Text variant="headlineSmall" style={{ color: "white" }}>
+            Weight Goal: (Required)
+          </Text>
+
+          <Checkbox.Item
+            label="Lose"
+            status={lose ? "checked" : "unchecked"}
+            mode="android"
+            onPress={checkLose}
+            style={{ backgroundColor: "grey" }}
+          />
+          <Checkbox.Item
+            label="Gain"
+            status={gain ? "checked" : "unchecked"}
+            mode="android"
+            onPress={checkGain}
+            style={{ backgroundColor: "grey" }}
+          />
+          <Checkbox.Item
+            label="Maintain"
+            status={maintain ? "checked" : "unchecked"}
+            mode="android"
+            onPress={checkMaintain}
+            style={{ backgroundColor: "grey", marginBottom: 10 }}
+          />
+          <View style={{ alignItems: "center" }}>
+            <TouchableOpacity
+              style={styles.submitBttn}
+              onPress={formProps.handleSubmit}
+            >
+              <Text
+                variant="titleMedium"
+                style={{ color: "white", fontWeight: "500" }}
+              >
+                Next
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
     </Formik>

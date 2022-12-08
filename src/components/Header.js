@@ -28,14 +28,14 @@ export default function Header() {
     >
       <SafeAreaView style={styles.headerContainer}>
         <Text style={styles.textStyle}>
-          <FontAwesome5 name="cloudscale" size={24} color="lawngreen" />{" "}
+          <FontAwesome5 name="cloudscale" size={28} color="lawngreen" />{" "}
           {rating}
         </Text>
         <Text style={styles.textStyle}>
-          <FontAwesome5 name="fire-alt" size={24} color="#ff3333" /> {calories}
+          <FontAwesome5 name="fire-alt" size={28} color="#ff3333" /> {calories}
         </Text>
         <Text style={styles.textStyle}>
-          <FontAwesome5 name="star" size={24} color="yellow" /> {stars}
+          <FontAwesome5 name="star" size={28} color="yellow" /> {stars}
         </Text>
         <Modal
           visible={headerModalVisible}
@@ -56,10 +56,10 @@ const styles = StyleSheet.create({
     borderBottomColor: "white",
     borderBottomWidth: 0.25,
     backgroundColor: "#003f5c",
-    padding: 30,
+    padding: 20,
   },
   textStyle: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
     color: "white",
   },

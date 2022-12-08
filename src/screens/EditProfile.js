@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   Keyboard,
-  Text,
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import EditProfileForm from "../forms/EditProfileForm";
 import axios from "axios";
+import { Text } from "react-native-paper";
 
 function EditProfile({ navigation }) {
   function poundsToKG(pounds) {
@@ -40,7 +40,7 @@ function EditProfile({ navigation }) {
       return "maintain";
     }
   }
-  function onSubmit(personObject) {
+  async function onSubmit(personObject) {
     const apiObject = {
       age: personObject.age.toString(),
       gender: personObject.gender.toLowerCase(),
@@ -59,57 +59,41 @@ function EditProfile({ navigation }) {
         "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
       },
     };
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log("response data", response.data);
-        navigation.navigate("EditMacros", {
-          ...response.data,
-          ...personObject,
-        });
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    const { data } = await axios.request(options);
+    navigation.navigate("EditMacros", { ...data, ...personObject });
   }
   function goToHomeProfile() {
     navigation.navigate("HomeProfile");
   }
   return (
-    <SafeAreaView style={styles.editProfileContainer}>
-      <View style={{ alignSelf: "flex-start", marginLeft: 10 }}>
-        <Ionicons.Button
-          name="arrow-back"
-          size={24}
-          backgroundColor={"#003f5c"}
-          //color="black"
-          onPress={goToHomeProfile}
-        />
-      </View>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles.editProfileContainer}>
-          <KeyboardAwareScrollView style={styles.container}>
-            <EditProfileForm
-              goToHomeProfile={goToHomeProfile}
-              onSubmit={onSubmit}
-            />
-          </KeyboardAwareScrollView>
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.editProfileContainer}>
+        <View style={{ alignSelf: "flex-start" }}>
+          <Ionicons.Button
+            name="arrow-back"
+            size={30}
+            backgroundColor={"#003f5c"}
+            //color="black"
+            onPress={goToHomeProfile}
+          />
+        </View>
+        <View style={{ alignItems: "center" }}>
+          <Text variant="displaySmall" style={{ color: "white" }}>
+            Edit Profile
+          </Text>
+        </View>
+        <KeyboardAwareScrollView>
+          <EditProfileForm onSubmit={onSubmit} />
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   editProfileContainer: {
     flex: 1,
-    alignItems: "center",
-
     backgroundColor: "#003f5c",
-    //borderWidth: 2,
-    //borderColor: "red",
-  },
-  container: {
     //borderWidth: 2,
     //borderColor: "red",
   },
