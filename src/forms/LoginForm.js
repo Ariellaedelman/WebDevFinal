@@ -49,7 +49,7 @@ function LoginForm(loginProps) {
 
     try {
       const res = await client.post("/api/signin", { ...values }, config);
-      console.log(res.data);
+      console.log("is this it?", res.data);
 
       if (res.data.error) {
         alert(res.data.error);
@@ -57,6 +57,7 @@ function LoginForm(loginProps) {
         setState(res.data);
         await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data));
         alert("Sign In Successful");
+        console.log("this is the state right now: ", state)
       }
     } catch (error) {
       console.log(error.message);
@@ -69,7 +70,7 @@ function LoginForm(loginProps) {
   return (
     <Formik
       initialValues={userInfo}
-      // validationSchema={LoginSchema}
+      validationSchema={LoginSchema}
       onSubmit={signIn}
     >
       {(props) => (

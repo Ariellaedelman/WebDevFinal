@@ -4,7 +4,7 @@ const router = express.Router();
 
 //import { signup, signin, forgotPassword, resetPassword } from "../controllers/auth_controller_v2"
 // controller
-const { signup, signin, /* forgotPassword, resetPassword, */ update, addFood, getFood } = require("../controllers/auth_controller_v2");
+const { signup, signin, /* forgotPassword, resetPassword, */ update, addFood, getFood, removeFood } = require("../controllers/auth_controller_v2");
 
 router.get("/", (req, res) => {
     return res.json({
@@ -25,5 +25,6 @@ router.post("/signin", signin);
 router.post("/update", update);
 router.post("/add-food", addFood);
 router.get("/get-foods", getFood)
+router.post("/remove-food", removeFood)
 
 export default router;

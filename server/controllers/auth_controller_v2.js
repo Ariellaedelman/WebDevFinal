@@ -224,6 +224,30 @@ export const addFood = async (req, res) => {
     }
 };
 
+// removing foods to database
+export const removeFood = async (req, res) => {
+    console.log("Removing Food Hit");
+    try {
+        // const theUser = user.default.db.collection("users")
+        //const db = require("../models/model_index")
+        //console.log(theUser);
+        const { user_id, food_specific_id } = req.body;
+        console.log("this is the body: ", req.body)
+
+        const removedFood = await Food.deleteOne({'user_id': user_id, 'food_specific_id': food_specific_id})
+
+
+        res.json({ ok: true });
+
+    } 
+    catch (err) {
+        console.log(err);
+        res.json({ ok: false })
+    }
+};
+
+
+
 // updating user
 export const update = async (req, res) => {
     console.log("Updating User Hit");

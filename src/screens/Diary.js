@@ -9,7 +9,7 @@ import {
   ScrollView,
   Pressable,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Nutritionix from "../apis/Nutritionix";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 import DiaryEntry from "../components/DiaryEntry";
@@ -23,6 +23,12 @@ import { decrementCarbs } from "../redux/carbs";
 import { setRating } from "../redux/rating";
 import { calculateRating } from "../utils/helperFunctions";
 
+import client from "../../api/client";
+//import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { AuthContext } from "../../context/auth";
+
 function Diary() {
   const [nutritionixVisible, setNutritionixVisible] = useState(false);
   const [totalCalories, setTotalCalories] = useState(0);
@@ -32,6 +38,9 @@ function Diary() {
   const [foodList, setFoodList] = useState([]);
   const [date, setDate] = useState("");
   const [chosenEntry, setChosenEntry] = useState(null);
+
+  //const user = useSelector((state) => state.user.value);
+  const [state, setState] = useContext(AuthContext);
 
   const foods = useSelector((state) => state.foods.value);
   const calories = useSelector((state) => state.calories.value);
@@ -80,6 +89,35 @@ function Diary() {
     setChosenEntry(foodItem);
   }
 
+  const deletingFoodDB = async (values, actions) => {
+    //remove method for database
+
+    console.log("these are the values: ", values)
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+
+    try {
+      const res = await client.post("/api/remove-food", values, config);
+      console.log(res.data);
+
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        //setState(res.data);
+        //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+        alert("Removing Food Successful");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   function deleteFoodItem(item) {
     dispatch(deleteGlobalFood(item));
     dispatch(decrementCalories(item.nf_calories));
@@ -94,6 +132,17 @@ function Diary() {
       carbs: carbs - item.nf_total_carbohydrate,
     }).toFixed(1);
     dispatch(setRating(newRating));
+
+    const removingThisFood = {
+      user_id: state.user._id,
+      food_specific_id: item.item_id,
+    };
+
+    //console.log(user)
+    console.log(removingThisFood)
+
+    deletingFoodDB(removingThisFood);
+
     setFoodList((prevFoods) => {
       return prevFoods.filter((foodItem) => foodItem.item_id !== item.item_id);
     });
