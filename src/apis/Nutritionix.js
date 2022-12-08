@@ -216,7 +216,6 @@ export default function Nutritionix(props) {
       console.log(error.message);
     }
 
-    props.addFoodItem(newObj);
     props.closeNutritionix();
   };
 
