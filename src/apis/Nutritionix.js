@@ -152,12 +152,14 @@ export default function Nutritionix(props) {
     dispatch(incrementCarbs(newObj.nf_total_carbohydrate));
     dispatch(incrementProtein(newObj.nf_protein));
     dispatch(incrementFat(newObj.nf_total_fat));
+    
     const budget = {
       calories: user.calories,
       protein: user.protein,
       carbs: user.carbs,
       fat: user.fat,
     };
+
     const newRating = calculateRating(budget, {
       calories: calories + newObj.nf_calories,
       protein: protein + newObj.nf_protein,
@@ -202,6 +204,7 @@ export default function Nutritionix(props) {
     };
 
     try {
+      // console.log(state.user._id)
       const res = await client.post("/api/add-food", foodItem, config);
       console.log(res.data);
 
