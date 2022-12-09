@@ -117,7 +117,9 @@ function SignupForm(props) {
     goal: "",
   };
 
-  const signUp = (values, actions) => {
+  const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal } = userInfo;
+
+  const signUp = async (values, actions) => {
     values.activitylevel = setActivityLevel();
     values.goal = setGoal();
     values.gender = setGender();

@@ -9,7 +9,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import client from "../../api/client";
 import React, { useContext, useEffect, useState } from "react";
-//import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 //import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from "../../context/auth";
 import { TextInput, Checkbox, Divider, Text } from "react-native-paper";
@@ -22,6 +22,9 @@ const EditSchema = yup.object({
 });
 
 function EditProfileForm(props) {
+
+  const [state, setState] = useContext(AuthContext);
+
   const [male, setMale] = useState(false);
   const [female, setFemale] = useState(false);
 
@@ -122,20 +125,9 @@ function EditProfileForm(props) {
     goal: "",
   };
 
-  const [state, setState] = useContext(AuthContext);
+  const { email, age, height_ft, height_inch, weight, gender, activitylevel, goal } = updatedInfo;
 
-  const {
-    email,
-    age,
-    height_ft,
-    height_inch,
-    weight,
-    gender,
-    activitylevel,
-    goal,
-  } = updatedInfo;
-
-  const updateUserInfo = (values, actions) => {
+  const updateUserInfo = async (values, actions) => {
     values.activitylevel = setActivityLevel();
     values.goal = setGoal();
     values.gender = setGender();
@@ -161,6 +153,7 @@ function EditProfileForm(props) {
     props.onSubmit(values); //or props.onSubmit(values);
     actions.resetForm();
   };
+
   return (
     <Formik
       initialValues={updatedInfo}
