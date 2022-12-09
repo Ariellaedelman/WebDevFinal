@@ -48,7 +48,6 @@ function Diary() {
     setDate(new Date().toDateString());
   }, []);
 
-<<<<<<< HEAD
   /* For user info to stay on page (get food route)
   const todayDate = new Date().toISOString().split('T')[0];
   console.log(new Date().toISOString().split('T')[0])
@@ -59,25 +58,8 @@ function Diary() {
   }
   */
 
-  useEffect(() => {
-    let calories = 0;
-    let fat = 0;
-    let protein = 0;
-    let carbs = 0;
-    for (let i = 0; i < foodList.length; i++) {
-      calories += foodList[i].nf_calories;
-      fat += foodList[i].nf_total_fat;
-      protein += foodList[i].nf_protein;
-      carbs += foodList[i].nf_total_carbohydrate;
-    }
-    setTotalCalories(Math.round(calories));
-    setTotalProtein(Math.round(protein));
-    setTotalFat(Math.round(fat));
-    setTotalCarbs(Math.round(carbs));
-  }, [foodList]);
+  
 
-=======
->>>>>>> b18763ce99c4d358e8fb9a836c9c5b7233244d27
   function openNutritionix() {
     setNutritionixVisible(true);
   }
@@ -186,12 +168,13 @@ function Diary() {
 
     //console.log(user)
     console.log(removingThisFood);
-
+ 
     deletingFoodDB(removingThisFood);
 
-    setFoodList((prevFoods) => {
+    /*setFoodList((prevFoods) => {
       return prevFoods.filter((foodItem) => foodItem.item_id !== item.item_id);
     });
+    */
   }
 
   function handleChoice(food) {

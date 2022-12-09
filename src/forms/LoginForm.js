@@ -24,7 +24,7 @@ import { AuthContext } from "../../context/auth";
 
 const LoginSchema = yup.object({
   email: yup.string().email().required(),
-  password: yup.string().required().min(7),
+  password: yup.string().required().min(6),
 });
 
 function LoginForm(loginProps) {
