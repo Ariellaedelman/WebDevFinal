@@ -11,7 +11,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../redux/user";
+import { resetUser } from "../redux/user";
 import { setCalories } from "../redux/calories";
 import { setGlobalFoods } from "../redux/foods";
 import { setFat } from "../redux/fat";
@@ -25,7 +25,7 @@ function HomeProfile({ navigation }) {
   const dispatch = useDispatch();
   const [state, setState] = useContext(AuthContext);
 
-  console.log('this is state on homeprofile rn: ', state)
+  console.log("this is state on homeprofile rn: ", state);
 
   function openProfile() {
     navigation.navigate("EditProfile");
@@ -43,7 +43,7 @@ function HomeProfile({ navigation }) {
 
   const onLogOut = async () => {
     dispatch(setGlobalFoods([]));
-    dispatch(setUser({}));
+    //dispatch(resetUser());
     dispatch(setStars(0));
     dispatch(setRating(0));
     dispatch(setCalories(0));
