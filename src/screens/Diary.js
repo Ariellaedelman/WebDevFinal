@@ -48,6 +48,7 @@ function Diary() {
     setDate(new Date().toDateString());
   }, []);
 
+  console.log('this is state on diary rn: ', state)
   /* For user info to stay on page (get food route)
   const todayDate = new Date().toISOString().split('T')[0];
   console.log(new Date().toISOString().split('T')[0])

@@ -74,24 +74,7 @@ function EditMacros({ navigation, route }) {
       // calories: 0,
     };
     dispatch(editUser(userInfo));
-    const {
-      name,
-      email,
-      password,
-      age,
-      height_ft,
-      height_inch,
-      weight,
-      gender,
-      activitylevel,
-      goal,
-      macro_plan,
-      carbs,
-      fat,
-      protein,
-      calories,
-      // calories,
-    } = userInfo;
+    
 
     const config = {
       headers: {
@@ -108,14 +91,16 @@ function EditMacros({ navigation, route }) {
       if (res.data.error) {
         alert(res.data.error);
       } else {
-        setState(res.data);
+        //setState(res.data);
         //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+        console.log(state.user)
         alert("Update Successful");
       }
     } catch (error) {
       console.log(error.message);
     }
 
+    console.log('this is user state??: ', state.user)
     navigation.navigate("HomeProfile");
     alert(
       "Updated budget is Calories: " +

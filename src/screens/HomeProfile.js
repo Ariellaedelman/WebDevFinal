@@ -25,6 +25,8 @@ function HomeProfile({ navigation }) {
   const dispatch = useDispatch();
   const [state, setState] = useContext(AuthContext);
 
+  console.log('this is state on homeprofile rn: ', state)
+
   function openProfile() {
     navigation.navigate("EditProfile");
   }
