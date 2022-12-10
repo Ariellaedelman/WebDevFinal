@@ -206,19 +206,19 @@ export const addFood = async (req, res) => {
         // const theUser = user.default.db.collection("users")
         //const db = require("../models/model_index")
         //console.log(theUser);
-        const { user_id, name, brand, calories, carbohydrates, protein, fat, serving_size, food_specific_id } = req.body;
+        const { user_id, item_name, brand_name, nf_calories, nf_total_carbohydrate, nf_protein, nf_total_fat, nf_serving_size_qty, item_id } = req.body;
         console.log(req.body)
 
         const newFood = await new Food({
-            user_id,
-            name,
-            brand,
-            calories,
-            carbohydrates,
-            protein,
-            fat,
-            serving_size,
-            food_specific_id,
+            user_id, 
+            item_name, 
+            brand_name, 
+            nf_calories, 
+            nf_total_carbohydrate, 
+            nf_protein, 
+            nf_total_fat, 
+            nf_serving_size_qty, 
+            item_id,
             }).save();
 
 
@@ -238,10 +238,10 @@ export const removeFood = async (req, res) => {
         // const theUser = user.default.db.collection("users")
         //const db = require("../models/model_index")
         //console.log(theUser);
-        const { user_id, food_specific_id } = req.body;
+        const { user_id, item_id } = req.body;
         console.log("this is the body: ", req.body)
 
-        const removedFood = await Food.deleteOne({'user_id': user_id, 'food_specific_id': food_specific_id})
+        const removedFood = await Food.deleteOne({'user_id': user_id, 'item_id': item_id})
 
 
         res.json({ ok: true });
@@ -357,18 +357,20 @@ export const getFood = async (req, res) => {
         // const theUser = user.default.db.collection("users")
         //const db = require("../models/model_index")
         //console.log(theUser);
-        const { user_id, dateValue } = req.body;
+        const { user_id, /* dateValue */ } = req.body;
         console.log("this is req body: ", req.body)
 
+        /* 
         const oneFood = await Food.find({'user_id' : user_id})
         console.log(oneFood)
+        */
 
-        const retrivedFoods = await Food.find({'user_id': user_id, 'createdAt': dateValue})
+        const retrivedFoods = await Food.find({'user_id': user_id /*, 'createdAt': dateValue */})
         console.log(retrivedFoods)
 
 
 
-        res.json({ ok: true, data: retrivedFoods});
+        res.json(retrivedFoods);
 
     } 
     catch (err) {

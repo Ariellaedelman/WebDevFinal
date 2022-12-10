@@ -38,6 +38,7 @@ function Diary() {
   const [state, setState] = useContext(AuthContext);
 
   const foods = useSelector((state) => state.foods.value);
+  console.log("this is redux foods: ", foods);
   const calories = useSelector((state) => state.calories.value);
   const fat = useSelector((state) => state.fat.value);
   const carbs = useSelector((state) => state.carbs.value);
@@ -164,7 +165,7 @@ function Diary() {
 
     const removingThisFood = {
       user_id: state.user._id,
-      food_specific_id: item.item_id,
+      item_id: item.item_id,
     };
 
     //console.log(user)

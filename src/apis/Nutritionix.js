@@ -182,14 +182,14 @@ export default function Nutritionix(props) {
 
     const foodItem = {
       user_id: state.user._id,
-      name: newObj.item_name,
-      brand: newObj.brand_name,
-      calories: newObj.nf_calories,
-      carbohydrates: newObj.nf_total_carbohydrate,
-      protein: newObj.nf_protein,
-      fat: newObj.nf_total_fat,
-      serving_size: newObj.nf_serving_size_qty,
-      food_specific_id: newObj.item_id,
+      item_name: newObj.item_name,
+      brand_name: newObj.brand_name,
+      nf_calories: newObj.nf_calories,
+      nf_total_carbohydrate: newObj.nf_total_carbohydrate,
+      nf_protein: newObj.nf_protein,
+      nf_total_fat: newObj.nf_total_fat,
+      nf_serving_size_qty: newObj.nf_serving_size_qty,
+      item_id: newObj.item_id,
       //key: "",
     };
 

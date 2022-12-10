@@ -27,7 +27,7 @@ function HomeProfile({ navigation }) {
   const [testObject, setTestObject] = useState({});
   const dispatch = useDispatch();
   const [state, setState] = useContext(AuthContext);
-  //const foods = useSelector((state) => state.foods.value);
+  const foods = useSelector((state) => state.foods.value);
   const calories = useSelector((state) => state.calories.value);
   const fat = useSelector((state) => state.fat.value);
   const carbs = useSelector((state) => state.carbs.value);

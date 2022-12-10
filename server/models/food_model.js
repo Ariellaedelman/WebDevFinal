@@ -10,43 +10,43 @@ const foodSchema = new Schema (
             ref: "User"
         },
 
-        name: {
+        item_name: {
             type: String,
             trim: true,
             required: true,
         },
 
-        brand: {
+        brand_name: {
             type: String,
             required: true,
         },
         
-        calories: {
+        nf_calories: {
             type: Number,
             required: true,
         },
 
-        carbohydrates: {
+        nf_total_carbohydrate: {
             type: Number,
             required: true,
         },
 
-        protein: {
+        nf_protein: {
             type: Number,
             required: true,
         },
 
-        fat: {
+        nf_total_fat: {
             type: Number,
             required: true,
         },
 
-        serving_size: {
+        nf_serving_size_qty: {
             type: Number,
             required: true,
         },
 
-        food_specific_id: {
+        item_id: {
             type: String,
             required: true,
         },

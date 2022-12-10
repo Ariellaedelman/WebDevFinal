@@ -25,7 +25,7 @@ router.post("/signin", signin);
 router.post("/update", update);
 router.post("/update-curr", updateCurr)
 router.post("/add-food", addFood);
-router.get("/get-foods", getFood)
+router.post("/get-foods", getFood)
 router.post("/remove-food", removeFood)
 
 export default router;

@@ -36,8 +36,42 @@ import { setRating } from "../redux/rating";
 function Login({ navigation }) {
   const [state, setState] = useContext(AuthContext);
   const dispatch = useDispatch();
-  function onLogin(personObject) {
+
+  async function onLogin(personObject) {
     //const macro_plan = state.user.curr_macro_plan;
+    
+    // const { data } = await client.get();
+
+    const userDBFoods = {
+      user_id: state.user._id,
+      // createdAt: todayDate,
+    }
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+
+    try {
+      const res = await client.post("/api/get-foods", userDBFoods, config);
+      console.log("foods array: ", res.data);
+
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        //setState(res.data);
+        //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+        dispatch(setGlobalFoods(res.data))
+        console.log(state.user)
+        alert("Update Successful");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+
 
     dispatch(
       setUser({
