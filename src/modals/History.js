@@ -6,12 +6,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Calendar from "../components/Calendar";
+import { useNavigation } from "@react-navigation/native";
 
 function History(props) {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.editProfileContainer}>
-      <Calendar/>
-      <TouchableOpacity style={styles.closeBttn} onPress={props.close}>
+      <Calendar />
+      <TouchableOpacity
+        style={styles.closeBttn}
+        onPress={() => navigation.navigate("HomeProfile")}
+      >
         <Text>Close</Text>
       </TouchableOpacity>
     </SafeAreaView>

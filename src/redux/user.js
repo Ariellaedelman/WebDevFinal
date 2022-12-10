@@ -21,10 +21,13 @@ export const counterSlice = createSlice({
         macro_plan: action.payload.macro_plan,
       };
     },
+    resetUser: (state, action) => {
+      state.value = {};
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, editUser } = counterSlice.actions;
+export const { setUser, editUser, resetUser } = counterSlice.actions;
 
 export default counterSlice.reducer;
