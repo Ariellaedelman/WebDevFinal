@@ -14,10 +14,14 @@ export const counterSlice = createSlice({
     decrementProtein: (state, action) => {
       state.value -= action.payload;
     },
+    setProtein: (state, action) => {
+      state.value = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { incrementProtein, decrementProtein } = counterSlice.actions;
+export const { incrementProtein, decrementProtein, setProtein } =
+  counterSlice.actions;
 
 export default counterSlice.reducer;
