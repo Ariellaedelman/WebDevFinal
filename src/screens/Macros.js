@@ -79,15 +79,14 @@ function Macros({ navigation, route }) {
       calories: Math.round(route.params.data.calorie),
       stars: 50,
       rating: 0,
-      curr_macro_plan: "",
       curr_carbs: 0,
       curr_fat: 0,
       curr_protein: 0,
-      curr_calories: 0
+      curr_calories: 0,
       // calories: 0,
     };
     dispatch(setUser(userInfo));
-   
+
     /*
     const {
       name,

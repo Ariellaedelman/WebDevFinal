@@ -41,7 +41,7 @@ function Login({ navigation }) {
 
     dispatch(
       setUser({
-        macro_plan: state.user.curr_macro_plan,
+        macro_plan: state.user.macro_plan,
         calories: state.user.calories,
         protein: state.user.protein,
         carbs: state.user.carbs,
