@@ -27,6 +27,13 @@ function HomeProfile({ navigation }) {
   const [testObject, setTestObject] = useState({});
   const dispatch = useDispatch();
   const [state, setState] = useContext(AuthContext);
+  //const foods = useSelector((state) => state.foods.value);
+  const calories = useSelector((state) => state.calories.value);
+  const fat = useSelector((state) => state.fat.value);
+  const carbs = useSelector((state) => state.carbs.value);
+  const protein = useSelector((state) => state.protein.value);
+  const stars = useSelector((state) => state.stars.value);
+  const rating = useSelector((state) => state.rating.value);
 
   console.log("this is state on homeprofile rn: ", state);
 
@@ -44,18 +51,15 @@ function HomeProfile({ navigation }) {
     console.log(setTestObject);
   }
 
-
   const saveCurrInfo = async (values, actions) => {
-    
     const userInfo = {
       email: state.user.email,
-      curr_macro_plan: state.user.curr_macro_plan,
-      curr_carbs: state.user.curr_carbs, 
-      curr_fat: state.user.curr_fat, 
-      curr_protein: state.user.curr_protein, 
-      curr_calories: state.user.curr_calories, 
-      stars: state.user.stars, 
-      rating: state.user.rating,
+      curr_carbs: carbs,
+      curr_fat: fat,
+      curr_protein: protein,
+      curr_calories: calories,
+      stars: stars,
+      rating: rating,
     };
 
     const config = {
@@ -75,13 +79,13 @@ function HomeProfile({ navigation }) {
       } else {
         //setState(res.data);
         //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
-        console.log(state.user)
+        console.log(state.user);
         alert("Update Successful");
       }
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   const onLogOut = async () => {
     saveCurrInfo();

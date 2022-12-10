@@ -25,16 +25,23 @@ import { AuthContext } from "../../context/auth";
 
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/user";
+import { setCalories } from "../redux/calories";
+import { setGlobalFoods } from "../redux/foods";
+import { setFat } from "../redux/fat";
+import { setProtein } from "../redux/protein";
+import { setCarbs } from "../redux/carbs";
+import { setStars } from "../redux/stars";
+import { setRating } from "../redux/rating";
 
 function Login({ navigation }) {
   const [state, setState] = useContext(AuthContext);
   const dispatch = useDispatch();
   function onLogin(personObject) {
-    //console.log(personObject)
-    //console.log(state.user.calories);
-    //console.log(state.user.name);
+    //const macro_plan = state.user.curr_macro_plan;
+
     dispatch(
       setUser({
+        macro_plan: state.user.curr_macro_plan,
         calories: state.user.calories,
         protein: state.user.protein,
         carbs: state.user.carbs,
@@ -43,6 +50,21 @@ function Login({ navigation }) {
         macro_plan: state.user.macro_plan,
       })
     );
+
+    //const calories = state.user.curr_calories;
+    //const fat = state.user.curr_fat;
+    //const protein = state.user.curr_protein;
+    //const carbs = state.user.curr_carbs;
+    //const rating = state.user.rating;
+    //const stars = state.user.stars;
+
+    dispatch(setCalories(state.user.curr_calories));
+    dispatch(setProtein(state.user.curr_protein));
+    dispatch(setFat(state.user.curr_fat));
+    dispatch(setCarbs(state.user.curr_carbs));
+    dispatch(setStars(state.user.stars));
+    dispatch(setRating(state.user.rating));
+
     navigation.navigate("BottomTab", {
       screen: "Home",
       params: {
