@@ -47,7 +47,6 @@ function Login({ navigation }) {
         carbs: state.user.carbs,
         fat: state.user.fat,
         name: state.user.name,
-        macro_plan: state.user.macro_plan,
       })
     );
 
