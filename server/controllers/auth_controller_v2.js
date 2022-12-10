@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
     console.log("Signup Hit");
     try {
         // validation
-        const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal, macro_plan, carbs, fat, protein, calories } = req.body;
+        const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal, macro_plan, carbs, fat, protein, calories, stars, rating, curr_macro_plan, curr_carbs, curr_fat, curr_protein, curr_calories} = req.body;
         if (!name) {
             return res.json({
             error: "Name is required",
@@ -67,6 +67,13 @@ export const signup = async (req, res) => {
             fat,
             protein,
             calories,
+            stars,
+            rating,
+            curr_macro_plan, 
+            curr_carbs, 
+            curr_fat, 
+            curr_protein, 
+            curr_calories,
             }).save();
 
             // create signed token
@@ -304,6 +311,33 @@ export const update = async (req, res) => {
             */
 
             res.json({ ok: true });
+        
+
+    } 
+    
+    catch (err) {
+        console.log(err);
+        res.json({ ok: false })
+    }
+    
+    
+};
+
+// updating current user info
+export const updateCurr = async (req, res) => {
+    console.log("Updating Current User Info Hit");
+
+   // const dbUsing = db.mongoose.("calutritionDB")
+
+    try {
+        //remember to add ratings and the foods array soon
+        const { email, curr_macro_plan, curr_carbs, curr_fat, curr_protein, curr_calories, stars, rating} = req.body;
+        // console.log(req.body) *TESTING PURPOSES*
+
+        const newUpdatedCurrUser = await User.findOneAndUpdate({email}, {curr_macro_plan, curr_carbs, curr_fat, curr_protein, curr_calories, stars, rating}, )
+        
+
+        res.json({ ok: true });
         
 
     } 

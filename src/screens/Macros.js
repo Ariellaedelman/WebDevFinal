@@ -77,9 +77,18 @@ function Macros({ navigation, route }) {
       fat: Math.round(chosenPlan.fat),
       protein: Math.round(chosenPlan.protein),
       calories: Math.round(route.params.data.calorie),
+      stars: 50,
+      rating: 0,
+      curr_macro_plan: "",
+      curr_carbs: 0,
+      curr_fat: 0,
+      curr_protein: 0,
+      curr_calories: 0
       // calories: 0,
     };
     dispatch(setUser(userInfo));
+   
+    /*
     const {
       name,
       email,
@@ -98,6 +107,7 @@ function Macros({ navigation, route }) {
       calories,
       // calories,
     } = userInfo;
+    */
 
     console.log("this is the user now w/ all info: ", userInfo);
     // console.log("these are the values rn: ", ...values)

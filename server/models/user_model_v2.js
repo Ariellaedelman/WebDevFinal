@@ -98,6 +98,49 @@ const userSchema = new Schema (
             // required: true,
         },
 
+        stars: {
+            type: Number,
+            // required: true
+        },
+
+        rating: {
+            type: Number,
+            // required: true
+        },
+
+        /*
+        foods: {
+            type: Array,
+            default: [],
+            // required: true
+        },
+        */
+
+        curr_macro_plan: {
+            type: String,
+            // required: true,
+        },
+
+        curr_carbs: {
+            type: Number,
+            // required: true,
+        },
+
+        curr_fat: {
+            type: Number,
+            // required: true,
+        },
+
+        curr_protein: {
+            type: Number,
+            // required: true,
+        },
+
+        curr_calories: {
+            type: Number,
+            // required: true,
+        },
+
         role: {
             type: String,
             default: "User",

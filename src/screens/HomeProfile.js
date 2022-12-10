@@ -20,6 +20,9 @@ import { setCarbs } from "../redux/carbs";
 import { setStars } from "../redux/stars";
 import { setRating } from "../redux/rating";
 
+import client from "../../api/client";
+//import axios from "axios";
+
 function HomeProfile({ navigation }) {
   const [testObject, setTestObject] = useState({});
   const dispatch = useDispatch();
@@ -41,7 +44,47 @@ function HomeProfile({ navigation }) {
     console.log(setTestObject);
   }
 
+
+  const saveCurrInfo = async (values, actions) => {
+    
+    const userInfo = {
+      email: state.user.email,
+      curr_macro_plan: state.user.curr_macro_plan,
+      curr_carbs: state.user.curr_carbs, 
+      curr_fat: state.user.curr_fat, 
+      curr_protein: state.user.curr_protein, 
+      curr_calories: state.user.curr_calories, 
+      stars: state.user.stars, 
+      rating: state.user.rating,
+    };
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+
+    try {
+      const res = await client.post("/api/update-curr", userInfo, config);
+      console.log(res.data);
+
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        //setState(res.data);
+        //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+        console.log(state.user)
+        alert("Update Successful");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   const onLogOut = async () => {
+    saveCurrInfo();
     dispatch(setGlobalFoods([]));
     //dispatch(resetUser());
     dispatch(setStars(0));
