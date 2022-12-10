@@ -20,10 +20,20 @@ import { setCarbs } from "../redux/carbs";
 import { setStars } from "../redux/stars";
 import { setRating } from "../redux/rating";
 
+import client from "../../api/client";
+//import axios from "axios";
+
 function HomeProfile({ navigation }) {
   const [testObject, setTestObject] = useState({});
   const dispatch = useDispatch();
   const [state, setState] = useContext(AuthContext);
+  //const foods = useSelector((state) => state.foods.value);
+  const calories = useSelector((state) => state.calories.value);
+  const fat = useSelector((state) => state.fat.value);
+  const carbs = useSelector((state) => state.carbs.value);
+  const protein = useSelector((state) => state.protein.value);
+  const stars = useSelector((state) => state.stars.value);
+  const rating = useSelector((state) => state.rating.value);
 
   console.log("this is state on homeprofile rn: ", state);
 
@@ -41,7 +51,44 @@ function HomeProfile({ navigation }) {
     console.log(setTestObject);
   }
 
+  const saveCurrInfo = async (values, actions) => {
+    const userInfo = {
+      email: state.user.email,
+      curr_carbs: carbs,
+      curr_fat: fat,
+      curr_protein: protein,
+      curr_calories: calories,
+      stars: stars,
+      rating: rating,
+    };
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+
+    try {
+      const res = await client.post("/api/update-curr", userInfo, config);
+      console.log(res.data);
+
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        //setState(res.data);
+        //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+        console.log(state.user);
+        alert("Update Successful");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const onLogOut = async () => {
+    saveCurrInfo();
     dispatch(setGlobalFoods([]));
     //dispatch(resetUser());
     dispatch(setStars(0));
