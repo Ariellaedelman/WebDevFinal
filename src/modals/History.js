@@ -13,12 +13,6 @@ function History(props) {
   return (
     <SafeAreaView style={styles.editProfileContainer}>
       <Calendar />
-      <TouchableOpacity
-        style={styles.closeBttn}
-        onPress={() => navigation.navigate("HomeProfile")}
-      >
-        <Text>Close</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 }
