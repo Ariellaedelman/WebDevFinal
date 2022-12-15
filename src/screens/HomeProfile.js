@@ -60,7 +60,7 @@ function HomeProfile({ navigation }) {
       curr_calories: calories,
       stars: stars,
       rating: rating,
-      date: new Date().toLocaleDateString('en-CA').split('T')[0]
+      date: new Date().toLocaleDateString("en-CA").split("T")[0],
     };
 
     const config = {
@@ -106,15 +106,13 @@ function HomeProfile({ navigation }) {
 
   return (
     <SafeAreaView style={styles.profileContainer}>
-      <UploadImage />
-      <View style={styles.bttnsContainer}>
-        <TouchableOpacity style={styles.historyBttn} onPress={openHistory}>
-          <Text style={styles.text}>History</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.profileBttn} onPress={openProfile}>
-          <Text style={styles.text}>Edit Profile</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.historyBttn} onPress={openHistory}>
+        <Text style={styles.text}>History</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.profileBttn} onPress={openProfile}>
+        <Text style={styles.text}>Edit Profile</Text>
+      </TouchableOpacity>
+
       <Pressable onPress={onLogOut} style={styles.logoutBttn}>
         <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
           Logout
@@ -129,21 +127,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#003f5c",
+    justifyContent: "center",
   },
   profileBttn: {
     backgroundColor: "crimson",
-    width: "40%",
+    width: "80%",
     alignItems: "center",
     borderRadius: 25,
     padding: 10,
+    marginBottom: 20,
   },
   historyBttn: {
     backgroundColor: "crimson",
-    width: "40%",
+    width: "80%",
     alignItems: "center",
     borderRadius: 25,
     padding: 10,
-    marginRight: 20,
+
+    marginBottom: 20,
   },
   bttnsContainer: {
     marginTop: 30,
@@ -160,7 +161,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     padding: 10,
-    width: "40%",
+    width: "80%",
+    marginBottom: 20,
   },
 });
 

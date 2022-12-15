@@ -11,6 +11,9 @@ import { useSelector } from "react-redux";
 import { Text } from "react-native-paper";
 import { useState } from "react";
 import Nutrie from "../modals/Nutrie";
+import ProteinBar from "../components/ProteinBar";
+import CarbsBar from "../components/CarbsBar";
+import FatBar from "../components/FatBar";
 
 function Home({ navigation, route }) {
   const user = useSelector((state) => state.user.value);
@@ -25,7 +28,6 @@ function Home({ navigation, route }) {
           color: "white",
           fontWeight: "bold",
           marginTop: 30,
-          marginBottom: 20,
         }}
       >
         Welcome, {user.name}!
@@ -75,12 +77,15 @@ function Home({ navigation, route }) {
         </View>
       </View>
       <BudgetBar />
+      <ProteinBar />
+      <CarbsBar />
+      <FatBar />
       <Pressable
         style={{
           backgroundColor: "crimson",
           padding: 10,
           borderRadius: 20,
-          width: "40%",
+          width: "50%",
           alignItems: "center",
           marginTop: 20,
         }}
