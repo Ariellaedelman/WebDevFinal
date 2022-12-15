@@ -12,7 +12,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
-import { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import client from "../../api/client";
 //import axios from "axios";
@@ -23,8 +23,16 @@ import { AuthContext } from "../../context/auth";
 function Calendar() {
 
   const [state, setState] = useContext(AuthContext);
+  const [currCalendarItems, setCurrCalendarItems] = useState({
+    "2022-12-01": [{ calories: state.user.final_days_array[1].final_calories, protein: 20, carbs: 40, rating: 7.8 }],
+    "2022-12-02": [{ calories: 1700, protein: 20, carbs: 40 }]
+  });
+
 
   const user_id = state.user._id;
+  const length_of_array = state.user.final_days_array.length
+  console.log(length_of_array)
+
 
   const showingFinals = async (values, actions) => {
     
@@ -81,13 +89,36 @@ function Calendar() {
           console.log(date);
 
           showingFinals({user_id, date});
-        }}
-        items={{
-          "2022-12-01": [{ calories: 1700, protein: 20, carbs: 40 }],
-          "2022-12-02": [{ calories: 1700, protein: 20, carbs: 40 }],
+
+          setCurrCalendarItems({/* date, */ "2022-12-15": [{calories: state.user.final_days_array[length_of_array - 1].final_calories, 
+                                                protein: state.user.final_days_array[length_of_array - 1].final_protein, 
+                                                carbs: state.user.final_days_array[length_of_array - 1].final_carbs,
+                                                fat: state.user.final_days_array[length_of_array - 1].final_fat,
+                                                rating: state.user.final_days_array[length_of_array - 1].final_rating}] })
+
+          console.log("what is this: ", currCalendarItems)
+          
         }}
         
+        items={currCalendarItems}
+        
 
+        
+
+        
+      markingType={'custom'}
+      markedDates={{
+        '2022-12-15': {
+          customStyles: {
+            container: {
+              backgroundColor: 'green'
+            },
+            text: {
+              color: 'black',
+              //fontWeight: 'bold'
+            }
+          } 
+        }}}
         
         
         renderItem={(item, isFirst) => (
@@ -100,6 +131,12 @@ function Calendar() {
             </TouchableOpacity>
             <TouchableOpacity style={styles.item}>
               <Text style={styles.itemText}> Carbs: {item.carbs}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.item}>
+              <Text style={styles.itemText}> Fat: {item.fat}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.item}>
+              <Text style={styles.itemText}> Rating: {item.rating}</Text>
             </TouchableOpacity>
           </>
         )}
