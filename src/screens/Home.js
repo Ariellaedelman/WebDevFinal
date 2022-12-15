@@ -42,40 +42,9 @@ function Home({ navigation, route }) {
           marginTop: 30,
         }}
       >
-        Your Budget is:
+        Your Macro Plan is: {user.macro_plan}
       </Text>
-      <View style={styles.infoContainer}>
-        <Text
-          style={{
-            fontSize: 20,
-            color: "white",
-            fontWeight: "bold",
-            marginBottom: 20,
-          }}
-        >
-          Calories: {Math.round(user.calories)}
-        </Text>
-        <View style={styles.macroContainer}>
-          <Text style={styles.homeText}>Carbs: {Math.round(user.carbs)}g</Text>
-          <View
-            style={{
-              borderLeftWidth: 2,
-              borderLeftColor: "white",
-              borderRightWidth: 2,
-              borderRightColor: "white",
-              marginLeft: 10,
-              marginRight: 10,
-              paddingLeft: 10,
-              paddingRight: 10,
-            }}
-          >
-            <Text style={styles.macroText}>Fat: {Math.round(user.fat)}g</Text>
-          </View>
-          <Text style={styles.macroText}>
-            Protein: {Math.round(user.protein)}g
-          </Text>
-        </View>
-      </View>
+
       <BudgetBar />
       <ProteinBar />
       <CarbsBar />
