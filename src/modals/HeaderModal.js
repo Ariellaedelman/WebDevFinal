@@ -23,6 +23,7 @@ function HeaderModal(props) {
   const [caloriesModalVisible, setCaloriesModalVisible] = useState(false);
   const calories = useSelector((state) => state.calories.value);
   const rating = useSelector((state) => state.rating.value);
+  const stars = useSelector((state) => state.stars.value);
   return (
     <SafeAreaView style={styles.modalContainer}>
       <View
@@ -108,10 +109,11 @@ function HeaderModal(props) {
             />
           </View>
           <Text variant="titleLarge">
-            <FontAwesome5 name="star" size={28} color="yellow" /> {rating}
+            <FontAwesome5 name="star" size={28} color="yellow" /> {stars}
           </Text>
         </Pressable>
       </View>
+
       <Modal
         visible={ratingModalVisible}
         transparent={true}
