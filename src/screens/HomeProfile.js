@@ -17,8 +17,9 @@ import { setGlobalFoods } from "../redux/foods";
 import { setFat } from "../redux/fat";
 import { setProtein } from "../redux/protein";
 import { setCarbs } from "../redux/carbs";
-import { setStars } from "../redux/stars";
+import { setStars, incrementStars } from "../redux/stars";
 import { setRating } from "../redux/rating";
+ 
 
 import client from "../../api/client";
 //import axios from "axios";
@@ -89,7 +90,8 @@ function HomeProfile({ navigation }) {
   };
 
   const onLogOut = async () => {
-    saveCurrInfo();
+    //dispatch(incrementStars(20));
+    /* await */ saveCurrInfo();
     dispatch(setGlobalFoods([]));
     //dispatch(resetUser());
     dispatch(setStars(0));

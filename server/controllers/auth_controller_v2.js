@@ -333,7 +333,7 @@ export const updateCurr = async (req, res) => {
     try {
         //remember to add ratings and the foods array soon
         const { email, curr_macro_plan, curr_carbs, curr_fat, curr_protein, curr_calories, stars, rating, date} = req.body;
-        // console.log(req.body) *TESTING PURPOSES*
+        console.log(req.body)
 
         const newUpdatedCurrUser = await User.findOneAndUpdate({email}, {curr_macro_plan, curr_carbs, curr_fat, curr_protein, curr_calories, stars, rating}, )
         const newUpdatedCurrUserArr = await User.findOneAndUpdate({email}, {$push: {final_days_array: {
