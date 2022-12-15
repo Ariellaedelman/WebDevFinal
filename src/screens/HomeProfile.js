@@ -60,6 +60,7 @@ function HomeProfile({ navigation }) {
       curr_calories: calories,
       stars: stars,
       rating: rating,
+      date: new Date().toLocaleDateString('en-CA').split('T')[0]
     };
 
     const config = {

@@ -206,7 +206,7 @@ export const addFood = async (req, res) => {
         // const theUser = user.default.db.collection("users")
         //const db = require("../models/model_index")
         //console.log(theUser);
-        const { user_id, item_name, brand_name, nf_calories, nf_total_carbohydrate, nf_protein, nf_total_fat, nf_serving_size_qty, item_id } = req.body;
+        const { user_id, item_name, brand_name, nf_calories, nf_total_carbohydrate, nf_protein, nf_total_fat, nf_serving_size_qty, item_id, date } = req.body;
         console.log(req.body)
 
         const newFood = await new Food({
@@ -219,6 +219,7 @@ export const addFood = async (req, res) => {
             nf_total_fat, 
             nf_serving_size_qty, 
             item_id,
+            date,
             }).save();
 
 
@@ -331,10 +332,22 @@ export const updateCurr = async (req, res) => {
 
     try {
         //remember to add ratings and the foods array soon
-        const { email, curr_macro_plan, curr_carbs, curr_fat, curr_protein, curr_calories, stars, rating} = req.body;
+        const { email, curr_macro_plan, curr_carbs, curr_fat, curr_protein, curr_calories, stars, rating, date} = req.body;
         // console.log(req.body) *TESTING PURPOSES*
 
         const newUpdatedCurrUser = await User.findOneAndUpdate({email}, {curr_macro_plan, curr_carbs, curr_fat, curr_protein, curr_calories, stars, rating}, )
+        const newUpdatedCurrUserArr = await User.findOneAndUpdate({email}, {$push: {final_days_array: {
+            "final_calories": curr_calories,
+            "final_carbs": curr_carbs,
+            "final_protein": curr_protein,
+            "final_fat": curr_fat,
+            "final_rating": rating,
+            "date": date
+                }
+            }
+        }); //in}, )
+
+        
         
 
         res.json({ ok: true });
@@ -357,20 +370,49 @@ export const getFood = async (req, res) => {
         // const theUser = user.default.db.collection("users")
         //const db = require("../models/model_index")
         //console.log(theUser);
-        const { user_id, /* dateValue */ } = req.body;
-        console.log("this is req body: ", req.body)
+        const { user_id, date } = req.body;
+        console.log("this is req body for foods: ", req.body)
 
         /* 
         const oneFood = await Food.find({'user_id' : user_id})
         console.log(oneFood)
         */
 
-        const retrivedFoods = await Food.find({'user_id': user_id /*, 'createdAt': dateValue */})
+        const retrivedFoods = await Food.find({'user_id': user_id, 'date': date})
         console.log(retrivedFoods)
 
 
 
         res.json(retrivedFoods);
+
+    } 
+    catch (err) {
+        console.log(err);
+        res.json({ ok: false })
+    }
+};
+
+// getting full day of stats from database
+export const getFullDay = async (req, res) => {
+    console.log("Getting Specific Day Hit");
+    try {
+        // const theUser = user.default.db.collection("users")
+        //const db = require("../models/model_index")
+        //console.log(theUser);
+        const {  user_id, date } = req.body;
+        console.log("this is req body for full day: ", req.body)
+
+        /* 
+        const oneFood = await Food.find({'user_id' : user_id})
+        console.log(oneFood)
+        */
+
+        const retrivedStats = await User.find({'user_id': user_id, "final_days_array.date": date})
+        console.log(retrivedStats)
+
+
+
+        res.json(retrivedStats);
 
     } 
     catch (err) {

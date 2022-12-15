@@ -190,6 +190,8 @@ export default function Nutritionix(props) {
       nf_total_fat: newObj.nf_total_fat,
       nf_serving_size_qty: newObj.nf_serving_size_qty,
       item_id: newObj.item_id,
+      //date: new Date('2022-12-14'),
+      date: new Date().toLocaleDateString('en-CA').split('T')[0],
       //key: "",
     };
 

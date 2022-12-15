@@ -141,6 +141,12 @@ const userSchema = new Schema (
             // required: true,
         },
 
+        final_days_array: {
+            type: Array,
+            "default": [],
+            //required: true
+        },
+
         role: {
             type: String,
             default: "User",
