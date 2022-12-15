@@ -10,9 +10,9 @@ import {
 
 import { useEffect, useState } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Text } from "react-native-paper";
+import { Text, Paragraph } from "react-native-paper";
 
-function UnlockModal(props) {
+function RatingModal(props) {
   function handleYes() {
     props.unlockExercise();
     props.close();
@@ -21,25 +21,20 @@ function UnlockModal(props) {
     <TouchableWithoutFeedback onPress={props.close}>
       <View style={styles.modalContainer}>
         <View style={styles.modalBox}>
-          <Text style={{ color: "white" }} variant={"labelLarge"}>
-            Are you sure you want to unlock {props.exercise.name}
+          <Text
+            variant={"headlineMedium"}
+            style={{ color: "white", fontWeight: "600", marginBottom: 20 }}
+          >
+            Rating
           </Text>
-          <Text style={{ color: "white" }} variant={"labelLarge"}>
-            for {props.exercise.points}{" "}
-            <FontAwesome5 name="star" size={20} color="yellow" />?
-          </Text>
-          <View style={{ flexDirection: "row" }}>
-            <Pressable style={styles.openModalButton} onPress={handleYes}>
-              <Text style={{ color: "white" }} variant={"labelLarge"}>
-                Yes
-              </Text>
-            </Pressable>
-            <Pressable style={styles.openModalButton} onPress={props.close}>
-              <Text style={{ color: "white" }} variant={"labelLarge"}>
-                No
-              </Text>
-            </Pressable>
-          </View>
+          <Paragraph style={{ color: "white" }}>
+            Rating shows you how well you are following your calorie and macro
+            budgets. The highest rating you can have is a 10 and the lowest is a
+            0. Calories have the biggest weight on your rating they account for
+            58% of the rating. Fat, Protein, Carbs each account for 16% of the
+            rating. The closer your daily calories/macros are to your budget the
+            higher your rating will be.
+          </Paragraph>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -70,8 +65,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     flex: 0.25,
+    padding: 10,
     borderRadius: 20,
   },
 });
 
-export default UnlockModal;
+export default RatingModal;

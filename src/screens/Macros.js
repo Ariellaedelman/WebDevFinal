@@ -22,6 +22,7 @@ import { AuthContext } from "../../context/auth";
 
 import { setUser } from "../redux/user";
 import { useSelector, useDispatch } from "react-redux";
+import { setStars } from "../redux/stars";
 
 function Macros({ navigation, route }) {
   const [macroPlans, setMacroPlans] = useState([]);
@@ -77,7 +78,7 @@ function Macros({ navigation, route }) {
       fat: Math.round(chosenPlan.fat),
       protein: Math.round(chosenPlan.protein),
       calories: Math.round(route.params.data.calorie),
-      stars: 50,
+      stars: 600,
       rating: 0,
       curr_carbs: 0,
       curr_fat: 0,
@@ -86,6 +87,7 @@ function Macros({ navigation, route }) {
       // calories: 0,
     };
     dispatch(setUser(userInfo));
+    dispatch(setStars(userInfo.stars));
 
     /*
     const {

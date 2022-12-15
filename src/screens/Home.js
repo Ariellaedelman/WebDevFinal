@@ -1,12 +1,22 @@
-import { View, Text, Button, SafeAreaView, StyleSheet } from "react-native";
+import {
+  View,
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Pressable,
+  Modal,
+} from "react-native";
 import BudgetBar from "../components/BudgetBar";
 import { useSelector } from "react-redux";
+import { Text } from "react-native-paper";
+import { useState } from "react";
+import Nutrie from "../modals/Nutrie";
 
 function Home({ navigation, route }) {
   const user = useSelector((state) => state.user.value);
   console.log("home params", route.params);
   console.log("userinfo", user);
-
+  const [nutrieVisible, setNutrieVisible] = useState(false);
   return (
     <SafeAreaView style={styles.homeContainer}>
       <Text
@@ -65,6 +75,27 @@ function Home({ navigation, route }) {
         </View>
       </View>
       <BudgetBar />
+      <Pressable
+        style={{
+          backgroundColor: "crimson",
+          padding: 10,
+          borderRadius: 20,
+          width: "40%",
+          alignItems: "center",
+          marginTop: 20,
+        }}
+        onPress={() => setNutrieVisible(true)}
+      >
+        <Text
+          style={{ color: "white", fontWeight: "600" }}
+          variant={"headlineSmall"}
+        >
+          Nutrie
+        </Text>
+      </Pressable>
+      <Modal visible={nutrieVisible} animationType={"slide"}>
+        <Nutrie close={() => setNutrieVisible(false)} />
+      </Modal>
     </SafeAreaView>
   );
 }

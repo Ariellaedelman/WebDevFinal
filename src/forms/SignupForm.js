@@ -117,7 +117,18 @@ function SignupForm(props) {
     goal: "",
   };
 
-  const { name, email, password, age, height_ft, height_inch, weight, gender, activitylevel, goal } = userInfo;
+  const {
+    name,
+    email,
+    password,
+    age,
+    height_ft,
+    height_inch,
+    weight,
+    gender,
+    activitylevel,
+    goal,
+  } = userInfo;
 
   const signUp = async (values, actions) => {
     values.activitylevel = setActivityLevel();
@@ -209,24 +220,42 @@ function SignupForm(props) {
             keyboardType={"numeric"}
             onBlur={formProps.handleBlur("weight")}
           />
-          <Text variant="titlesmall" style={{ color: "red", marginBottom: 10 }}>
+          <Text variant="titlesmall" style={{ color: "red" }}>
             {formProps.touched.weight && formProps.errors.weight}
           </Text>
-
+          <Text
+            variant="headlineSmall"
+            style={{ color: "white", marginBottom: 10 }}
+          >
+            Height:
+          </Text>
           <TextInput
-            style={{ marginBottom: 10 }}
-            label="height in feet"
+            style={{}}
+            label="feet"
             onChangeText={formProps.handleChange("height_ft")}
             value={formProps.values.height_ft}
             keyboardType={"numeric"}
             onBlur={formProps.handleBlur("height_ft")}
           />
-          <Text variant="titlesmall" style={{ color: "red", marginBottom: 10 }}>
+          <Text variant="titlesmall" style={{ color: "red" }}>
             {formProps.touched.height_ft && formProps.errors.height_ft}
           </Text>
+          <View style={{ alignItems: "center" }}>
+            <Text
+              variant="headlineSmall"
+              style={{
+                color: "white",
+                marginBottom: 10,
+                alignItems: "center",
+                fontWeight: "bold",
+              }}
+            >
+              +
+            </Text>
+          </View>
           <TextInput
             style={{ marginBottom: 10 }}
-            label="height in inches"
+            label="inches"
             onChangeText={formProps.handleChange("height_inch")}
             value={formProps.values.height_inch}
             keyboardType={"numeric"}

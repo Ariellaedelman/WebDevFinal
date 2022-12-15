@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   Button,
   SafeAreaView,
   StyleSheet,
@@ -9,12 +8,30 @@ import {
   Image,
 } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Text } from "react-native-paper";
 
 function ExerciseModal(props) {
   const renderItem = ({ item }) => (
     <View style={styles.exerciseContainer}>
-      <Text style={styles.pageText}>Name: {item.name}</Text>
-      <Image source={{ uri: item.gif }} style={{ width: 200, height: 200 }} />
+      <Text
+        style={{ color: "white", marginBottom: 10, fontWeight: "800" }}
+        variant={"labelLarge"}
+      >
+        Name: {item.name}
+      </Text>
+      <Text
+        style={{ color: "white", marginBottom: 10, fontWeight: "800" }}
+        variant={"labelLarge"}
+      >
+        Equipment: {item.equipment}
+      </Text>
+      <Text
+        style={{ color: "white", marginBottom: 10, fontWeight: "800" }}
+        variant={"labelLarge"}
+      >
+        Target: {item.target}
+      </Text>
+      <Image source={{ uri: item.gif }} style={{ width: 250, height: 250 }} />
     </View>
   );
   return (
@@ -32,6 +49,12 @@ function ExerciseModal(props) {
           backgroundColor={"#003f5c"}
         />
       </View>
+      <Text
+        variant={"headlineLarge"}
+        style={{ color: "white", fontWeight: "bold" }}
+      >
+        {props.exercise.name}
+      </Text>
       <FlatList
         style={styles.exerciseFlatList}
         data={props.exercise.data}
@@ -51,6 +74,9 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "crimson",
+    margin: 10,
+    borderRadius: 20,
   },
   exerciseFlatList: {
     width: "90%",
