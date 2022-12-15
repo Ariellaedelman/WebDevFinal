@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#003f5c",
+    justifyContent: "space-evenly"
   },
   homeText: {
     fontSize: 20,
