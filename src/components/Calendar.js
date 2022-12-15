@@ -12,7 +12,48 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
+import { useEffect, useContext } from "react";
+
+import client from "../../api/client";
+//import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { AuthContext } from "../../context/auth";
+
 function Calendar() {
+
+  const [state, setState] = useContext(AuthContext);
+
+  const user_id = state.user._id;
+
+  const showingFinals = async (values, actions) => {
+    
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Request-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+
+    try {
+      const res = await client.post("/api/get-full-day", values , config);
+      console.log("information: ", res.data);
+
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        //setState(res.data);
+        //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+        //dispatch(setGlobalFoods(res.data))
+        //console.log(state.user)
+        alert("Grabbed Stats for Day Successful");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
@@ -32,10 +73,23 @@ function Calendar() {
       </View>
       <Agenda
         selected="2022-12-01"
+        // Handler which gets executed on day press. Default = undefined
+        onDayPress={day => {
+          console.log('selected day', day);
+          
+          const date = day.dateString;
+          console.log(date);
+
+          showingFinals({user_id, date});
+        }}
         items={{
           "2022-12-01": [{ calories: 1700, protein: 20, carbs: 40 }],
           "2022-12-02": [{ calories: 1700, protein: 20, carbs: 40 }],
         }}
+        
+
+        
+        
         renderItem={(item, isFirst) => (
           <>
             <TouchableOpacity style={styles.item}>
@@ -49,7 +103,7 @@ function Calendar() {
             </TouchableOpacity>
           </>
         )}
-        onDayPress={(day) => console.log(day)}
+        //onDayPress={(day) => console.log(day)}
         //markedDates={{ "2022-12-03": { marked: true, textColor: "red" } }}
         style={{ marginBottom: 10 }}
       />

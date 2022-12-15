@@ -42,9 +42,15 @@ function Login({ navigation }) {
     
     // const { data } = await client.get();
 
+    //const todayDate = new Date().toISOString().split('T')[0]; *OLD METHOD*
+    const todayDate = new Date().toLocaleDateString('en-CA').split('T')[0];
+  
+    //testing
+    console.log('this is the date rn: ', new Date().toLocaleDateString('en-CA').split('T')[0]);
+
     const userDBFoods = {
       user_id: state.user._id,
-      // createdAt: todayDate,
+      date: todayDate,
     }
 
     const config = {
