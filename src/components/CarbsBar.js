@@ -10,26 +10,26 @@ import {
 } from "react-native";
 
 import { useState, useEffect, useContext } from "react";
-import { Text } from "react-native-paper";
+
 import client from "../../api/client";
 //import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AuthContext } from "../../context/auth";
-
+import { Text } from "react-native-paper";
 import { useSelector } from "react-redux";
 import calories from "../redux/calories";
 
-const MyComponent = () => {
+const CarbsBar = () => {
   const [status, setStatus] = useState();
   const [progressColor, setProgessColor] = useState("crimson");
   // const [state, setState] = useContext(AuthContext);
 
   const user = useSelector((state) => state.user.value);
-  const currCalories = useSelector((state) => state.calories.value);
+  const currCarbs = useSelector((state) => state.carbs.value);
 
   useEffect(() => {
-    setStatus(currCalories / user.calories);
+    setStatus(currCarbs / user.carbs);
   });
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const MyComponent = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.CalText} variant={"headlineSmall"}>
-        Calories Consumed: {currCalories} / {user.calories}
+        Carbs Consumed: {currCarbs} / {user.carbs}
       </Text>
 
       <ProgressBar
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyComponent;
+export default CarbsBar;

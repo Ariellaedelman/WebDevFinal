@@ -11,7 +11,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Text } from "react-native-paper";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export default function Nutrie(props) {
   const user = useSelector((state) => state.user.value);
@@ -191,81 +190,84 @@ export default function Nutrie(props) {
       </View>
       <Text
         style={{ color: "white", fontWeight: "bold" }}
-        variant={"displayLarge"}
+        variant={"displayMedium"}
       >
         Nutrie
       </Text>
       <View style={{ flexDirection: "row", marginBottom: 10, marginTop: 20 }}>
-        <Text style={{ color: "white" }} variant={"displayMedium"}>
+        <Text style={{ color: "white" }} variant={"displaySmall"}>
           Rating:{" "}
         </Text>
         {rating < 7 ? (
-          <Text style={{ color: "red" }} variant={"displayMedium"}>
+          <Text style={{ color: "red" }} variant={"displaySmall"}>
             {rating} / 10
           </Text>
         ) : (
-          <Text style={{ color: "green" }} variant={"displayMedium"}>
+          <Text style={{ color: "green" }} variant={"displaySmall"}>
             {rating} / 10
           </Text>
         )}
       </View>
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
-        <Text style={{ color: "white" }} variant={"displayMedium"}>
+        <Text style={{ color: "white" }} variant={"displaySmall"}>
           Calories:{" "}
         </Text>
         {calorieBool ? (
-          <Text style={{ color: "green" }} variant={"displayMedium"}>
+          <Text style={{ color: "green" }} variant={"displaySmall"}>
             {calories} / {user.calories}
           </Text>
         ) : (
-          <Text style={{ color: "red" }} variant={"displayMedium"}>
+          <Text style={{ color: "red" }} variant={"displaySmall"}>
             {calories} / {user.calories}
           </Text>
         )}
       </View>
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
-        <Text style={{ color: "white" }} variant={"displayMedium"}>
+        <Text style={{ color: "white" }} variant={"displaySmall"}>
           Protein:{" "}
         </Text>
         {proteinBool ? (
-          <Text style={{ color: "green" }} variant={"displayMedium"}>
+          <Text style={{ color: "green" }} variant={"displaySmall"}>
             {protein} / {user.protein}
           </Text>
         ) : (
-          <Text style={{ color: "red" }} variant={"displayMedium"}>
+          <Text style={{ color: "red" }} variant={"displaySmall"}>
             {protein} / {user.protein}
           </Text>
         )}
       </View>
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
-        <Text style={{ color: "white" }} variant={"displayMedium"}>
+        <Text style={{ color: "white" }} variant={"displaySmall"}>
           Carbs:{" "}
         </Text>
         {carbsBool ? (
-          <Text style={{ color: "green" }} variant={"displayMedium"}>
+          <Text style={{ color: "green" }} variant={"displaySmall"}>
             {carbs} / {user.carbs}
           </Text>
         ) : (
-          <Text style={{ color: "red" }} variant={"displayMedium"}>
+          <Text style={{ color: "red" }} variant={"displaySmall"}>
             {carbs} / {user.carbs}
           </Text>
         )}
       </View>
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
-        <Text style={{ color: "white" }} variant={"displayMedium"}>
+        <Text style={{ color: "white" }} variant={"displaySmall"}>
           Fat:{" "}
         </Text>
         {fatBool ? (
-          <Text style={{ color: "green" }} variant={"displayMedium"}>
+          <Text style={{ color: "green" }} variant={"displaySmall"}>
             {fat} / {user.fat}
           </Text>
         ) : (
-          <Text style={{ color: "red" }} variant={"displayMedium"}>
+          <Text style={{ color: "red" }} variant={"displaySmall"}>
             {fat} / {user.fat}
           </Text>
         )}
       </View>
-      <Text style={{ color: "white" }} variant={"headlineMedium"}>
+      <Text
+        style={{ color: "white", textDecorationLine: "underline" }}
+        variant={"displaySmall"}
+      >
         Suggestion:{" "}
       </Text>
       <Text style={{ color: "white", padding: 10 }} variant={"headlineSmall"}>
@@ -280,6 +282,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#003f5c",
+
     //borderWidth: 2,
     //borderColor: "blue",
   },

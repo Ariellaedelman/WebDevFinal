@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   },
   calorieContainer: {
     backgroundColor: "#F7E6C2",
-    width: "50%",
+    width: "60%",
     padding: 20,
     borderRadius: 20,
     borderColor: "#E19C02",
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   starContainer: {
     backgroundColor: "#C2D3F7",
-    width: "50%",
+    width: "60%",
     padding: 20,
     borderRadius: 20,
     borderColor: "blue",
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     backgroundColor: "#E6C2F7",
-    width: "50%",
+    width: "60%",
     padding: 20,
     borderRadius: 20,
     borderColor: "#7a49a5",
