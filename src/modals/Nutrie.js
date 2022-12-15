@@ -153,7 +153,7 @@ export default function Nutrie(props) {
             ". Such as Avocados, Cheese, Dark Chocolate, Nuts, Fatty Fish, and eggs."
           );
         }
-      } else if (calories > user.caloreis) {
+      } else if (calories > user.calories) {
         const highestMacro = getHighestMacro();
         return (
           "You ate too many calories. Your highest macro was " +
