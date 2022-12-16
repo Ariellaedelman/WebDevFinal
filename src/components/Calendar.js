@@ -24,8 +24,8 @@ function Calendar() {
 
   const [state, setState] = useContext(AuthContext);
   const [currCalendarItems, setCurrCalendarItems] = useState({
-    "2022-12-01": [{ calories: state.user.final_days_array[1].final_calories, protein: 20, carbs: 40, rating: 7.8 }],
-    "2022-12-02": [{ calories: 1700, protein: 20, carbs: 40 }]
+    "2022-12-01": [{ calories: 1700, protein: 20, carbs: 40, fat: 18, rating: 7.8 }],
+    "2022-12-02": [{ calories: 1700, protein: 20, carbs: 40, fat: 18, rating: 7.8 }]
   });
 
 

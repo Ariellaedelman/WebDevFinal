@@ -53,6 +53,7 @@ function LoginForm(loginProps) {
 
       if (res.data.error) {
         alert(res.data.error);
+        return;
       } else {
         setState(res.data);
         await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data));

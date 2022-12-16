@@ -17,7 +17,7 @@ import { setGlobalFoods } from "../redux/foods";
 import { setFat } from "../redux/fat";
 import { setProtein } from "../redux/protein";
 import { setCarbs } from "../redux/carbs";
-import { setStars, incrementStars } from "../redux/stars";
+import { setStars, incrementStars, decrementStars } from "../redux/stars";
 import { setRating } from "../redux/rating";
  
 
@@ -38,6 +38,9 @@ function HomeProfile({ navigation }) {
 
   console.log("this is state on homeprofile rn: ", state);
 
+  //dispatch(incrementStars(rating));
+  //console.log("this is stars rn: ", stars)
+
   function openProfile() {
     navigation.navigate("EditProfile");
   }
@@ -52,6 +55,20 @@ function HomeProfile({ navigation }) {
     console.log(setTestObject);
   }
 
+  function addStars() {
+    
+    console.log("this is rating:", rating)
+    const roundedRating = Math.round(rating)
+    console.log("this is rounded rating rn: ", roundedRating)
+    //dispatch(incrementStars(roundedRating));
+    //console.log("this is stars rn: ", stars)
+    const checking = stars + roundedRating;
+    console.log("this is v2 stars: ", checking)
+
+    return checking
+
+  }
+
   const saveCurrInfo = async (values, actions) => {
     const userInfo = {
       email: state.user.email,
@@ -59,7 +76,7 @@ function HomeProfile({ navigation }) {
       curr_fat: fat,
       curr_protein: protein,
       curr_calories: calories,
-      stars: stars,
+      stars: addStars(),
       rating: rating,
       date: new Date().toLocaleDateString("en-CA").split("T")[0],
     };
@@ -81,6 +98,7 @@ function HomeProfile({ navigation }) {
       } else {
         //setState(res.data);
         //await AsyncStorage.setItem("auth-rn", JSON.stringify(res.data))
+        //addStars();
         console.log(state.user);
         alert("Update Successful");
       }
@@ -91,6 +109,7 @@ function HomeProfile({ navigation }) {
 
   const onLogOut = async () => {
     //dispatch(incrementStars(20));
+    //addStars();
     /* await */ saveCurrInfo();
     dispatch(setGlobalFoods([]));
     //dispatch(resetUser());
